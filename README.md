@@ -24,7 +24,7 @@ Chromium is supplied by `devenv`, so no separate browser download is needed on N
 
 ## Deploy to GitHub Pages
 
-Pushes to `main` build and publish the app via `.github/workflows/deploy-pages.yml`. In the repository settings, set **Pages → Build and deployment → Source** to **GitHub Actions** once.
+Pushes to `main` build and publish the app via `.github/workflows/deploy-pages.yml`. The workflow enables GitHub Pages with the **GitHub Actions** source automatically on its first successful run.
 
 The site is served from `https://<user>.github.io/<repo>/`, so the build uses `BASE_PATH=/<repo>/`. Everything that must respect the subpath derives from it:
 
