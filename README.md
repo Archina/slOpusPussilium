@@ -1,6 +1,6 @@
 # Opus Pusillium
 
-An offline-first PWA prototype for esoteric study: Latin, Biology, and Alchemy.
+An offline-first PWA prototype for esoteric study: Latin, Mycology, and Alchemy.
 
 ## Develop on NixOS
 
@@ -41,7 +41,9 @@ Chromium is supplied by `devenv`, so no separate browser download is needed on N
 
 ## Learning data
 
-The bundled library currently contains Latin, Biology, Alchemy, Tamil, and Norwegian. Tamil includes 18 cards derived from flip-card and vowel matching material. Norwegian contains 496 two-way vocabulary cards. Ten-card sessions are shuffled and, whenever possible, mix roughly seven due reviews with three unseen cards. Ratings update day-scale review intervals.
+The bundled library currently contains Latin, Mycology, Alchemy, Tamil, and Norwegian. The Mycology deck is distilled into focused flipcards from the course notes. Tamil includes 18 cards derived from flip-card and vowel matching material. Norwegian contains 496 two-way vocabulary cards. Ten-card sessions are shuffled and, whenever possible, mix roughly seven due reviews with three unseen cards. Ratings update day-scale review intervals.
+
+The canonical sigil-free card back lives at `src/assets/card-back-template.svg`. The Draw screen renders that SVG directly, while Three.js rasterizes the same source for cards inside deck boxes. Each deck’s sigil is composited afterward so the shared frame cannot drift between renderers.
 
 Easy answers grant one Momentum. At the end of the initial hand, two Momentum can be exchanged for one optional bonus card. Again cards are reinserted behind the next two entries when possible; Hard cards return at the back of the current session.
 
