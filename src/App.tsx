@@ -5,9 +5,11 @@ import { Sigil, symbolCatalog } from "./Sigil";
 import { buildSession, cardKey, dueCount, experienceForReview, mastery, MOMENTUM_COST, rankForFailures, reviewCard } from "./scheduler";
 import { todayKey, useLearnerState } from "./storage";
 import { appendLocalEvent } from "./sync/database";
+import { materializeGiftDeck } from "./sync/deckGift";
 import type { Deck, DeckEdit, DifficultyMode, LearnerState, LibrarySort, Rating, SessionCard, StudyCard } from "./types";
 
 const DeckBox3D = lazy(() => import("./DeckBox3D").then((module) => ({ default: module.DeckBox3D })));
+const DeckGiftDialog = lazy(() => import("./sync/DeckGiftDialog").then((module) => ({ default: module.DeckGiftDialog })));
 
 function playChalkSound() {
   type AudioWindow = Window & typeof globalThis & { webkitAudioContext?: typeof AudioContext };
@@ -60,7 +62,7 @@ function Home({ state, deckList, start }: { state: LearnerState; deckList: Deck[
   </main>;
 }
 
-function DeckEditor({ deck, save, close }: { deck: Deck; save: (edit: DeckEdit) => void; close: () => void }) {
+function DeckEditor({ deck, save, share, close }: { deck: Deck; save: (edit: DeckEdit) => void; share: () => void; close: () => void }) {
   const [draft, setDraft] = useState<DeckEdit>({ name: deck.name, domain: deck.domain, symbol: deck.symbol, description: deck.description, questions: deck.questions.map((card) => ({ ...card })) });
   const [query, setQuery] = useState("");
   const visibleCards = (draft.questions ?? []).filter((card) => `${card.prompt} ${card.answer}`.toLowerCase().includes(query.toLowerCase())).slice(0, 50);
@@ -74,11 +76,11 @@ function DeckEditor({ deck, save, close }: { deck: Deck; save: (edit: DeckEdit) 
     <input className="card-search" type="search" placeholder="Search prompts and answers" value={query} onChange={(event) => setQuery(event.target.value)} />
     <div className="editable-cards">{visibleCards.map((card) => <article className="editable-card" key={card.id}><label>Front<textarea rows={2} value={card.prompt} onChange={(event) => updateCard(card.id, "prompt", event.target.value)} /></label><label>Back<textarea rows={2} value={card.answer} onChange={(event) => updateCard(card.id, "answer", event.target.value)} /></label><button className="remove-card" onClick={() => removeCard(card.id)} aria-label={`Remove ${card.prompt}`}>×</button></article>)}</div>
     {(draft.questions?.length ?? 0) > visibleCards.length && <p className="muted editor-limit">Showing the first 50 matches. Search to find another card.</p>}
-    <footer><button className="text-button" onClick={close}>Cancel</button><button className="primary" onClick={() => save(draft)}>Save deck</button></footer>
+    <footer><button className="text-button" onClick={share}>Share over LAN</button><button className="text-button" onClick={close}>Cancel</button><button className="primary" onClick={() => save(draft)}>Save deck</button></footer>
   </section></div>;
 }
 
-function Decks({ state, deckList, open, saveEdit, toggleActive, setSort }: { state: LearnerState; deckList: Deck[]; open: (deck: Deck) => void; saveEdit: (deck: Deck, edit: DeckEdit) => void; toggleActive: (deck: Deck) => void; setSort: (sort: LibrarySort) => void }) {
+function Decks({ state, deckList, open, saveEdit, shareDeck, receiveDeck, toggleActive, setSort }: { state: LearnerState; deckList: Deck[]; open: (deck: Deck) => void; saveEdit: (deck: Deck, edit: DeckEdit) => void; shareDeck: (deck?: Deck) => void; receiveDeck: () => void; toggleActive: (deck: Deck) => void; setSort: (sort: LibrarySort) => void }) {
   const [editing, setEditing] = useState<Deck | null>(null);
   const sortedDecks = [...deckList].sort((left, right) => {
     const activeOrder = Number(deckSettings(state, right).active) - Number(deckSettings(state, left).active);
@@ -87,9 +89,9 @@ function Decks({ state, deckList, open, saveEdit, toggleActive, setSort }: { sta
     return state.librarySort.direction === "asc" ? comparison : -comparison;
   });
   return <main className="screen"><header><div className="title"><p className="eyebrow">THE LIBRARY</p><h2>Your decks</h2></div></header>
-    <div className="library-sort"><span>Active first</span><label>Sort by<select aria-label="Sort decks by" value={state.librarySort.field} onChange={(event) => setSort({ ...state.librarySort, field: event.target.value as LibrarySort["field"] })}><option value="name">Name</option><option value="size">Deck size</option></select></label><button onClick={() => setSort({ ...state.librarySort, direction: state.librarySort.direction === "asc" ? "desc" : "asc" })} aria-label="Reverse deck sorting">{state.librarySort.field === "name" ? state.librarySort.direction === "asc" ? "A → Z" : "Z → A" : state.librarySort.direction === "asc" ? "Small → Large" : "Large → Small"}</button></div>
+    <div className="library-sort"><span>Active first</span><label>Sort by<select aria-label="Sort decks by" value={state.librarySort.field} onChange={(event) => setSort({ ...state.librarySort, field: event.target.value as LibrarySort["field"] })}><option value="name">Name</option><option value="size">Deck size</option></select></label><button onClick={() => setSort({ ...state.librarySort, direction: state.librarySort.direction === "asc" ? "desc" : "asc" })} aria-label="Reverse deck sorting">{state.librarySort.field === "name" ? state.librarySort.direction === "asc" ? "A → Z" : "Z → A" : state.librarySort.direction === "asc" ? "Small → Large" : "Large → Small"}</button><button className="receive-gift" onClick={receiveDeck}>Receive deck</button></div>
     <div className="deck-list deck-box-grid">{sortedDecks.map((deck) => { const progress = mastery(deck, state); const settings = deckSettings(state, deck); return <article className={`deck-card deck-box-tile ${settings.active ? "is-active" : ""}`} aria-label={`${deck.name} deck`} key={deck.id}><Suspense fallback={<div className="deck-box-fallback"><Sigil symbol={deck.symbol} /></div>}><DeckBox3D deck={deck} active={settings.active} onStudy={() => open(deck)} /></Suspense>{settings.active && <span className="deck-active-status">Active · {settings.sessionsCompleted}/2</span>}<div className="deck-actions"><button className="deck-active-button" onClick={() => toggleActive(deck)} aria-label={`${settings.active ? "Deactivate" : "Activate"} ${deck.name} deck`} aria-pressed={settings.active}>{settings.active ? "★" : "☆"}</button><button className="deck-edit-button" onClick={() => setEditing(deck)} aria-label={`Edit ${deck.name} deck`}>✎</button></div><div className="deck-progress-overlay"><div><small>{progress}% mastered · {dueCount(deck, state)} ready</small><div className="progress"><span style={{ width: `${progress}%` }} /></div></div></div></article>; })}</div>
-    {editing && <DeckEditor deck={editing} close={() => setEditing(null)} save={(edit) => { saveEdit(editing, edit); setEditing(null); }} />}
+    {editing && <DeckEditor deck={editing} close={() => setEditing(null)} share={() => { setEditing(null); shareDeck(editing); }} save={(edit) => { saveEdit(editing, edit); setEditing(null); }} />}
   </main>;
 }
 
@@ -192,7 +194,7 @@ function Profile({ state, setDifficulty }: { state: LearnerState; setDifficulty:
 export default function App() {
   const [page, setPage] = useState("home");
   const [state, setState] = useLearnerState();
-  const deckList = decks.map((deck) => {
+  const deckList = [...decks, ...state.customDecks].map((deck) => {
     const edit = state.deckEdits[deck.id];
     return edit ? { ...deck, ...edit, questions: edit.questions ?? deck.questions } : deck;
   });
@@ -238,7 +240,14 @@ export default function App() {
     });
   };
   const saveDeckEdit = (deck: Deck, edit: DeckEdit) => { recordSyncEvent({ kind: "deck", id: deck.id }, "deck.edited", edit); setState((current) => ({ ...current, deckEdits: { ...current.deckEdits, [deck.id]: edit } })); };
+  const [giftDeck, setGiftDeck] = useState<Deck | null | undefined>(undefined);
+  const importGift = async (gift: Parameters<typeof materializeGiftDeck>[0], previous?: Deck) => {
+    const imported = materializeGiftDeck(gift, previous);
+    recordSyncEvent({ kind: "deck", id: imported.id }, "deck.giftImported", { sourceDeckId: gift.content.sourceDeckId, digest: gift.digest, replaced: Boolean(previous) });
+    setState((current) => ({ ...current, customDecks: previous ? current.customDecks.map((deck) => deck.id === imported.id ? imported : deck) : [...current.customDecks, imported] }));
+    setGiftDeck(undefined);
+  };
   const setLibrarySort = (librarySort: LibrarySort) => setState((current) => ({ ...current, librarySort }));
-  const body = study ? <Study deck={study.deck} sessionCards={study.cards} bonusCards={study.bonusCards} difficulty={state.difficulty} close={() => { setStudy(null); setPage("decks"); }} onReview={(card, rating, reduced) => recordReview(study.deck, card, rating, reduced)} onSessionComplete={() => completeSession(study.deck)} /> : page === "home" ? <Home state={state} deckList={deckList} start={startNext} /> : page === "decks" ? <Decks state={state} deckList={deckList} open={startDeck} saveEdit={saveDeckEdit} toggleActive={toggleDeck} setSort={setLibrarySort} /> : page === "quests" ? <Quests experience={state.experience} /> : <Profile state={state} setDifficulty={setDifficulty} />;
-  return <div className="app-shell">{body}{!study && <Nav page={page} setPage={setPage} />}</div>;
+  const body = study ? <Study deck={study.deck} sessionCards={study.cards} bonusCards={study.bonusCards} difficulty={state.difficulty} close={() => { setStudy(null); setPage("decks"); }} onReview={(card, rating, reduced) => recordReview(study.deck, card, rating, reduced)} onSessionComplete={() => completeSession(study.deck)} /> : page === "home" ? <Home state={state} deckList={deckList} start={startNext} /> : page === "decks" ? <Decks state={state} deckList={deckList} open={startDeck} saveEdit={saveDeckEdit} shareDeck={(deck) => setGiftDeck(deck)} receiveDeck={() => setGiftDeck(null)} toggleActive={toggleDeck} setSort={setLibrarySort} /> : page === "quests" ? <Quests experience={state.experience} /> : <Profile state={state} setDifficulty={setDifficulty} />;
+  return <div className="app-shell">{body}{!study && <Nav page={page} setPage={setPage} />}{giftDeck !== undefined && <Suspense fallback={null}><DeckGiftDialog deck={giftDeck ?? undefined} customDecks={state.customDecks} onImport={importGift} onClose={() => setGiftDeck(undefined)} /></Suspense>}</div>;
 }

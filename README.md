@@ -53,7 +53,7 @@ Progress is intentionally browser-local in this phase. Clearing site data clears
 
 The first synchronization layer is under development on `feature/lan-sync-foundation`. On startup the app creates a stable device identity and an immutable bootstrap checkpoint in IndexedDB. Reviews, session completion, deck edits, activation changes, and difficulty changes now append timestamped local events while the existing learner state remains the materialized UI view.
 
-The event foundation includes hybrid logical clocks, idempotent event-set merging, snapshot/event/device stores, and space reserved for transfers and conflicts. QR/WebRTC transport and passphrase-protected trusted-device pairing are specified in `docs/lan-sync-design.md` but are not connected yet.
+The event foundation includes hybrid logical clocks, idempotent event-set merging, snapshot/event/device stores, and space reserved for transfers and conflicts. Deck Gift snapshots support digest validation, provenance, independent copies, and explicit replacement of a previous gift. The Library now provides a complete LAN gift flow: QR display, camera scanning with paste fallback, direct WebRTC pairing, chunked transfer, import preview, and persistent custom decks. Passphrase-protected trusted-device sync described in `docs/lan-sync-design.md` is the next phase.
 
 ## Notifications
 

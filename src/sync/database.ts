@@ -147,3 +147,12 @@ export async function listSyncEvents() {
   database.close();
   return events;
 }
+
+export async function getDeviceIdentity() {
+  const database = await openSyncDatabase();
+  const transaction = database.transaction("metadata", "readonly");
+  const identity = await getMetadata<DeviceIdentity>(transaction.objectStore("metadata"), "identity");
+  await transactionDone(transaction);
+  database.close();
+  return identity;
+}
