@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
+import { CARD_BACK_TEMPLATE_SVG } from "./CardBackArtwork";
 import { Sigil } from "./Sigil";
 import type { Deck, DomainSymbolId } from "./types";
 
@@ -121,27 +122,22 @@ function cardBackTexture(svg: SVGSVGElement, onReady: () => void) {
   canvas.width = 512;
   canvas.height = 720;
   const context = canvas.getContext("2d")!;
-  const gradient = context.createRadialGradient(256, 190, 20, 256, 390, 430);
-  gradient.addColorStop(0, "#43264f"); gradient.addColorStop(1, "#130a23");
-  context.fillStyle = gradient; context.fillRect(0, 0, 512, 720);
-  context.strokeStyle = "#e99a7d"; context.lineWidth = 12; context.strokeRect(14, 14, 484, 692);
-  context.strokeStyle = "rgba(244,178,148,.72)"; context.lineWidth = 3; context.strokeRect(32, 32, 448, 656);
-  context.save(); context.translate(256, 198); context.rotate(Math.PI / 4); context.strokeRect(-124, -124, 248, 248); context.restore();
-  context.beginPath(); context.arc(256, 198, 60, 0, Math.PI * 2); context.stroke();
-  for (const [x, y] of [[54, 54], [458, 54], [54, 666], [458, 666]] as Array<[number, number]>) {
-    context.save(); context.translate(x, y); context.rotate(Math.PI / 4); context.strokeRect(-7, -7, 14, 14); context.restore();
-  }
   const clone = svg.cloneNode(true) as SVGSVGElement;
-  clone.setAttribute("width", "180"); clone.setAttribute("height", "180");
+  clone.setAttribute("width", "80"); clone.setAttribute("height", "80");
   clone.querySelectorAll("*").forEach((element) => {
     element.setAttribute("fill", "none"); element.setAttribute("stroke", "#f4b294"); element.setAttribute("stroke-width", ".8");
     element.setAttribute("stroke-linecap", "round"); element.setAttribute("stroke-linejoin", "round");
   });
-  const image = new Image();
   const texture = new THREE.CanvasTexture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;
-  image.onload = () => { context.drawImage(image, 216, 158, 80, 80); texture.needsUpdate = true; onReady(); };
-  image.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(new XMLSerializer().serializeToString(clone))}`;
+  const templateImage = new Image();
+  templateImage.onload = () => {
+    context.drawImage(templateImage, 0, 0, 512, 720);
+    const sigilImage = new Image();
+    sigilImage.onload = () => { context.drawImage(sigilImage, 216, 244, 80, 80); texture.needsUpdate = true; onReady(); };
+    sigilImage.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(new XMLSerializer().serializeToString(clone))}`;
+  };
+  templateImage.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(CARD_BACK_TEMPLATE_SVG)}`;
   return texture;
 }
 
@@ -224,9 +220,9 @@ export function DeckBox3D({ deck, active, onStudy }: { deck: Deck; active: boole
   }, [active, deck.description, deck.name, deck.symbol]);
 
   useEffect(() => {
-    const target = hovered ? -.72 : 0;
+    const target = hovered ? -1 : 0;
     if (animation.current) cancelAnimationFrame(animation.current);
-    const move = () => { rotation.current += (target - rotation.current) * .14; if (lid.current) lid.current.rotation.x = rotation.current; if (cardStack.current) cardStack.current.position.y = -rotation.current * .42; if (renderer.current && scene.current && camera.current) renderer.current.render(scene.current, camera.current); if (Math.abs(target - rotation.current) > .002) animation.current = requestAnimationFrame(move); };
+    const move = () => { rotation.current += (target - rotation.current) * .14; if (lid.current) lid.current.rotation.x = rotation.current; if (cardStack.current) cardStack.current.position.y = Math.max(0, -rotation.current - .3) * .55; if (renderer.current && scene.current && camera.current) renderer.current.render(scene.current, camera.current); if (Math.abs(target - rotation.current) > .002) animation.current = requestAnimationFrame(move); };
     move(); return () => { if (animation.current) cancelAnimationFrame(animation.current); };
   }, [hovered]);
 

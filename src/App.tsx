@@ -1,11 +1,16 @@
 import { lazy, Suspense, useRef, useState } from "react";
 import { decks } from "./data/decks";
+import { CardBackArtwork } from "./CardBackArtwork";
 import { Sigil, symbolCatalog } from "./Sigil";
 import { buildSession, cardKey, dueCount, experienceForReview, mastery, MOMENTUM_COST, rankForFailures, reviewCard } from "./scheduler";
 import { todayKey, useLearnerState } from "./storage";
+import { appendLocalEvent } from "./sync/database";
+import { materializeGiftDeck } from "./sync/deckGift";
 import type { Deck, DeckEdit, DifficultyMode, LearnerState, LibrarySort, Rating, SessionCard, StudyCard } from "./types";
 
 const DeckBox3D = lazy(() => import("./DeckBox3D").then((module) => ({ default: module.DeckBox3D })));
+const DeckGiftDialog = lazy(() => import("./sync/DeckGiftDialog").then((module) => ({ default: module.DeckGiftDialog })));
+const TrustedSyncDialog = lazy(() => import("./sync/TrustedSyncDialog").then((module) => ({ default: module.TrustedSyncDialog })));
 
 function playChalkSound() {
   type AudioWindow = Window & typeof globalThis & { webkitAudioContext?: typeof AudioContext };
@@ -58,7 +63,7 @@ function Home({ state, deckList, start }: { state: LearnerState; deckList: Deck[
   </main>;
 }
 
-function DeckEditor({ deck, save, close }: { deck: Deck; save: (edit: DeckEdit) => void; close: () => void }) {
+function DeckEditor({ deck, save, share, close }: { deck: Deck; save: (edit: DeckEdit) => void; share: () => void; close: () => void }) {
   const [draft, setDraft] = useState<DeckEdit>({ name: deck.name, domain: deck.domain, symbol: deck.symbol, description: deck.description, questions: deck.questions.map((card) => ({ ...card })) });
   const [query, setQuery] = useState("");
   const visibleCards = (draft.questions ?? []).filter((card) => `${card.prompt} ${card.answer}`.toLowerCase().includes(query.toLowerCase())).slice(0, 50);
@@ -72,11 +77,11 @@ function DeckEditor({ deck, save, close }: { deck: Deck; save: (edit: DeckEdit) 
     <input className="card-search" type="search" placeholder="Search prompts and answers" value={query} onChange={(event) => setQuery(event.target.value)} />
     <div className="editable-cards">{visibleCards.map((card) => <article className="editable-card" key={card.id}><label>Front<textarea rows={2} value={card.prompt} onChange={(event) => updateCard(card.id, "prompt", event.target.value)} /></label><label>Back<textarea rows={2} value={card.answer} onChange={(event) => updateCard(card.id, "answer", event.target.value)} /></label><button className="remove-card" onClick={() => removeCard(card.id)} aria-label={`Remove ${card.prompt}`}>×</button></article>)}</div>
     {(draft.questions?.length ?? 0) > visibleCards.length && <p className="muted editor-limit">Showing the first 50 matches. Search to find another card.</p>}
-    <footer><button className="text-button" onClick={close}>Cancel</button><button className="primary" onClick={() => save(draft)}>Save deck</button></footer>
+    <footer><button className="text-button" onClick={share}>Share over LAN</button><button className="text-button" onClick={close}>Cancel</button><button className="primary" onClick={() => save(draft)}>Save deck</button></footer>
   </section></div>;
 }
 
-function Decks({ state, deckList, open, saveEdit, toggleActive, setSort }: { state: LearnerState; deckList: Deck[]; open: (deck: Deck) => void; saveEdit: (deck: Deck, edit: DeckEdit) => void; toggleActive: (deck: Deck) => void; setSort: (sort: LibrarySort) => void }) {
+function Decks({ state, deckList, open, saveEdit, shareDeck, receiveDeck, toggleActive, setSort }: { state: LearnerState; deckList: Deck[]; open: (deck: Deck) => void; saveEdit: (deck: Deck, edit: DeckEdit) => void; shareDeck: (deck?: Deck) => void; receiveDeck: () => void; toggleActive: (deck: Deck) => void; setSort: (sort: LibrarySort) => void }) {
   const [editing, setEditing] = useState<Deck | null>(null);
   const sortedDecks = [...deckList].sort((left, right) => {
     const activeOrder = Number(deckSettings(state, right).active) - Number(deckSettings(state, left).active);
@@ -85,9 +90,9 @@ function Decks({ state, deckList, open, saveEdit, toggleActive, setSort }: { sta
     return state.librarySort.direction === "asc" ? comparison : -comparison;
   });
   return <main className="screen"><header><div className="title"><p className="eyebrow">THE LIBRARY</p><h2>Your decks</h2></div></header>
-    <div className="library-sort"><span>Active first</span><label>Sort by<select aria-label="Sort decks by" value={state.librarySort.field} onChange={(event) => setSort({ ...state.librarySort, field: event.target.value as LibrarySort["field"] })}><option value="name">Name</option><option value="size">Deck size</option></select></label><button onClick={() => setSort({ ...state.librarySort, direction: state.librarySort.direction === "asc" ? "desc" : "asc" })} aria-label="Reverse deck sorting">{state.librarySort.field === "name" ? state.librarySort.direction === "asc" ? "A → Z" : "Z → A" : state.librarySort.direction === "asc" ? "Small → Large" : "Large → Small"}</button></div>
+    <div className="library-sort"><span>Active first</span><label>Sort by<select aria-label="Sort decks by" value={state.librarySort.field} onChange={(event) => setSort({ ...state.librarySort, field: event.target.value as LibrarySort["field"] })}><option value="name">Name</option><option value="size">Deck size</option></select></label><button onClick={() => setSort({ ...state.librarySort, direction: state.librarySort.direction === "asc" ? "desc" : "asc" })} aria-label="Reverse deck sorting">{state.librarySort.field === "name" ? state.librarySort.direction === "asc" ? "A → Z" : "Z → A" : state.librarySort.direction === "asc" ? "Small → Large" : "Large → Small"}</button><button className="receive-gift" onClick={receiveDeck}>Receive deck</button></div>
     <div className="deck-list deck-box-grid">{sortedDecks.map((deck) => { const progress = mastery(deck, state); const settings = deckSettings(state, deck); return <article className={`deck-card deck-box-tile ${settings.active ? "is-active" : ""}`} aria-label={`${deck.name} deck`} key={deck.id}><Suspense fallback={<div className="deck-box-fallback"><Sigil symbol={deck.symbol} /></div>}><DeckBox3D deck={deck} active={settings.active} onStudy={() => open(deck)} /></Suspense>{settings.active && <span className="deck-active-status">Active · {settings.sessionsCompleted}/2</span>}<div className="deck-actions"><button className="deck-active-button" onClick={() => toggleActive(deck)} aria-label={`${settings.active ? "Deactivate" : "Activate"} ${deck.name} deck`} aria-pressed={settings.active}>{settings.active ? "★" : "☆"}</button><button className="deck-edit-button" onClick={() => setEditing(deck)} aria-label={`Edit ${deck.name} deck`}>✎</button></div><div className="deck-progress-overlay"><div><small>{progress}% mastered · {dueCount(deck, state)} ready</small><div className="progress"><span style={{ width: `${progress}%` }} /></div></div></div></article>; })}</div>
-    {editing && <DeckEditor deck={editing} close={() => setEditing(null)} save={(edit) => { saveEdit(editing, edit); setEditing(null); }} />}
+    {editing && <DeckEditor deck={editing} close={() => setEditing(null)} share={() => { setEditing(null); shareDeck(editing); }} save={(edit) => { saveEdit(editing, edit); setEditing(null); }} />}
   </main>;
 }
 
@@ -170,7 +175,7 @@ function Study({ deck, sessionCards, bonusCards, difficulty, close, onReview, on
   };
   return <main className="screen study"><header><button className="icon-button" onClick={close}>×</button><div className="study-progress"><span style={{ width: `${completedCount / totalCards * 100}%` }} /></div><small>{completedCount} / {totalCards}</small><span className="momentum" aria-label={`${momentum} momentum`}>◆ {momentum}</span>{health !== null && <span className="health" aria-label={`${health} hearts remaining`}>{Array.from({ length: maxHealth ?? 0 }, (_, index) => index < health ? "♥" : "♡").join("")}</span>}</header>
     {health === 0 && <div className="practice-banner">Practice mode · keep learning with reduced XP</div>}
-    {!drawn ? <section className="draw-stage"><p className="eyebrow">THE DECK AWAITS</p><div className="deck-stack" aria-hidden="true"><div /><div /><div className="deck-back"><Sigil symbol={deck.symbol} /><span className="stack-count">{queue.length}</span></div></div><p className="muted">{queue.length} cards remain in this session.</p><button className="primary" onClick={() => setDrawn(true)}>Draw a card</button></section> : <>
+    {!drawn ? <section className="draw-stage"><p className="eyebrow">THE DECK AWAITS</p><div className="deck-stack" aria-hidden="true"><div /><div /><div className="deck-back"><CardBackArtwork symbol={deck.symbol} /><span className="stack-count">{queue.length}</span></div></div><p className="muted">{queue.length} cards remain in this session.</p><button className="primary" onClick={() => setDrawn(true)}>Draw a card</button></section> : <>
       <section className="card-area"><button key={dealNumber} className={`card-scene status-${currentCard.status} rank-${currentCard.rank} ${revealed ? "is-flipped" : ""} ${returning ? `is-returning is-${returning}` : ""}`} onClick={flipCard} aria-label="Flip study card" aria-pressed={revealed} disabled={Boolean(returning)}><div className="physical-card"><div className="card-face card-front"><span className="corner-mark">✦</span><span className="card-status">{currentCard.status === "unseen" ? "Unseen" : currentCard.status === "due" ? "Due review" : "Scheduled"}{currentCard.rank > 0 ? ` · Rank ${currentCard.rank + 1}` : ""}</span><Sigil symbol={deck.symbol} /><p className="eyebrow">ARCANE {deck.name.toUpperCase()}</p><h2>{currentCard.prompt}</h2><small>Tap the card to turn it over</small></div><div className="card-face card-back"><span className="corner-mark">✦</span><span className="card-status">Worth ×{rankMultiplier} XP</span><Sigil symbol={deck.symbol} /><div className={`answer-ink ${writing ? "is-writing" : answerWritten ? "is-written" : ""}`} aria-live="polite"><p className="eyebrow">THE ANSWER</p><p className="answer">{currentCard.answer}</p><small>Tap to return to the question</small></div></div></div></button></section>
       {answerFinished && <section className="grading"><p>How well did you know this?</p><button aria-label="Again" onClick={() => gradeCard("again")}>Again <small>+{reward("again")} XP</small></button><button aria-label="Hard" onClick={() => gradeCard("hard")}>Hard <small>+{reward("hard")} XP</small></button><button aria-label="Good" onClick={() => gradeCard("good")}>Good <small>+{reward("good")} XP</small></button><button className="primary" aria-label="Easy ✓" onClick={() => gradeCard("easy")}>Easy ✓ <small>+{reward("easy")} XP · ◆</small></button></section>}
     </>}</main>;
@@ -178,24 +183,25 @@ function Study({ deck, sessionCards, bonusCards, difficulty, close, onReview, on
 
 function Quests({ experience }: { experience: number }) { return <main className="screen"><header><div className="title"><p className="eyebrow">THE PATH</p><h2>Quests</h2></div></header><div className="quest-path">{[["language", "Apprentice", 100], ["philosophy", "Adept", 500], ["astronomy", "Magus", 1000], ["arts", "Master", 2000]].map(([symbol, title, target]) => { const needed = Number(target); return <div className={`quest ${experience >= needed ? "done" : "locked"}`} key={String(title)}><Sigil symbol={symbol as Deck["symbol"]} /><div><h3>{title}</h3><p>{Math.min(experience, needed)} / {needed} XP</p></div></div>; })}</div></main>; }
 
-function Profile({ state, deckList, setDifficulty, toggleDeck }: { state: LearnerState; deckList: Deck[]; setDifficulty: (mode: DifficultyMode) => void; toggleDeck: (deck: Deck) => void }) {
+function Profile({ state, setDifficulty, openTrustedSync }: { state: LearnerState; setDifficulty: (mode: DifficultyMode) => void; openTrustedSync: () => void }) {
   const learned = Object.values(state.cards).filter((card) => card.successes > 0).length;
   const level = Math.floor(state.experience / 100) + 1;
   const levelProgress = state.experience % 100;
   return <main className="screen profile"><header><button className="icon-button">⚙</button></header><Sigil symbol="astronomy" large /><h2>Initiate · Level {level}</h2><p>{state.difficulty === "adventurer" ? "Adventurer" : state.difficulty === "scholar" ? "Scholar" : "Adept"}</p><div className="progress xp-meter"><span style={{ width: `${levelProgress}%` }} /></div><small>{levelProgress} / 100 XP to level {level + 1}</small><section className="stats">{[["✦", String(state.experience), "Total Experience"], ["▣", String(learned), "Cards Encountered"], ["♨", String(state.streak), "Day Streak"], ["⌛", "2 × 10m", "Daily Goal"]].map(([icon, value, label]) => <div key={label}><b>{icon} {value}</b><small>{label}</small></div>)}</section>
     <section className="panel settings-panel"><p className="eyebrow">CHALLENGE PATH</p><h3>Choose what helps you learn</h3><div className="mode-grid">{([ ["adventurer", "Adventurer", "No hearts · full freedom"], ["scholar", "Scholar", "5 hearts · soft practice"], ["adept", "Adept", "3 hearts · greater challenge"] ] as const).map(([id, name, detail]) => <button className={state.difficulty === id ? "selected" : ""} onClick={() => setDifficulty(id)} key={id}><b>{name}</b><small>{detail}</small></button>)}</div><p className="muted">At zero hearts you can always continue; only XP rewards are reduced.</p></section>
-    <section className="panel settings-panel"><p className="eyebrow">ACTIVE DECKS</p><h3>Two short sessions per active deck</h3><div className="deck-toggles">{deckList.map((deck) => <label key={deck.id}><input type="checkbox" checked={deckSettings(state, deck).active} onChange={() => toggleDeck(deck)} /><span className="deck-toggle-name"><Sigil symbol={deck.symbol} />{deck.name}</span><small>{deck.questions.length} cards</small></label>)}</div></section>
+    <section className="panel settings-panel"><p className="eyebrow">TRUSTED DEVICES</p><h3>Keep progress in step</h3><p className="muted">Pair another device with a passphrase to merge decks and learning progress directly over the local network.</p><button className="primary" onClick={openTrustedSync}>Pair or sync device</button></section>
     <section className="panel reminder-settings"><p className="eyebrow">REMINDER RITUAL</p><h3>Return for repetition</h3><p className="muted">Two ten-minute sessions are planned for each active deck. Progress and settings remain on this device.</p></section></main>;
 }
 
 export default function App() {
   const [page, setPage] = useState("home");
   const [state, setState] = useLearnerState();
-  const deckList = decks.map((deck) => {
+  const deckList = [...decks, ...state.customDecks].map((deck) => {
     const edit = state.deckEdits[deck.id];
     return edit ? { ...deck, ...edit, questions: edit.questions ?? deck.questions } : deck;
   });
   const [study, setStudy] = useState<{ deck: Deck; cards: SessionCard[]; bonusCards: SessionCard[] } | null>(null);
+  const recordSyncEvent = (entity: Parameters<typeof appendLocalEvent>[0], operation: string, payload: unknown) => { void appendLocalEvent(entity, operation, payload).catch((error) => console.warn("Could not append sync event", error)); };
   const startDeck = (deck: Deck) => {
     const cards = buildSession(deck, state);
     const selectedIds = new Set(cards.map((card) => card.id));
@@ -207,26 +213,44 @@ export default function App() {
     const next = active.find((deck) => deckSettings(state, deck).sessionsCompleted < 2) ?? active[0];
     if (next) startDeck(next);
   };
-  const recordReview = (deck: Deck, card: SessionCard, rating: Rating, reducedXp: boolean) => setState((current) => {
-    const key = cardKey(deck.id, card.id);
-    const earned = experienceForReview(rating, card.rank, reducedXp);
-    return { ...current, experience: current.experience + earned, cards: { ...current.cards, [key]: reviewCard(current.cards[key], rating) } };
-  });
-  const completeSession = (deck: Deck) => setState((current) => {
+  const recordReview = (deck: Deck, card: SessionCard, rating: Rating, reducedXp: boolean) => {
+    recordSyncEvent({ kind: "review", id: crypto.randomUUID() }, "review.recorded", { deckId: deck.id, cardId: card.id, rating, reducedXp, rank: card.rank });
+    setState((current) => {
+      const key = cardKey(deck.id, card.id);
+      const earned = experienceForReview(rating, card.rank, reducedXp);
+      return { ...current, experience: current.experience + earned, cards: { ...current.cards, [key]: reviewCard(current.cards[key], rating) } };
+    });
+  };
+  const completeSession = (deck: Deck) => {
     const today = todayKey();
+    recordSyncEvent({ kind: "session", id: crypto.randomUUID() }, "session.completed", { deckId: deck.id, day: today });
+    setState((current) => {
     const yesterday = todayKey(new Date(Date.now() - 86_400_000));
     const previous = current.decks[deck.id];
     const sessionsCompleted = previous?.sessionDate === today ? Math.min(2, previous.sessionsCompleted + 1) : 1;
     const streak = current.lastStudyDate === today ? current.streak : current.lastStudyDate === yesterday ? current.streak + 1 : 1;
     return { ...current, streak, lastStudyDate: today, decks: { ...current.decks, [deck.id]: { active: previous?.active ?? deck.id === "latin", sessionDate: today, sessionsCompleted } } };
-  });
-  const setDifficulty = (difficulty: DifficultyMode) => setState((current) => ({ ...current, difficulty }));
-  const toggleDeck = (deck: Deck) => setState((current) => {
+    });
+  };
+  const setDifficulty = (difficulty: DifficultyMode) => { recordSyncEvent({ kind: "device", id: "preferences" }, "preference.changed", { field: "difficulty", value: difficulty }); setState((current) => ({ ...current, difficulty })); };
+  const toggleDeck = (deck: Deck) => {
+    const nextActive = !deckSettings(state, deck).active;
+    recordSyncEvent({ kind: "deck", id: deck.id }, "deck.activationChanged", { active: nextActive });
+    setState((current) => {
     const settings = deckSettings(current, deck);
-    return { ...current, decks: { ...current.decks, [deck.id]: { active: !settings.active, sessionDate: todayKey(), sessionsCompleted: settings.sessionsCompleted } } };
-  });
-  const saveDeckEdit = (deck: Deck, edit: DeckEdit) => setState((current) => ({ ...current, deckEdits: { ...current.deckEdits, [deck.id]: edit } }));
+    return { ...current, decks: { ...current.decks, [deck.id]: { active: nextActive, sessionDate: todayKey(), sessionsCompleted: settings.sessionsCompleted } } };
+    });
+  };
+  const saveDeckEdit = (deck: Deck, edit: DeckEdit) => { recordSyncEvent({ kind: "deck", id: deck.id }, "deck.edited", edit); setState((current) => ({ ...current, deckEdits: { ...current.deckEdits, [deck.id]: edit } })); };
+  const [giftDeck, setGiftDeck] = useState<Deck | null | undefined>(undefined);
+  const [trustedSyncOpen, setTrustedSyncOpen] = useState(false);
+  const importGift = async (gift: Parameters<typeof materializeGiftDeck>[0], previous?: Deck) => {
+    const imported = materializeGiftDeck(gift, previous);
+    recordSyncEvent({ kind: "deck", id: imported.id }, "deck.giftImported", { sourceDeckId: gift.content.sourceDeckId, digest: gift.digest, replaced: Boolean(previous) });
+    setState((current) => ({ ...current, customDecks: previous ? current.customDecks.map((deck) => deck.id === imported.id ? imported : deck) : [...current.customDecks, imported] }));
+    setGiftDeck(undefined);
+  };
   const setLibrarySort = (librarySort: LibrarySort) => setState((current) => ({ ...current, librarySort }));
-  const body = study ? <Study deck={study.deck} sessionCards={study.cards} bonusCards={study.bonusCards} difficulty={state.difficulty} close={() => { setStudy(null); setPage("decks"); }} onReview={(card, rating, reduced) => recordReview(study.deck, card, rating, reduced)} onSessionComplete={() => completeSession(study.deck)} /> : page === "home" ? <Home state={state} deckList={deckList} start={startNext} /> : page === "decks" ? <Decks state={state} deckList={deckList} open={startDeck} saveEdit={saveDeckEdit} toggleActive={toggleDeck} setSort={setLibrarySort} /> : page === "quests" ? <Quests experience={state.experience} /> : <Profile state={state} deckList={deckList} setDifficulty={setDifficulty} toggleDeck={toggleDeck} />;
-  return <div className="app-shell">{body}{!study && <Nav page={page} setPage={setPage} />}</div>;
+  const body = study ? <Study deck={study.deck} sessionCards={study.cards} bonusCards={study.bonusCards} difficulty={state.difficulty} close={() => { setStudy(null); setPage("decks"); }} onReview={(card, rating, reduced) => recordReview(study.deck, card, rating, reduced)} onSessionComplete={() => completeSession(study.deck)} /> : page === "home" ? <Home state={state} deckList={deckList} start={startNext} /> : page === "decks" ? <Decks state={state} deckList={deckList} open={startDeck} saveEdit={saveDeckEdit} shareDeck={(deck) => setGiftDeck(deck)} receiveDeck={() => setGiftDeck(null)} toggleActive={toggleDeck} setSort={setLibrarySort} /> : page === "quests" ? <Quests experience={state.experience} /> : <Profile state={state} setDifficulty={setDifficulty} openTrustedSync={() => setTrustedSyncOpen(true)} />;
+  return <div className="app-shell">{body}{!study && <Nav page={page} setPage={setPage} />}{giftDeck !== undefined && <Suspense fallback={null}><DeckGiftDialog deck={giftDeck ?? undefined} customDecks={state.customDecks} onImport={importGift} onClose={() => setGiftDeck(undefined)} /></Suspense>}{trustedSyncOpen && <Suspense fallback={null}><TrustedSyncDialog state={state} onMerged={setState} onClose={() => setTrustedSyncOpen(false)} /></Suspense>}</div>;
 }

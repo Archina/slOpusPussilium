@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { initializeSyncFoundation } from "./sync/database";
 import type { LearnerState } from "./types";
 
 const STORAGE_KEY = "opus-pusillium:learner:v1";
@@ -14,6 +15,7 @@ export const defaultLearnerState = (): LearnerState => ({
   cards: {},
   decks: {},
   deckEdits: {},
+  customDecks: [],
   librarySort: { field: "name", direction: "asc" },
 });
 
@@ -22,7 +24,7 @@ function loadState(): LearnerState {
     const value = localStorage.getItem(STORAGE_KEY);
     if (!value) return defaultLearnerState();
     const parsed = JSON.parse(value) as Partial<LearnerState> & { points?: number };
-    return { ...defaultLearnerState(), ...parsed, experience: parsed.experience ?? parsed.points ?? 0, cards: parsed.cards ?? {}, decks: parsed.decks ?? {}, deckEdits: parsed.deckEdits ?? {}, librarySort: parsed.librarySort ?? { field: "name", direction: "asc" } };
+    return { ...defaultLearnerState(), ...parsed, experience: parsed.experience ?? parsed.points ?? 0, cards: parsed.cards ?? {}, decks: parsed.decks ?? {}, deckEdits: parsed.deckEdits ?? {}, customDecks: parsed.customDecks ?? [], librarySort: parsed.librarySort ?? { field: "name", direction: "asc" } };
   } catch {
     return defaultLearnerState();
   }
@@ -31,5 +33,6 @@ function loadState(): LearnerState {
 export function useLearnerState() {
   const [state, setState] = useState<LearnerState>(loadState);
   useEffect(() => localStorage.setItem(STORAGE_KEY, JSON.stringify(state)), [state]);
+  useEffect(() => { void initializeSyncFoundation(state).catch((error) => console.warn("Sync foundation initialization failed", error)); }, []);
   return [state, setState] as const;
 }

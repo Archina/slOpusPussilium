@@ -23,6 +23,11 @@ export type Deck = {
   symbol: DomainSymbolId;
   description: string;
   questions: StudyCard[];
+  provenance?: {
+    sourceDeckId: string;
+    sourceDigest: string;
+    importedAt: number;
+  };
 };
 
 export type DeckEdit = {
@@ -57,5 +62,6 @@ export type LearnerState = {
   cards: Record<string, CardProgress>;
   decks: Record<string, DeckProgress>;
   deckEdits: Record<string, DeckEdit>;
+  customDecks: Deck[];
   librarySort: LibrarySort;
 };

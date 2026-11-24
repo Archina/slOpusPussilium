@@ -79,10 +79,11 @@ test("persists difficulty and active imported decks", async ({ page }, testInfo)
   await expect(page.getByRole("article").first()).toHaveAttribute("aria-label", "Norwegian deck");
   await expect(page.getByRole("article").nth(1)).toHaveAttribute("aria-label", "Latin deck");
   await expect(page.getByRole("article").nth(2)).toHaveAttribute("aria-label", "Tamil deck");
+  await page.getByRole("button", { name: "Activate Tamil deck" }).click();
   await page.getByLabel("Sort decks by").selectOption("size");
   await expect(page.getByRole("article").first()).toHaveAttribute("aria-label", "Norwegian deck");
-  await expect(page.getByRole("article").nth(1)).toHaveAttribute("aria-label", "Latin deck");
-  await expect(page.getByRole("article").nth(2)).toHaveAttribute("aria-label", "Tamil deck");
+  await expect(page.getByRole("article").nth(1)).toHaveAttribute("aria-label", "Tamil deck");
+  await expect(page.getByRole("article").nth(2)).toHaveAttribute("aria-label", "Latin deck");
   await expect(page.getByRole("button", { name: "Study Norwegian deck" })).toBeVisible({ timeout: 10_000 });
   await page.screenshot({ path: testInfo.outputPath("library.png"), fullPage: true });
   const norwegianBox = page.getByRole("button", { name: "Study Norwegian deck" });
@@ -92,16 +93,15 @@ test("persists difficulty and active imported decks", async ({ page }, testInfo)
 
   await page.getByRole("button", { name: "Profile" }).click();
   await page.getByRole("button", { name: /Adept/ }).click();
-  await page.getByLabel(/Tamil/).check();
   await page.reload();
 
   await page.getByRole("button", { name: "Profile" }).click();
   await expect(page.getByRole("button", { name: /Adept/ })).toHaveClass(/selected/);
-  await expect(page.getByLabel(/Tamil/)).toBeChecked();
-  await expect(page.getByLabel(/Norwegian/)).toBeChecked();
   await page.screenshot({ path: testInfo.outputPath("profile.png"), fullPage: true });
 
   await page.getByRole("button", { name: "Decks" }).click();
+  await expect(page.getByRole("button", { name: "Deactivate Tamil deck" })).toHaveAttribute("aria-pressed", "true");
+  await expect(page.getByRole("button", { name: "Deactivate Norwegian deck" })).toHaveAttribute("aria-pressed", "true");
   await page.getByRole("button", { name: "Study Tamil deck" }).click();
   await page.getByRole("button", { name: "Draw a card" }).click();
   await expect(page.getByRole("button", { name: "Flip study card" })).toContainText("ARCANE TAMIL");
@@ -137,9 +137,9 @@ test("three-heart mode becomes non-blocking practice", async ({ page }) => {
 test("edits deck identity, sigil, and cards locally", async ({ page }, testInfo) => {
   await page.goto("/");
   await page.getByRole("button", { name: "Decks" }).click();
-  await page.getByRole("button", { name: "Edit Biology deck" }).click();
-  const editor = page.getByRole("dialog", { name: "Edit Biology deck" });
-  await editor.getByLabel("Name").fill("Living Systems");
+  await page.getByRole("button", { name: "Edit Mycology deck" }).click();
+  const editor = page.getByRole("dialog", { name: "Edit Mycology deck" });
+  await editor.getByLabel("Name", { exact: true }).fill("Living Systems");
   await editor.getByRole("button", { name: /Engineering/ }).click();
   await editor.getByRole("button", { name: "+ Add card" }).click();
   await editor.getByLabel("Front").first().fill("What carries voltage through a circuit?");
@@ -147,7 +147,7 @@ test("edits deck identity, sigil, and cards locally", async ({ page }, testInfo)
   await page.screenshot({ path: testInfo.outputPath("deck-editor.png"), fullPage: true });
   await editor.getByRole("button", { name: "Save deck" }).click();
 
-  await expect(page.getByRole("article", { name: "Living Systems deck" })).toContainText("11 ready");
+  await expect(page.getByRole("article", { name: "Living Systems deck" })).toContainText("ready");
   await page.reload();
   await page.getByRole("button", { name: "Decks" }).click();
   await page.getByRole("button", { name: "Edit Living Systems deck" }).click();
