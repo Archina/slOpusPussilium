@@ -105,7 +105,7 @@ function sigilTexture(svg: SVGSVGElement, onReady: () => void) {
   const clone = svg.cloneNode(true) as SVGSVGElement;
   clone.setAttribute("width", "300"); clone.setAttribute("height", "300");
   clone.querySelectorAll("*").forEach((element) => {
-    element.setAttribute("fill", "none"); element.setAttribute("stroke", "#f4b294"); element.setAttribute("stroke-width", "2.4");
+    element.setAttribute("fill", "none"); element.setAttribute("stroke", "#f4b294"); element.setAttribute("stroke-width", ".8");
     element.setAttribute("stroke-linecap", "round"); element.setAttribute("stroke-linejoin", "round");
   });
   const image = new Image();
@@ -127,19 +127,20 @@ function cardBackTexture(svg: SVGSVGElement, onReady: () => void) {
   context.strokeStyle = "#e99a7d"; context.lineWidth = 12; context.strokeRect(14, 14, 484, 692);
   context.strokeStyle = "rgba(244,178,148,.72)"; context.lineWidth = 3; context.strokeRect(32, 32, 448, 656);
   context.save(); context.translate(256, 198); context.rotate(Math.PI / 4); context.strokeRect(-124, -124, 248, 248); context.restore();
+  context.beginPath(); context.arc(256, 198, 60, 0, Math.PI * 2); context.stroke();
   for (const [x, y] of [[54, 54], [458, 54], [54, 666], [458, 666]] as Array<[number, number]>) {
     context.save(); context.translate(x, y); context.rotate(Math.PI / 4); context.strokeRect(-7, -7, 14, 14); context.restore();
   }
   const clone = svg.cloneNode(true) as SVGSVGElement;
   clone.setAttribute("width", "180"); clone.setAttribute("height", "180");
   clone.querySelectorAll("*").forEach((element) => {
-    element.setAttribute("fill", "none"); element.setAttribute("stroke", "#f4b294"); element.setAttribute("stroke-width", "2.4");
+    element.setAttribute("fill", "none"); element.setAttribute("stroke", "#f4b294"); element.setAttribute("stroke-width", ".8");
     element.setAttribute("stroke-linecap", "round"); element.setAttribute("stroke-linejoin", "round");
   });
   const image = new Image();
   const texture = new THREE.CanvasTexture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;
-  image.onload = () => { context.drawImage(image, 176, 118, 160, 160); texture.needsUpdate = true; onReady(); };
+  image.onload = () => { context.drawImage(image, 216, 158, 80, 80); texture.needsUpdate = true; onReady(); };
   image.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(new XMLSerializer().serializeToString(clone))}`;
   return texture;
 }
