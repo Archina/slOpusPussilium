@@ -167,6 +167,7 @@ main { position: relative; padding: 1.35rem 1.25rem; min-height: calc(100vh - 5.
 .deck-box-fallback { position:absolute; inset:0 0 4.7rem; display:grid; place-items:center; }
 .deck-box-fallback .sigil { width:6rem; height:6rem; }
 .deck-box-tile .deck-actions { z-index:5; }
+.deck-active-status { position:absolute; z-index:5; top:.65rem; left:.65rem; padding:.35rem .55rem; border:1px solid var(--accent-dim); border-radius:999px; color:var(--accent-pale); background:var(--nav-bg); backdrop-filter:blur(8px); font-size:.56rem; letter-spacing:.06em; text-transform:uppercase; pointer-events:none; }
 .deck-progress-overlay { position:absolute; z-index:5; right:.8rem; bottom:.7rem; left:.8rem; display:block; padding:.7rem; border:1px solid var(--border); border-radius:.65rem; background:var(--nav-bg); backdrop-filter:blur(10px); pointer-events:none; }
 .deck-progress-overlay small { font-size:.58rem; }
 .deck-progress-overlay .progress { margin:.4rem 0 .15rem; }

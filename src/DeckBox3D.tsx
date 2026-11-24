@@ -22,7 +22,7 @@ function wrapText(context: CanvasRenderingContext2D, text: string, width: number
   return lines;
 }
 
-function faceTexture(tint: string, kind: "lid" | "body", text: string) {
+function faceTexture(tint: string, kind: "lid" | "body", text: string, active: boolean) {
   const canvas = document.createElement("canvas");
   canvas.width = 768;
   canvas.height = kind === "lid" ? 384 : 768;
@@ -37,6 +37,22 @@ function faceTexture(tint: string, kind: "lid" | "body", text: string) {
   context.strokeStyle = "rgba(244,178,148,.55)";
   context.lineWidth = 2;
   context.strokeRect(58, 48, 652, canvas.height - 96);
+  if (active) {
+    context.strokeStyle = "rgba(255,205,165,.42)";
+    context.lineWidth = 1.5;
+    context.strokeRect(76, 66, 616, canvas.height - 132);
+    context.beginPath();
+    context.moveTo(76, 132); context.lineTo(142, 66); context.moveTo(626, 66); context.lineTo(692, 132);
+    context.moveTo(76, canvas.height - 132); context.lineTo(142, canvas.height - 66);
+    context.moveTo(626, canvas.height - 66); context.lineTo(692, canvas.height - 132);
+    context.stroke();
+    context.globalAlpha = .45;
+    context.beginPath();
+    context.arc(76, 66, 36, 0, Math.PI / 2); context.arc(692, 66, 36, Math.PI / 2, Math.PI);
+    context.arc(76, canvas.height - 66, 36, -Math.PI / 2, 0); context.arc(692, canvas.height - 66, 36, Math.PI, Math.PI * 1.5);
+    context.stroke();
+    context.globalAlpha = 1;
+  }
   context.save();
   context.translate(384, canvas.height / 2);
   context.rotate(Math.PI / 4);
@@ -100,7 +116,7 @@ function sigilTexture(svg: SVGSVGElement, onReady: () => void) {
   return texture;
 }
 
-export function DeckBox3D({ deck, onStudy }: { deck: Deck; onStudy: () => void }) {
+export function DeckBox3D({ deck, active, onStudy }: { deck: Deck; active: boolean; onStudy: () => void }) {
   const root = useRef<HTMLButtonElement>(null);
   const mount = useRef<HTMLSpanElement>(null);
   const renderer = useRef<THREE.WebGLRenderer | null>(null);
@@ -132,8 +148,8 @@ export function DeckBox3D({ deck, onStudy }: { deck: Deck; onStudy: () => void }
     const rim = new THREE.PointLight(0x9f6bd0, 9, 12); rim.position.set(3, 1, -2); nextScene.add(rim);
 
     const tint = domainTints[deck.symbol];
-    const bodyTexture = faceTexture(tint, "body", deck.description);
-    const lidTexture = faceTexture(new THREE.Color(tint).offsetHSL(0, .03, .035).getStyle(), "lid", deck.name);
+    const bodyTexture = faceTexture(tint, "body", deck.description, active);
+    const lidTexture = faceTexture(new THREE.Color(tint).offsetHSL(0, .03, .035).getStyle(), "lid", deck.name, active);
     const body = sharpBox(2.65, 2.45, 1.12, tint, bodyTexture); body.position.y = -.58; nextScene.add(body);
     for (let index = 0; index < 7; index += 1) {
       const card = sharpBox(2.28, .045, .82, index % 2 ? "#e5b69f" : "#d9c6ba");
@@ -153,7 +169,7 @@ export function DeckBox3D({ deck, onStudy }: { deck: Deck; onStudy: () => void }
     medallion.position.set(0, .06, 1.295);
     medallion.castShadow = true;
     lidPivot.add(medallion);
-    const medallionRim = new THREE.Mesh(new THREE.TorusGeometry(.45, .025, 12, 64), new THREE.MeshStandardMaterial({ color: "#f0a183", roughness: .3, metalness: .7, emissive: "#4b2029", emissiveIntensity: .35 }));
+    const medallionRim = new THREE.Mesh(new THREE.TorusGeometry(.45, active ? .032 : .025, 12, 64), new THREE.MeshStandardMaterial({ color: active ? "#ffd0a9" : "#f0a183", roughness: .3, metalness: .7, emissive: "#4b2029", emissiveIntensity: active ? .6 : .35 }));
     medallionRim.position.set(0, .06, 1.397);
     medallionRim.castShadow = true;
     lidPivot.add(medallionRim);
@@ -169,7 +185,7 @@ export function DeckBox3D({ deck, onStudy }: { deck: Deck; onStudy: () => void }
       nextScene.traverse((object) => { if (object instanceof THREE.Mesh || object instanceof THREE.LineSegments) { object.geometry.dispose(); const materials = Array.isArray(object.material) ? object.material : [object.material]; [...new Set(materials)].forEach((material) => material.dispose()); } });
       bodyTexture.dispose(); lidTexture.dispose(); medallionTexture.dispose(); nextRenderer.dispose(); nextRenderer.domElement.remove();
     };
-  }, [deck.description, deck.name, deck.symbol]);
+  }, [active, deck.description, deck.name, deck.symbol]);
 
   useEffect(() => {
     const target = hovered ? -.72 : 0;
