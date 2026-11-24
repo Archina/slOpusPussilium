@@ -22,6 +22,27 @@ npm run test:e2e
 
 Chromium is supplied by `devenv`, so no separate browser download is needed on NixOS. Reports and screenshots are written below `test-results/`.
 
+## Deploy to GitHub Pages
+
+Pushes to `main` build and publish the app via `.github/workflows/deploy-pages.yml`. In the repository settings, set **Pages → Build and deployment → Source** to **GitHub Actions** once.
+
+The site is served from `https://<user>.github.io/<repo>/`, so the build uses `BASE_PATH=/<repo>/`. Everything that must respect the subpath derives from it:
+
+- `vite.config.ts` sets `base` from `BASE_PATH` (default `/`).
+- Service worker registration and scope use `import.meta.env.BASE_URL`.
+- `sw.js` reads `self.registration.scope` for its precache entry and its offline navigation fallback.
+- `manifest.webmanifest` uses relative `start_url`, `scope`, and icon paths.
+
+To reproduce the Pages build locally (also does a type-check):
+
+```sh
+BASE_PATH=/slOpusPussilium/ npm run build
+BASE_PATH=/slOpusPussilium/ npm run preview
+# → http://localhost:4173/slOpusPussilium/
+```
+
+The workflow also copies `dist/index.html` to `dist/404.html` so deep links fall back to the app shell. Plain `npm run build` without `BASE_PATH` still targets the domain root.
+
 ## Prototype scope
 
 - Responsive phone and desktop interface inspired by the supplied visual reference.
@@ -53,7 +74,11 @@ Progress is intentionally browser-local in this phase. Clearing site data clears
 
 The first synchronization layer is under development on `feature/lan-sync-foundation`. On startup the app creates a stable device identity and an immutable bootstrap checkpoint in IndexedDB. Reviews, session completion, deck edits, activation changes, and difficulty changes now append timestamped local events while the existing learner state remains the materialized UI view.
 
-The event foundation includes hybrid logical clocks, idempotent event-set merging, snapshot/event/device stores, and space reserved for transfers and conflicts. Deck Gift snapshots support digest validation, provenance, independent copies, and explicit replacement of a previous gift. The Library now provides a complete LAN gift flow: QR display, camera scanning with paste fallback, direct WebRTC pairing, chunked transfer, import preview, and persistent custom decks. Passphrase-protected trusted-device sync described in `docs/lan-sync-design.md` is the next phase.
+The event foundation includes hybrid logical clocks, idempotent event-set merging, snapshot/event/device stores, and space reserved for transfers and conflicts. Deck Gift snapshots support digest validation, provenance, independent copies, and explicit replacement of a previous gift. The Library provides a complete LAN gift flow: QR display, camera scanning with paste fallback, direct WebRTC pairing, chunked transfer, import preview, and persistent custom decks.
+
+Trusted Device Sync is available from Profile. Two devices enter the same passphrase, pair through offer/answer QR codes, and exchange AES-GCM-encrypted event bundles. Reviews, sessions, XP, deck activation, deck edits, imported decks, and difficulty preferences merge deterministically from hybrid-timestamped events. Known devices are remembered for later passphrase-verified syncs. Cancelled or corrupted exchanges do not apply remote data.
+
+Sync applies from the event log onward. Progress stored before the synchronization foundation was introduced is preserved as a baseline XP value but does not have reconstructable per-card review history on other devices.
 
 ## Notifications
 

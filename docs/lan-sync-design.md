@@ -1,6 +1,19 @@
 # Local-Network Deck Sharing and Device Sync
 
-Status: proposed design
+Status: Phase 1 and initial Phase 2 implementation in progress
+
+Implemented so far:
+- Immutable local event log in IndexedDB with hybrid logical clocks and stable device IDs
+- Content-only Deck Gift with digest validation, QR pairing, chunked WebRTC transfer, and local import/replacement
+- Passphrase-protected trusted-device pairing and event-bundle exchange with AES-GCM
+- Deterministic materialization of reviews, sessions, XP, deck edits, activation, imported decks, and difficulty
+- Known-device verifier and passphrase check
+
+Still proposed:
+- Field-level conflict history UI and restore actions
+- Coordinated all-device history reset and compaction
+- Full fingerprint confirmation before trust (currently shown after pairing)
+- One-time/multipart QR handling for unusually large ICE offers
 
 ## Goals
 

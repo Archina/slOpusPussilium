@@ -148,6 +148,16 @@ export async function listSyncEvents() {
   return events;
 }
 
+export async function getBootstrapExperience() {
+  const database = await openSyncDatabase();
+  const transaction = database.transaction("snapshots", "readonly");
+  const snapshots = await requestResult<SnapshotRecord[]>(transaction.objectStore("snapshots").getAll());
+  await transactionDone(transaction);
+  database.close();
+  const earliest = snapshots.sort((left, right) => left.createdAt - right.createdAt)[0];
+  return earliest?.state.experience ?? 0;
+}
+
 export async function getDeviceIdentity() {
   const database = await openSyncDatabase();
   const transaction = database.transaction("metadata", "readonly");

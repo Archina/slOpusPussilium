@@ -10,6 +10,7 @@ import type { Deck, DeckEdit, DifficultyMode, LearnerState, LibrarySort, Rating,
 
 const DeckBox3D = lazy(() => import("./DeckBox3D").then((module) => ({ default: module.DeckBox3D })));
 const DeckGiftDialog = lazy(() => import("./sync/DeckGiftDialog").then((module) => ({ default: module.DeckGiftDialog })));
+const TrustedSyncDialog = lazy(() => import("./sync/TrustedSyncDialog").then((module) => ({ default: module.TrustedSyncDialog })));
 
 function playChalkSound() {
   type AudioWindow = Window & typeof globalThis & { webkitAudioContext?: typeof AudioContext };
@@ -182,12 +183,13 @@ function Study({ deck, sessionCards, bonusCards, difficulty, close, onReview, on
 
 function Quests({ experience }: { experience: number }) { return <main className="screen"><header><div className="title"><p className="eyebrow">THE PATH</p><h2>Quests</h2></div></header><div className="quest-path">{[["language", "Apprentice", 100], ["philosophy", "Adept", 500], ["astronomy", "Magus", 1000], ["arts", "Master", 2000]].map(([symbol, title, target]) => { const needed = Number(target); return <div className={`quest ${experience >= needed ? "done" : "locked"}`} key={String(title)}><Sigil symbol={symbol as Deck["symbol"]} /><div><h3>{title}</h3><p>{Math.min(experience, needed)} / {needed} XP</p></div></div>; })}</div></main>; }
 
-function Profile({ state, setDifficulty }: { state: LearnerState; setDifficulty: (mode: DifficultyMode) => void }) {
+function Profile({ state, setDifficulty, openTrustedSync }: { state: LearnerState; setDifficulty: (mode: DifficultyMode) => void; openTrustedSync: () => void }) {
   const learned = Object.values(state.cards).filter((card) => card.successes > 0).length;
   const level = Math.floor(state.experience / 100) + 1;
   const levelProgress = state.experience % 100;
   return <main className="screen profile"><header><button className="icon-button">⚙</button></header><Sigil symbol="astronomy" large /><h2>Initiate · Level {level}</h2><p>{state.difficulty === "adventurer" ? "Adventurer" : state.difficulty === "scholar" ? "Scholar" : "Adept"}</p><div className="progress xp-meter"><span style={{ width: `${levelProgress}%` }} /></div><small>{levelProgress} / 100 XP to level {level + 1}</small><section className="stats">{[["✦", String(state.experience), "Total Experience"], ["▣", String(learned), "Cards Encountered"], ["♨", String(state.streak), "Day Streak"], ["⌛", "2 × 10m", "Daily Goal"]].map(([icon, value, label]) => <div key={label}><b>{icon} {value}</b><small>{label}</small></div>)}</section>
     <section className="panel settings-panel"><p className="eyebrow">CHALLENGE PATH</p><h3>Choose what helps you learn</h3><div className="mode-grid">{([ ["adventurer", "Adventurer", "No hearts · full freedom"], ["scholar", "Scholar", "5 hearts · soft practice"], ["adept", "Adept", "3 hearts · greater challenge"] ] as const).map(([id, name, detail]) => <button className={state.difficulty === id ? "selected" : ""} onClick={() => setDifficulty(id)} key={id}><b>{name}</b><small>{detail}</small></button>)}</div><p className="muted">At zero hearts you can always continue; only XP rewards are reduced.</p></section>
+    <section className="panel settings-panel"><p className="eyebrow">TRUSTED DEVICES</p><h3>Keep progress in step</h3><p className="muted">Pair another device with a passphrase to merge decks and learning progress directly over the local network.</p><button className="primary" onClick={openTrustedSync}>Pair or sync device</button></section>
     <section className="panel reminder-settings"><p className="eyebrow">REMINDER RITUAL</p><h3>Return for repetition</h3><p className="muted">Two ten-minute sessions are planned for each active deck. Progress and settings remain on this device.</p></section></main>;
 }
 
@@ -212,7 +214,7 @@ export default function App() {
     if (next) startDeck(next);
   };
   const recordReview = (deck: Deck, card: SessionCard, rating: Rating, reducedXp: boolean) => {
-    recordSyncEvent({ kind: "review", id: crypto.randomUUID() }, "review.recorded", { deckId: deck.id, cardId: card.id, rating, reducedXp });
+    recordSyncEvent({ kind: "review", id: crypto.randomUUID() }, "review.recorded", { deckId: deck.id, cardId: card.id, rating, reducedXp, rank: card.rank });
     setState((current) => {
       const key = cardKey(deck.id, card.id);
       const earned = experienceForReview(rating, card.rank, reducedXp);
@@ -241,6 +243,7 @@ export default function App() {
   };
   const saveDeckEdit = (deck: Deck, edit: DeckEdit) => { recordSyncEvent({ kind: "deck", id: deck.id }, "deck.edited", edit); setState((current) => ({ ...current, deckEdits: { ...current.deckEdits, [deck.id]: edit } })); };
   const [giftDeck, setGiftDeck] = useState<Deck | null | undefined>(undefined);
+  const [trustedSyncOpen, setTrustedSyncOpen] = useState(false);
   const importGift = async (gift: Parameters<typeof materializeGiftDeck>[0], previous?: Deck) => {
     const imported = materializeGiftDeck(gift, previous);
     recordSyncEvent({ kind: "deck", id: imported.id }, "deck.giftImported", { sourceDeckId: gift.content.sourceDeckId, digest: gift.digest, replaced: Boolean(previous) });
@@ -248,6 +251,6 @@ export default function App() {
     setGiftDeck(undefined);
   };
   const setLibrarySort = (librarySort: LibrarySort) => setState((current) => ({ ...current, librarySort }));
-  const body = study ? <Study deck={study.deck} sessionCards={study.cards} bonusCards={study.bonusCards} difficulty={state.difficulty} close={() => { setStudy(null); setPage("decks"); }} onReview={(card, rating, reduced) => recordReview(study.deck, card, rating, reduced)} onSessionComplete={() => completeSession(study.deck)} /> : page === "home" ? <Home state={state} deckList={deckList} start={startNext} /> : page === "decks" ? <Decks state={state} deckList={deckList} open={startDeck} saveEdit={saveDeckEdit} shareDeck={(deck) => setGiftDeck(deck)} receiveDeck={() => setGiftDeck(null)} toggleActive={toggleDeck} setSort={setLibrarySort} /> : page === "quests" ? <Quests experience={state.experience} /> : <Profile state={state} setDifficulty={setDifficulty} />;
-  return <div className="app-shell">{body}{!study && <Nav page={page} setPage={setPage} />}{giftDeck !== undefined && <Suspense fallback={null}><DeckGiftDialog deck={giftDeck ?? undefined} customDecks={state.customDecks} onImport={importGift} onClose={() => setGiftDeck(undefined)} /></Suspense>}</div>;
+  const body = study ? <Study deck={study.deck} sessionCards={study.cards} bonusCards={study.bonusCards} difficulty={state.difficulty} close={() => { setStudy(null); setPage("decks"); }} onReview={(card, rating, reduced) => recordReview(study.deck, card, rating, reduced)} onSessionComplete={() => completeSession(study.deck)} /> : page === "home" ? <Home state={state} deckList={deckList} start={startNext} /> : page === "decks" ? <Decks state={state} deckList={deckList} open={startDeck} saveEdit={saveDeckEdit} shareDeck={(deck) => setGiftDeck(deck)} receiveDeck={() => setGiftDeck(null)} toggleActive={toggleDeck} setSort={setLibrarySort} /> : page === "quests" ? <Quests experience={state.experience} /> : <Profile state={state} setDifficulty={setDifficulty} openTrustedSync={() => setTrustedSyncOpen(true)} />;
+  return <div className="app-shell">{body}{!study && <Nav page={page} setPage={setPage} />}{giftDeck !== undefined && <Suspense fallback={null}><DeckGiftDialog deck={giftDeck ?? undefined} customDecks={state.customDecks} onImport={importGift} onClose={() => setGiftDeck(undefined)} /></Suspense>}{trustedSyncOpen && <Suspense fallback={null}><TrustedSyncDialog state={state} onMerged={setState} onClose={() => setTrustedSyncOpen(false)} /></Suspense>}</div>;
 }

@@ -140,6 +140,23 @@ async function waitForBuffer(channel: RTCDataChannel) {
   await new Promise<void>((resolve) => channel.addEventListener("bufferedamountlow", () => resolve(), { once: true }));
 }
 
+export function waitForControl(channel: RTCDataChannel, kind: string, timeout = 15_000) {
+ return new Promise<void>((resolve, reject) => {
+   const timer = window.setTimeout(() => finish(new Error(`Timed out waiting for ${kind}`)), timeout);
+   const finish = (error?: Error) => { window.clearTimeout(timer); channel.removeEventListener("message", listener); if (error) reject(error); else resolve(); };
+   const listener = (event: MessageEvent<string>) => {
+     try {
+       const message = JSON.parse(event.data) as { protocol?: string; kind?: string };
+       if (message.protocol === "opus-control" && message.kind === kind) finish();
+     } catch { /* Not a control frame. */ }
+   };
+   channel.addEventListener("message", listener);
+ });
+}
+export async function sendControl(channel: RTCDataChannel, kind: string) {
+ await waitForDataChannel(channel);
+ channel.send(JSON.stringify({ protocol: "opus-control", kind }));
+}
 export async function sendChunkedJson(channel: RTCDataChannel, value: unknown) {
   await waitForDataChannel(channel);
   const payload = JSON.stringify(value);
