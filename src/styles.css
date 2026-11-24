@@ -128,7 +128,7 @@ main { position: relative; padding: 1.35rem 1.25rem; min-height: calc(100vh - 5.
 
 /* Review state, card rank, XP, and session Momentum */
 .card-status { position:absolute !important; top:1.1rem; right:1.25rem; color:var(--text-muted); font-size:.55rem; letter-spacing:.1em; text-transform:uppercase; }
-.status-unseen .card-face { border-style:dashed; border-color:var(--accent-soft); background:radial-gradient(circle at 50% 15%,var(--surface-highlight),var(--surface-deep) 72%); }
+.status-unseen .card-face { border-style:solid; border-color:var(--accent-soft); background:radial-gradient(circle at 50% 15%,var(--surface-highlight),var(--surface-deep) 72%); }
 .status-unseen .card-face::after { border-style:dashed; }
 .status-due .card-face { border-width:2px; border-color:var(--accent-dim); box-shadow:0 21px 25px var(--shadow),inset 0 0 0 4px var(--glow-soft),inset 0 0 0 6px var(--line-translucent),inset 0 0 65px var(--glow-soft); }
 .status-due .card-status { color:var(--accent-soft); }

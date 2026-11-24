@@ -116,6 +116,34 @@ function sigilTexture(svg: SVGSVGElement, onReady: () => void) {
   return texture;
 }
 
+function cardBackTexture(svg: SVGSVGElement, onReady: () => void) {
+  const canvas = document.createElement("canvas");
+  canvas.width = 512;
+  canvas.height = 720;
+  const context = canvas.getContext("2d")!;
+  const gradient = context.createRadialGradient(256, 190, 20, 256, 390, 430);
+  gradient.addColorStop(0, "#43264f"); gradient.addColorStop(1, "#130a23");
+  context.fillStyle = gradient; context.fillRect(0, 0, 512, 720);
+  context.strokeStyle = "#e99a7d"; context.lineWidth = 12; context.strokeRect(14, 14, 484, 692);
+  context.strokeStyle = "rgba(244,178,148,.72)"; context.lineWidth = 3; context.strokeRect(32, 32, 448, 656);
+  context.save(); context.translate(256, 198); context.rotate(Math.PI / 4); context.strokeRect(-124, -124, 248, 248); context.restore();
+  for (const [x, y] of [[54, 54], [458, 54], [54, 666], [458, 666]] as Array<[number, number]>) {
+    context.save(); context.translate(x, y); context.rotate(Math.PI / 4); context.strokeRect(-7, -7, 14, 14); context.restore();
+  }
+  const clone = svg.cloneNode(true) as SVGSVGElement;
+  clone.setAttribute("width", "180"); clone.setAttribute("height", "180");
+  clone.querySelectorAll("*").forEach((element) => {
+    element.setAttribute("fill", "none"); element.setAttribute("stroke", "#f4b294"); element.setAttribute("stroke-width", "2.4");
+    element.setAttribute("stroke-linecap", "round"); element.setAttribute("stroke-linejoin", "round");
+  });
+  const image = new Image();
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  image.onload = () => { context.drawImage(image, 176, 118, 160, 160); texture.needsUpdate = true; onReady(); };
+  image.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(new XMLSerializer().serializeToString(clone))}`;
+  return texture;
+}
+
 export function DeckBox3D({ deck, active, onStudy }: { deck: Deck; active: boolean; onStudy: () => void }) {
   const root = useRef<HTMLButtonElement>(null);
   const mount = useRef<HTMLSpanElement>(null);
@@ -123,6 +151,7 @@ export function DeckBox3D({ deck, active, onStudy }: { deck: Deck; active: boole
   const scene = useRef<THREE.Scene | null>(null);
   const camera = useRef<THREE.PerspectiveCamera | null>(null);
   const lid = useRef<THREE.Group | null>(null);
+  const cardStack = useRef<THREE.Group | null>(null);
   const rotation = useRef(0);
   const animation = useRef<number | null>(null);
   const [hovered, setHovered] = useState(false);
@@ -151,14 +180,20 @@ export function DeckBox3D({ deck, active, onStudy }: { deck: Deck; active: boole
     const bodyTexture = faceTexture(tint, "body", deck.description, active);
     const lidTexture = faceTexture(new THREE.Color(tint).offsetHSL(0, .03, .035).getStyle(), "lid", deck.name, active);
     const body = sharpBox(2.65, 2.45, 1.12, tint, bodyTexture); body.position.y = -.58; nextScene.add(body);
+    const sourceSvg = root.current.querySelector(".deck-box-texture-source svg") as SVGSVGElement;
+    const backTexture = cardBackTexture(sourceSvg, () => nextRenderer.render(nextScene, nextCamera));
+    const nextCardStack = new THREE.Group();
     for (let index = 0; index < 7; index += 1) {
-      const card = sharpBox(2.28, .045, .82, index % 2 ? "#e5b69f" : "#d9c6ba");
-      card.position.set(0, .69 + index * .052, -.02 - index * .01); card.rotation.z = (index - 3) * .004; nextScene.add(card);
+      const card = sharpBox(2.18, 3.02, .025, "#d9c6ba", backTexture);
+      card.position.set((index - 3) * .018, -.36, .18 - index * .038);
+      card.rotation.z = (index - 3) * .003;
+      nextCardStack.add(card);
     }
+    nextScene.add(nextCardStack);
+    cardStack.current = nextCardStack;
     const lidPivot = new THREE.Group();
     lidPivot.position.set(0, .65, -.56);
     const lidMesh = sharpBox(2.78, 1.38, 1.2, tint, lidTexture); lidMesh.position.set(0, .69, .6); lidPivot.add(lidMesh);
-    const sourceSvg = root.current.querySelector(".deck-box-texture-source svg") as SVGSVGElement;
     const medallionTexture = sigilTexture(sourceSvg, () => nextRenderer.render(nextScene, nextCamera));
     medallionTexture.center.set(.5, .5);
     medallionTexture.rotation = Math.PI / 2;
@@ -183,14 +218,14 @@ export function DeckBox3D({ deck, active, onStudy }: { deck: Deck; active: boole
     return () => {
       observer.disconnect(); if (animation.current) cancelAnimationFrame(animation.current);
       nextScene.traverse((object) => { if (object instanceof THREE.Mesh || object instanceof THREE.LineSegments) { object.geometry.dispose(); const materials = Array.isArray(object.material) ? object.material : [object.material]; [...new Set(materials)].forEach((material) => material.dispose()); } });
-      bodyTexture.dispose(); lidTexture.dispose(); medallionTexture.dispose(); nextRenderer.dispose(); nextRenderer.domElement.remove();
+      bodyTexture.dispose(); lidTexture.dispose(); backTexture.dispose(); medallionTexture.dispose(); nextRenderer.dispose(); nextRenderer.domElement.remove();
     };
   }, [active, deck.description, deck.name, deck.symbol]);
 
   useEffect(() => {
     const target = hovered ? -.72 : 0;
     if (animation.current) cancelAnimationFrame(animation.current);
-    const move = () => { rotation.current += (target - rotation.current) * .14; if (lid.current) lid.current.rotation.x = rotation.current; if (renderer.current && scene.current && camera.current) renderer.current.render(scene.current, camera.current); if (Math.abs(target - rotation.current) > .002) animation.current = requestAnimationFrame(move); };
+    const move = () => { rotation.current += (target - rotation.current) * .14; if (lid.current) lid.current.rotation.x = rotation.current; if (cardStack.current) cardStack.current.position.y = -rotation.current * .42; if (renderer.current && scene.current && camera.current) renderer.current.render(scene.current, camera.current); if (Math.abs(target - rotation.current) > .002) animation.current = requestAnimationFrame(move); };
     move(); return () => { if (animation.current) cancelAnimationFrame(animation.current); };
   }, [hovered]);
 
