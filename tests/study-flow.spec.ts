@@ -72,6 +72,17 @@ test("persists difficulty and active imported decks", async ({ page }, testInfo)
   await expect(page.getByRole("article", { name: "Tamil deck" })).toContainText("18 ready");
   await page.getByRole("button", { name: "Activate Norwegian deck" }).click();
   await expect(page.getByRole("button", { name: "Deactivate Norwegian deck" })).toHaveAttribute("aria-pressed", "true");
+  await expect(page.getByRole("article").first()).toHaveAttribute("aria-label", "Latin deck");
+  await expect(page.getByRole("article").nth(1)).toHaveAttribute("aria-label", "Norwegian deck");
+  await expect(page.getByRole("article").nth(2)).toHaveAttribute("aria-label", "Alchemy deck");
+  await page.getByRole("button", { name: "Reverse deck sorting" }).click();
+  await expect(page.getByRole("article").first()).toHaveAttribute("aria-label", "Norwegian deck");
+  await expect(page.getByRole("article").nth(1)).toHaveAttribute("aria-label", "Latin deck");
+  await expect(page.getByRole("article").nth(2)).toHaveAttribute("aria-label", "Tamil deck");
+  await page.getByLabel("Sort decks by").selectOption("size");
+  await expect(page.getByRole("article").first()).toHaveAttribute("aria-label", "Norwegian deck");
+  await expect(page.getByRole("article").nth(1)).toHaveAttribute("aria-label", "Latin deck");
+  await expect(page.getByRole("article").nth(2)).toHaveAttribute("aria-label", "Tamil deck");
   await expect(page.getByRole("button", { name: "Study Norwegian deck" })).toBeVisible({ timeout: 10_000 });
   await page.screenshot({ path: testInfo.outputPath("library.png"), fullPage: true });
   const norwegianBox = page.getByRole("button", { name: "Study Norwegian deck" });

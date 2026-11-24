@@ -14,6 +14,7 @@ export const defaultLearnerState = (): LearnerState => ({
   cards: {},
   decks: {},
   deckEdits: {},
+  librarySort: { field: "name", direction: "asc" },
 });
 
 function loadState(): LearnerState {
@@ -21,7 +22,7 @@ function loadState(): LearnerState {
     const value = localStorage.getItem(STORAGE_KEY);
     if (!value) return defaultLearnerState();
     const parsed = JSON.parse(value) as Partial<LearnerState> & { points?: number };
-    return { ...defaultLearnerState(), ...parsed, experience: parsed.experience ?? parsed.points ?? 0, cards: parsed.cards ?? {}, decks: parsed.decks ?? {}, deckEdits: parsed.deckEdits ?? {} };
+    return { ...defaultLearnerState(), ...parsed, experience: parsed.experience ?? parsed.points ?? 0, cards: parsed.cards ?? {}, decks: parsed.decks ?? {}, deckEdits: parsed.deckEdits ?? {}, librarySort: parsed.librarySort ?? { field: "name", direction: "asc" } };
   } catch {
     return defaultLearnerState();
   }

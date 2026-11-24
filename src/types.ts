@@ -1,6 +1,7 @@
 export type Rating = "again" | "hard" | "good" | "easy";
 export type CardStatus = "unseen" | "due" | "scheduled";
 export type DifficultyMode = "adventurer" | "scholar" | "adept";
+export type LibrarySort = { field: "name" | "size"; direction: "asc" | "desc" };
 export type DomainSymbolId = "language" | "nordic" | "life" | "chemistry" | "physics" | "mathematics" | "astronomy" | "medicine" | "computing" | "engineering" | "history" | "philosophy" | "arts";
 
 export type StudyCard = {
@@ -56,4 +57,5 @@ export type LearnerState = {
   cards: Record<string, CardProgress>;
   decks: Record<string, DeckProgress>;
   deckEdits: Record<string, DeckEdit>;
+  librarySort: LibrarySort;
 };

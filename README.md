@@ -7,8 +7,10 @@ An offline-first PWA prototype for esoteric study: Latin, Biology, and Alchemy.
 ```sh
 devenv shell
 npm install
-npm run dev
+devenv up
 ```
+
+Alternatively, run `npm run dev` directly. The development server uses the fixed address `http://127.0.0.1:5173`. Service workers are disabled and automatically unregistered in development so cached PWA assets cannot interfere with Vite’s HMR WebSocket.
 
 Build the production bundle with `npm run build`.
 

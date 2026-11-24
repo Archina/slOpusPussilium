@@ -12,7 +12,9 @@
 
   env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH = "${pkgs.chromium}/bin/chromium";
 
+  processes.web.exec = "npm run dev";
+
   enterShell = ''
-    echo "Opus Pusillium — run: npm install && npm run dev"
+    echo "Opus Pusillium — run: npm install && devenv up"
   '';
 }
