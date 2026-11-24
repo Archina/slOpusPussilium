@@ -49,6 +49,12 @@ Easy answers grant one Momentum. At the end of the initial hand, two Momentum ca
 
 Progress is intentionally browser-local in this phase. Clearing site data clears progress. A future release can add explicit JSON backup and restore.
 
+## LAN synchronization foundation
+
+The first synchronization layer is under development on `feature/lan-sync-foundation`. On startup the app creates a stable device identity and an immutable bootstrap checkpoint in IndexedDB. Reviews, session completion, deck edits, activation changes, and difficulty changes now append timestamped local events while the existing learner state remains the materialized UI view.
+
+The event foundation includes hybrid logical clocks, idempotent event-set merging, snapshot/event/device stores, and space reserved for transfers and conflicts. QR/WebRTC transport and passphrase-protected trusted-device pairing are specified in `docs/lan-sync-design.md` but are not connected yet.
+
 ## Notifications
 
 The current release deliberately does not claim to deliver background notifications: browsers cannot reliably schedule several local PWA notifications after an app is closed. Dependable multi-device/background reminders require a push-notification backend (and a user subscription), or a native wrapper. This interface is ready to become the preferences screen for that phase.

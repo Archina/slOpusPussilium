@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { initializeSyncFoundation } from "./sync/database";
 import type { LearnerState } from "./types";
 
 const STORAGE_KEY = "opus-pusillium:learner:v1";
@@ -31,5 +32,6 @@ function loadState(): LearnerState {
 export function useLearnerState() {
   const [state, setState] = useState<LearnerState>(loadState);
   useEffect(() => localStorage.setItem(STORAGE_KEY, JSON.stringify(state)), [state]);
+  useEffect(() => { void initializeSyncFoundation(state).catch((error) => console.warn("Sync foundation initialization failed", error)); }, []);
   return [state, setState] as const;
 }

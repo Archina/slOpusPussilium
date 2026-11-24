@@ -4,6 +4,7 @@ import { CardBackArtwork } from "./CardBackArtwork";
 import { Sigil, symbolCatalog } from "./Sigil";
 import { buildSession, cardKey, dueCount, experienceForReview, mastery, MOMENTUM_COST, rankForFailures, reviewCard } from "./scheduler";
 import { todayKey, useLearnerState } from "./storage";
+import { appendLocalEvent } from "./sync/database";
 import type { Deck, DeckEdit, DifficultyMode, LearnerState, LibrarySort, Rating, SessionCard, StudyCard } from "./types";
 
 const DeckBox3D = lazy(() => import("./DeckBox3D").then((module) => ({ default: module.DeckBox3D })));
@@ -196,6 +197,7 @@ export default function App() {
     return edit ? { ...deck, ...edit, questions: edit.questions ?? deck.questions } : deck;
   });
   const [study, setStudy] = useState<{ deck: Deck; cards: SessionCard[]; bonusCards: SessionCard[] } | null>(null);
+  const recordSyncEvent = (entity: Parameters<typeof appendLocalEvent>[0], operation: string, payload: unknown) => { void appendLocalEvent(entity, operation, payload).catch((error) => console.warn("Could not append sync event", error)); };
   const startDeck = (deck: Deck) => {
     const cards = buildSession(deck, state);
     const selectedIds = new Set(cards.map((card) => card.id));
@@ -207,25 +209,35 @@ export default function App() {
     const next = active.find((deck) => deckSettings(state, deck).sessionsCompleted < 2) ?? active[0];
     if (next) startDeck(next);
   };
-  const recordReview = (deck: Deck, card: SessionCard, rating: Rating, reducedXp: boolean) => setState((current) => {
-    const key = cardKey(deck.id, card.id);
-    const earned = experienceForReview(rating, card.rank, reducedXp);
-    return { ...current, experience: current.experience + earned, cards: { ...current.cards, [key]: reviewCard(current.cards[key], rating) } };
-  });
-  const completeSession = (deck: Deck) => setState((current) => {
+  const recordReview = (deck: Deck, card: SessionCard, rating: Rating, reducedXp: boolean) => {
+    recordSyncEvent({ kind: "review", id: crypto.randomUUID() }, "review.recorded", { deckId: deck.id, cardId: card.id, rating, reducedXp });
+    setState((current) => {
+      const key = cardKey(deck.id, card.id);
+      const earned = experienceForReview(rating, card.rank, reducedXp);
+      return { ...current, experience: current.experience + earned, cards: { ...current.cards, [key]: reviewCard(current.cards[key], rating) } };
+    });
+  };
+  const completeSession = (deck: Deck) => {
     const today = todayKey();
+    recordSyncEvent({ kind: "session", id: crypto.randomUUID() }, "session.completed", { deckId: deck.id, day: today });
+    setState((current) => {
     const yesterday = todayKey(new Date(Date.now() - 86_400_000));
     const previous = current.decks[deck.id];
     const sessionsCompleted = previous?.sessionDate === today ? Math.min(2, previous.sessionsCompleted + 1) : 1;
     const streak = current.lastStudyDate === today ? current.streak : current.lastStudyDate === yesterday ? current.streak + 1 : 1;
     return { ...current, streak, lastStudyDate: today, decks: { ...current.decks, [deck.id]: { active: previous?.active ?? deck.id === "latin", sessionDate: today, sessionsCompleted } } };
-  });
-  const setDifficulty = (difficulty: DifficultyMode) => setState((current) => ({ ...current, difficulty }));
-  const toggleDeck = (deck: Deck) => setState((current) => {
+    });
+  };
+  const setDifficulty = (difficulty: DifficultyMode) => { recordSyncEvent({ kind: "device", id: "preferences" }, "preference.changed", { field: "difficulty", value: difficulty }); setState((current) => ({ ...current, difficulty })); };
+  const toggleDeck = (deck: Deck) => {
+    const nextActive = !deckSettings(state, deck).active;
+    recordSyncEvent({ kind: "deck", id: deck.id }, "deck.activationChanged", { active: nextActive });
+    setState((current) => {
     const settings = deckSettings(current, deck);
-    return { ...current, decks: { ...current.decks, [deck.id]: { active: !settings.active, sessionDate: todayKey(), sessionsCompleted: settings.sessionsCompleted } } };
-  });
-  const saveDeckEdit = (deck: Deck, edit: DeckEdit) => setState((current) => ({ ...current, deckEdits: { ...current.deckEdits, [deck.id]: edit } }));
+    return { ...current, decks: { ...current.decks, [deck.id]: { active: nextActive, sessionDate: todayKey(), sessionsCompleted: settings.sessionsCompleted } } };
+    });
+  };
+  const saveDeckEdit = (deck: Deck, edit: DeckEdit) => { recordSyncEvent({ kind: "deck", id: deck.id }, "deck.edited", edit); setState((current) => ({ ...current, deckEdits: { ...current.deckEdits, [deck.id]: edit } })); };
   const setLibrarySort = (librarySort: LibrarySort) => setState((current) => ({ ...current, librarySort }));
   const body = study ? <Study deck={study.deck} sessionCards={study.cards} bonusCards={study.bonusCards} difficulty={state.difficulty} close={() => { setStudy(null); setPage("decks"); }} onReview={(card, rating, reduced) => recordReview(study.deck, card, rating, reduced)} onSessionComplete={() => completeSession(study.deck)} /> : page === "home" ? <Home state={state} deckList={deckList} start={startNext} /> : page === "decks" ? <Decks state={state} deckList={deckList} open={startDeck} saveEdit={saveDeckEdit} toggleActive={toggleDeck} setSort={setLibrarySort} /> : page === "quests" ? <Quests experience={state.experience} /> : <Profile state={state} setDifficulty={setDifficulty} />;
   return <div className="app-shell">{body}{!study && <Nav page={page} setPage={setPage} />}</div>;
