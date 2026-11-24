@@ -1,0 +1,2576 @@
+{
+  "norwegian": [
+    {
+      "id": "vocab_norwegian2english_e787ede7-1746-4713-81ad-334254d8ac5b",
+      "prompt": "en reke",
+      "answer": "a shrimp"
+    },
+    {
+      "id": "vocab_norwegian2english_f64b3799-8f2c-4a85-8f7c-ad0d7a992231",
+      "prompt": "en skapning",
+      "answer": "a creature"
+    },
+    {
+      "id": "vocab_norwegian2english_bf3be58a-da77-42d9-bec3-a5004816fdf8",
+      "prompt": "å skape",
+      "answer": "to create"
+    },
+    {
+      "id": "vocab_norwegian2english_2ca93a3d-0cb9-41df-9c64-ad5ed86f2fed",
+      "prompt": "å lage",
+      "answer": "to make"
+    },
+    {
+      "id": "vocab_norwegian2english_579491fa-3e0c-49c2-9aa4-5bf6167f7573",
+      "prompt": "å kaste",
+      "answer": "to cast"
+    },
+    {
+      "id": "vocab_norwegian2english_2561b67c-2a7f-47d2-9ddd-b99922156fc3",
+      "prompt": "en trolldom",
+      "answer": "a sorcery"
+    },
+    {
+      "id": "vocab_norwegian2english_dea8db61-e1fa-46d8-af25-70732ff7123d",
+      "prompt": "å trekke",
+      "answer": "to draw (a card)"
+    },
+    {
+      "id": "vocab_norwegian2english_cfb160ef-3e07-4223-b410-8cb726ceb938",
+      "prompt": "et kort",
+      "answer": "a card"
+    },
+    {
+      "id": "vocab_norwegian2english_2971c1fa-88de-415e-934a-1af4e82517e8",
+      "prompt": "døds-",
+      "answer": "death-"
+    },
+    {
+      "id": "vocab_norwegian2english_05a05b47-a7e9-426d-b6d9-ae0fb13f47f5",
+      "prompt": "rør",
+      "answer": "touch"
+    },
+    {
+      "id": "vocab_norwegian2english_7bb91d20-77aa-44f9-bea9-fc624a446c37",
+      "prompt": "dødelig",
+      "answer": "lethal"
+    },
+    {
+      "id": "vocab_norwegian2english_d1a8fab4-62c6-4611-b9c2-0b263d0c396b",
+      "prompt": "gravid",
+      "answer": "pregnant"
+    },
+    {
+      "id": "vocab_norwegian2english_1acda074-067f-4d3f-9d12-8750515156a5",
+      "prompt": "kåt",
+      "answer": "horny"
+    },
+    {
+      "id": "vocab_norwegian2english_90a9022e-c9cd-4438-9160-eea9ef0b048a",
+      "prompt": "våt",
+      "answer": "wet"
+    },
+    {
+      "id": "vocab_norwegian2english_b82e29e1-d78c-4f40-bea6-cc40ccf14a25",
+      "prompt": "fuktig",
+      "answer": "damp"
+    },
+    {
+      "id": "vocab_norwegian2english_a1e4f417-7b1e-4cbb-a4a0-3fb0b830e255",
+      "prompt": "alltid",
+      "answer": "always"
+    },
+    {
+      "id": "vocab_norwegian2english_db1cf7d8-be95-4e1b-b05e-9ed02e054822",
+      "prompt": "webutvikler",
+      "answer": "web developer"
+    },
+    {
+      "id": "vocab_norwegian2english_4919cfbe-6411-49fe-83f5-f5f342f53995",
+      "prompt": "å kjøpe",
+      "answer": "to buy"
+    },
+    {
+      "id": "vocab_norwegian2english_887bd69d-d89a-49a8-b0d7-261a125577ff",
+      "prompt": "av og til",
+      "answer": "sometimes"
+    },
+    {
+      "id": "vocab_norwegian2english_77d28d05-d642-44e9-9675-fdabcf71e9a9",
+      "prompt": "en brystvorte",
+      "answer": "a nipple"
+    },
+    {
+      "id": "vocab_norwegian2english_e5d044bc-cc77-4b8a-aa23-fe41d12ecd17",
+      "prompt": "et bryst",
+      "answer": "a breast"
+    },
+    {
+      "id": "vocab_norwegian2english_1d4e4238-f22d-42ca-a2a0-d5e06f898b54",
+      "prompt": "søt tann",
+      "answer": "sweettooth"
+    },
+    {
+      "id": "vocab_norwegian2english_41807b42-e805-47e5-acbf-ea9859751c94",
+      "prompt": "honningen",
+      "answer": "the honey"
+    },
+    {
+      "id": "vocab_norwegian2english_750d339a-e1ff-465c-9810-09e9c9bc6497",
+      "prompt": "en bie",
+      "answer": "a bee"
+    },
+    {
+      "id": "vocab_norwegian2english_a1e1ba91-a4f3-48c0-9d3a-92243c795575",
+      "prompt": "en forskjell",
+      "answer": "a difference"
+    },
+    {
+      "id": "vocab_norwegian2english_bd36bfbc-1668-43d2-9efc-878812b9d1d7",
+      "prompt": "en ljå",
+      "answer": "a scythe"
+    },
+    {
+      "id": "vocab_english2norwegian_e787ede7-1746-4713-81ad-334254d8ac5b",
+      "prompt": "a shrimp",
+      "answer": "en reke"
+    },
+    {
+      "id": "vocab_english2norwegian_f64b3799-8f2c-4a85-8f7c-ad0d7a992231",
+      "prompt": "a creature",
+      "answer": "en skapning"
+    },
+    {
+      "id": "vocab_english2norwegian_bf3be58a-da77-42d9-bec3-a5004816fdf8",
+      "prompt": "to create",
+      "answer": "å skape"
+    },
+    {
+      "id": "vocab_english2norwegian_2ca93a3d-0cb9-41df-9c64-ad5ed86f2fed",
+      "prompt": "to make",
+      "answer": "å lage"
+    },
+    {
+      "id": "vocab_english2norwegian_579491fa-3e0c-49c2-9aa4-5bf6167f7573",
+      "prompt": "to cast",
+      "answer": "å kaste"
+    },
+    {
+      "id": "vocab_english2norwegian_2561b67c-2a7f-47d2-9ddd-b99922156fc3",
+      "prompt": "a sorcery",
+      "answer": "en trolldom"
+    },
+    {
+      "id": "vocab_english2norwegian_dea8db61-e1fa-46d8-af25-70732ff7123d",
+      "prompt": "to draw (a card)",
+      "answer": "å trekke"
+    },
+    {
+      "id": "vocab_english2norwegian_cfb160ef-3e07-4223-b410-8cb726ceb938",
+      "prompt": "a card",
+      "answer": "et kort"
+    },
+    {
+      "id": "vocab_english2norwegian_2971c1fa-88de-415e-934a-1af4e82517e8",
+      "prompt": "death-",
+      "answer": "døds-"
+    },
+    {
+      "id": "vocab_english2norwegian_05a05b47-a7e9-426d-b6d9-ae0fb13f47f5",
+      "prompt": "touch",
+      "answer": "rør"
+    },
+    {
+      "id": "vocab_english2norwegian_7bb91d20-77aa-44f9-bea9-fc624a446c37",
+      "prompt": "lethal",
+      "answer": "dødelig"
+    },
+    {
+      "id": "vocab_english2norwegian_d1a8fab4-62c6-4611-b9c2-0b263d0c396b",
+      "prompt": "pregnant",
+      "answer": "gravid"
+    },
+    {
+      "id": "vocab_english2norwegian_1acda074-067f-4d3f-9d12-8750515156a5",
+      "prompt": "horny",
+      "answer": "kåt"
+    },
+    {
+      "id": "vocab_english2norwegian_90a9022e-c9cd-4438-9160-eea9ef0b048a",
+      "prompt": "wet",
+      "answer": "våt"
+    },
+    {
+      "id": "vocab_english2norwegian_b82e29e1-d78c-4f40-bea6-cc40ccf14a25",
+      "prompt": "damp",
+      "answer": "fuktig"
+    },
+    {
+      "id": "vocab_english2norwegian_a1e4f417-7b1e-4cbb-a4a0-3fb0b830e255",
+      "prompt": "always",
+      "answer": "alltid"
+    },
+    {
+      "id": "vocab_english2norwegian_db1cf7d8-be95-4e1b-b05e-9ed02e054822",
+      "prompt": "web developer",
+      "answer": "webutvikler"
+    },
+    {
+      "id": "vocab_english2norwegian_4919cfbe-6411-49fe-83f5-f5f342f53995",
+      "prompt": "to buy",
+      "answer": "å kjøpe"
+    },
+    {
+      "id": "vocab_english2norwegian_887bd69d-d89a-49a8-b0d7-261a125577ff",
+      "prompt": "sometimes",
+      "answer": "av og til"
+    },
+    {
+      "id": "vocab_english2norwegian_77d28d05-d642-44e9-9675-fdabcf71e9a9",
+      "prompt": "a nipple",
+      "answer": "en brystvorte"
+    },
+    {
+      "id": "vocab_english2norwegian_e5d044bc-cc77-4b8a-aa23-fe41d12ecd17",
+      "prompt": "a breast",
+      "answer": "et bryst"
+    },
+    {
+      "id": "vocab_english2norwegian_1d4e4238-f22d-42ca-a2a0-d5e06f898b54",
+      "prompt": "sweettooth",
+      "answer": "søt tann"
+    },
+    {
+      "id": "vocab_english2norwegian_41807b42-e805-47e5-acbf-ea9859751c94",
+      "prompt": "the honey",
+      "answer": "honningen"
+    },
+    {
+      "id": "vocab_english2norwegian_750d339a-e1ff-465c-9810-09e9c9bc6497",
+      "prompt": "a bee",
+      "answer": "en bie"
+    },
+    {
+      "id": "vocab_english2norwegian_a1e1ba91-a4f3-48c0-9d3a-92243c795575",
+      "prompt": "a difference",
+      "answer": "en forskjell"
+    },
+    {
+      "id": "vocab_english2norwegian_bd36bfbc-1668-43d2-9efc-878812b9d1d7",
+      "prompt": "a scythe",
+      "answer": "en ljå"
+    },
+    {
+      "id": "vocab_norwegian2english_559c9e21-860f-4542-8a78-a260964e9a47",
+      "prompt": "å snakke",
+      "answer": "to speak"
+    },
+    {
+      "id": "vocab_norwegian2english_20daf234-2293-4b3d-aed0-3ef1403ce234",
+      "prompt": "hun",
+      "answer": "she"
+    },
+    {
+      "id": "vocab_norwegian2english_5394f278-472c-4a32-bc71-1dd94c74d118",
+      "prompt": "han",
+      "answer": "he"
+    },
+    {
+      "id": "vocab_norwegian2english_00a7fde5-9368-4902-ab66-fb466498acd0",
+      "prompt": "en hest",
+      "answer": "a horse"
+    },
+    {
+      "id": "vocab_norwegian2english_ce3afd60-6ca8-48b2-89d8-92c75c31a311",
+      "prompt": "en ost",
+      "answer": "a cheese"
+    },
+    {
+      "id": "vocab_norwegian2english_fdd4e413-1d94-41fe-b564-91eb23ee6105",
+      "prompt": "hebraisk",
+      "answer": "Hebrew"
+    },
+    {
+      "id": "vocab_norwegian2english_7510dc7e-ce05-4041-abb5-a0bf7a340bfe",
+      "prompt": "å komme fra",
+      "answer": "to come from"
+    },
+    {
+      "id": "vocab_norwegian2english_3ed46e84-37f6-4dbd-a886-97137b7116eb",
+      "prompt": "en kusin",
+      "answer": "a cousin"
+    },
+    {
+      "id": "vocab_norwegian2english_fcef11df-01f4-4c4f-abb5-07a6347a1527",
+      "prompt": "å reise til",
+      "answer": "to travel to"
+    },
+    {
+      "id": "vocab_norwegian2english_05617eed-a219-4740-b569-75cbe1cd0fe8",
+      "prompt": "alene",
+      "answer": "alone"
+    },
+    {
+      "id": "vocab_norwegian2english_f04b36d8-7b68-434d-9810-777ffb1aea60",
+      "prompt": "Russland",
+      "answer": "russia"
+    },
+    {
+      "id": "vocab_norwegian2english_8985e673-2aa0-4564-ac01-d98c7689868a",
+      "prompt": "en nordmann",
+      "answer": "a norwegian"
+    },
+    {
+      "id": "vocab_norwegian2english_0e93614d-f5b9-4c4b-909a-890ed09846cc",
+      "prompt": "et hus",
+      "answer": "a house"
+    },
+    {
+      "id": "vocab_norwegian2english_0b63ecf2-455b-4f18-b844-cd8ee2189bfb",
+      "prompt": "mange",
+      "answer": "many"
+    },
+    {
+      "id": "vocab_norwegian2english_72514dfd-330c-4c80-9a62-57983e001d69",
+      "prompt": "land",
+      "answer": "countries"
+    },
+    {
+      "id": "vocab_norwegian2english_91385e2e-9fa4-4043-9ec0-02dc0f166710",
+      "prompt": "å grense",
+      "answer": "to border"
+    },
+    {
+      "id": "vocab_norwegian2english_2d972d65-7819-42fe-b96c-5dd26c5a8f45",
+      "prompt": "å har på seg",
+      "answer": "to wear"
+    },
+    {
+      "id": "vocab_norwegian2english_3d2074a6-4e48-4ce1-b703-5936ec14a75e",
+      "prompt": "et bær",
+      "answer": "a berry"
+    },
+    {
+      "id": "vocab_norwegian2english_823108a7-0879-4440-9d27-2f0101c70841",
+      "prompt": "å spise",
+      "answer": "to eat"
+    },
+    {
+      "id": "vocab_norwegian2english_cd51bdbd-ab3d-48da-9880-af2acabf2f37",
+      "prompt": "selv",
+      "answer": "even"
+    },
+    {
+      "id": "vocab_norwegian2english_efd03871-8834-473d-9213-db8fdc8cb59a",
+      "prompt": "en elefant",
+      "answer": "an elephant"
+    },
+    {
+      "id": "vocab_norwegian2english_2a77f5f1-cfcf-4f9f-98d0-0c68ba92b59f",
+      "prompt": "å frykte",
+      "answer": "to be afraid of"
+    },
+    {
+      "id": "vocab_norwegian2english_c74fcebb-425b-4925-bb04-43035ca84c04",
+      "prompt": "et bløtdyr",
+      "answer": "a mollusc"
+    },
+    {
+      "id": "vocab_norwegian2english_0bb01174-1b32-4fbf-a725-a7cd10625069",
+      "prompt": "eller",
+      "answer": "or"
+    },
+    {
+      "id": "vocab_norwegian2english_1052b1e8-8486-492a-b150-c4bcd6d77312",
+      "prompt": "en rekke",
+      "answer": "a number of"
+    },
+    {
+      "id": "vocab_norwegian2english_b4a458b6-0ab5-4c5d-99e8-65388a4838ed",
+      "prompt": "høyst",
+      "answer": "at most"
+    },
+    {
+      "id": "vocab_norwegian2english_92399488-51c1-466a-a49c-87f4ee195057",
+      "prompt": "omfatter",
+      "answer": "includes/comprises"
+    },
+    {
+      "id": "vocab_norwegian2english_12c4d979-2e87-497a-b31b-5478486d09c9",
+      "prompt": "et blekk",
+      "answer": "an ink"
+    },
+    {
+      "id": "vocab_norwegian2english_44f09b49-c261-4c95-ba46-8a09d20830ef",
+      "prompt": "en blekksprut",
+      "answer": "a squid"
+    },
+    {
+      "id": "vocab_norwegian2english_81bf41bd-d3f3-4871-85c4-4834587b3051",
+      "prompt": "en fyllepenn",
+      "answer": "a fountain pen"
+    },
+    {
+      "id": "vocab_norwegian2english_56c0e8f2-16f1-4683-8d73-606fc3af5cf5",
+      "prompt": "kjærest-",
+      "answer": "dearest-"
+    },
+    {
+      "id": "vocab_norwegian2english_adc50a98-38c1-49ed-a8a1-cbb0bfac2ecd",
+      "prompt": "fri",
+      "answer": "free"
+    },
+    {
+      "id": "vocab_norwegian2english_b9c0023a-bf48-41f5-aa2b-afcc788d67d6",
+      "prompt": "allerede",
+      "answer": "already"
+    },
+    {
+      "id": "vocab_norwegian2english_a63fd494-6f8d-4c3e-8d4c-e6c03dd0d343",
+      "prompt": "å vaske",
+      "answer": "to wash"
+    },
+    {
+      "id": "vocab_norwegian2english_53344db1-2ce0-447b-a325-4bc309fbf329",
+      "prompt": "å kysse",
+      "answer": "to kiss"
+    },
+    {
+      "id": "vocab_norwegian2english_3ac98396-71b2-4216-9d9c-16551c73b833",
+      "prompt": "en sekk",
+      "answer": "a backpack/a sack"
+    },
+    {
+      "id": "vocab_norwegian2english_7398456a-165d-4c22-8ee3-db66ed149761",
+      "prompt": "å sjekke",
+      "answer": "to check"
+    },
+    {
+      "id": "vocab_norwegian2english_fca99b56-4ef5-415c-b6c0-fe74f90cd7c2",
+      "prompt": "sjuke",
+      "answer": "sick"
+    },
+    {
+      "id": "vocab_norwegian2english_7de95b70-3a49-4b8f-9e0f-7db5371bbefd",
+      "prompt": "et folk",
+      "answer": "people"
+    },
+    {
+      "id": "vocab_norwegian2english_bf79b624-5398-419f-8ba5-441410010833",
+      "prompt": "en alder",
+      "answer": "an age"
+    },
+    {
+      "id": "vocab_norwegian2english_56ce2a94-a4cc-4cd9-b919-10fb75e64116",
+      "prompt": "et år",
+      "answer": "a year"
+    },
+    {
+      "id": "vocab_norwegian2english_f50dd29c-2a54-4e7f-9113-e638f9fd042c",
+      "prompt": "å se",
+      "answer": "to see"
+    },
+    {
+      "id": "vocab_norwegian2english_2465645c-a00c-4540-8152-f9ba1e89c70a",
+      "prompt": "en gruppe",
+      "answer": "a group"
+    },
+    {
+      "id": "vocab_norwegian2english_fd6c6b8d-8f0d-4397-bea9-6573a5c8de21",
+      "prompt": "frisk",
+      "answer": "healthy"
+    },
+    {
+      "id": "vocab_norwegian2english_d1ec548c-eb0b-42c3-b1b9-eb3f97a9dfe6",
+      "prompt": "å sjukemelde",
+      "answer": "to call sick"
+    },
+    {
+      "id": "vocab_norwegian2english_cda36bd3-8e55-4a02-8f7b-4e33ac42c969",
+      "prompt": "hissig",
+      "answer": "heat/tension"
+    },
+    {
+      "id": "vocab_english2norwegian_7398456a-165d-4c22-8ee3-db66ed149761",
+      "prompt": "to check",
+      "answer": "å sjekke"
+    },
+    {
+      "id": "vocab_english2norwegian_fca99b56-4ef5-415c-b6c0-fe74f90cd7c2",
+      "prompt": "sick",
+      "answer": "sjuke"
+    },
+    {
+      "id": "vocab_english2norwegian_7de95b70-3a49-4b8f-9e0f-7db5371bbefd",
+      "prompt": "people",
+      "answer": "et folk"
+    },
+    {
+      "id": "vocab_english2norwegian_bf79b624-5398-419f-8ba5-441410010833",
+      "prompt": "an age",
+      "answer": "en alder"
+    },
+    {
+      "id": "vocab_english2norwegian_56ce2a94-a4cc-4cd9-b919-10fb75e64116",
+      "prompt": "a year",
+      "answer": "et år"
+    },
+    {
+      "id": "vocab_english2norwegian_f50dd29c-2a54-4e7f-9113-e638f9fd042c",
+      "prompt": "to see",
+      "answer": "å se"
+    },
+    {
+      "id": "vocab_english2norwegian_2465645c-a00c-4540-8152-f9ba1e89c70a",
+      "prompt": "a group",
+      "answer": "en gruppe"
+    },
+    {
+      "id": "vocab_english2norwegian_fd6c6b8d-8f0d-4397-bea9-6573a5c8de21",
+      "prompt": "healthy",
+      "answer": "frisk"
+    },
+    {
+      "id": "vocab_english2norwegian_d1ec548c-eb0b-42c3-b1b9-eb3f97a9dfe6",
+      "prompt": "to call sick",
+      "answer": "å sjukemelde"
+    },
+    {
+      "id": "vocab_english2norwegian_cda36bd3-8e55-4a02-8f7b-4e33ac42c969",
+      "prompt": "heat/tension",
+      "answer": "hissig"
+    },
+    {
+      "id": "vocab_english2norwegian_2f65b289-9054-4ec6-b79e-a3831aa46725",
+      "prompt": "fresh",
+      "answer": "fresk"
+    },
+    {
+      "id": "vocab_english2norwegian_6bc9602c-72b0-4fe2-bb4b-1f814d744a27",
+      "prompt": "iron",
+      "answer": "jern"
+    },
+    {
+      "id": "vocab_english2norwegian_07e73506-ee09-4f78-83ff-b19425b61c55",
+      "prompt": "copper",
+      "answer": "kopper"
+    },
+    {
+      "id": "vocab_english2norwegian_4acdd66d-cd1a-4528-a0ae-c63a500be3ae",
+      "prompt": "gold",
+      "answer": "gull"
+    },
+    {
+      "id": "vocab_english2norwegian_db33d024-37f1-497f-abed-82f96b42ce1b",
+      "prompt": "a diamond",
+      "answer": "en diamant"
+    },
+    {
+      "id": "vocab_english2norwegian_c6cb5ab4-d1df-4c91-b8ab-e4e0365d9c5f",
+      "prompt": "a crab",
+      "answer": "en krabbe"
+    },
+    {
+      "id": "vocab_english2norwegian_51bb8d17-a01e-4393-ac83-68a37eef4a9d",
+      "prompt": "a pick",
+      "answer": "en hakke"
+    },
+    {
+      "id": "vocab_english2norwegian_1f582a49-bfc8-4cd8-a5b3-0210b4eec5c2",
+      "prompt": "a 3D model",
+      "answer": "en 3D-modell"
+    },
+    {
+      "id": "vocab_english2norwegian_23abce5b-b8b0-4797-9fc7-6904a764f827",
+      "prompt": "good luck",
+      "answer": "hell og lykke"
+    },
+    {
+      "id": "vocab_english2norwegian_fa0c8c20-34d3-4cf2-b42b-9b4ab763768c",
+      "prompt": "save and exit",
+      "answer": "lagre og avslutt"
+    },
+    {
+      "id": "vocab_english2norwegian_bc013268-80be-4d13-98e5-4fcd3ec05bcf",
+      "prompt": "to crush",
+      "answer": "å knuse"
+    },
+    {
+      "id": "vocab_english2norwegian_16ceb7fe-db44-4891-93c2-ecc162257b48",
+      "prompt": "chaos",
+      "answer": "kaos"
+    },
+    {
+      "id": "vocab_english2norwegian_a71105eb-f40e-4807-9ef9-d3d0bf790665",
+      "prompt": "become",
+      "answer": "bli"
+    },
+    {
+      "id": "vocab_english2norwegian_907ea15c-55f0-4f4a-9f5d-c03b1a275f4f",
+      "prompt": "fun",
+      "answer": "gøy"
+    },
+    {
+      "id": "vocab_english2norwegian_8cba017e-2192-4dca-9214-769d68bee3f4",
+      "prompt": "to miss",
+      "answer": "å savne"
+    },
+    {
+      "id": "vocab_english2norwegian_93c4809c-fd78-4d7a-ae07-a1528ba444ac",
+      "prompt": "a weekend",
+      "answer": "en helg"
+    },
+    {
+      "id": "vocab_english2norwegian_55f354b4-0b34-4d33-934a-82772eddd803",
+      "prompt": "to receive",
+      "answer": "å motta"
+    },
+    {
+      "id": "vocab_english2norwegian_71b5b82f-55c3-448a-a3a1-d7b6809d25f2",
+      "prompt": "to play",
+      "answer": "å spille"
+    },
+    {
+      "id": "vocab_english2norwegian_fa8bb7a4-4585-485c-9303-93f1b125386f",
+      "prompt": "sound",
+      "answer": "lyd"
+    },
+    {
+      "id": "vocab_english2norwegian_3bcbf5ce-ebb0-4b6f-b191-076fe92afd43",
+      "prompt": "developer",
+      "answer": "utvikler"
+    },
+    {
+      "id": "vocab_english2norwegian_dec6efd9-7072-4b02-b525-a6570b4fc3b1",
+      "prompt": "to hide",
+      "answer": "å skjule"
+    },
+    {
+      "id": "vocab_english2norwegian_25243f04-f9bd-4802-8454-88f960228768",
+      "prompt": "a curse",
+      "answer": "en forbannelse"
+    },
+    {
+      "id": "vocab_english2norwegian_3be774e3-acba-45e5-9b83-c55f066cfe26",
+      "prompt": "a troll",
+      "answer": "en troll"
+    },
+    {
+      "id": "vocab_english2norwegian_b833772d-e6ea-4ce2-bdbf-e7e8c1ee798b",
+      "prompt": "a spider",
+      "answer": "en edderkopp"
+    },
+    {
+      "id": "vocab_english2norwegian_36cfaafd-fbc8-4fb7-a794-507a2793ab26",
+      "prompt": "a wasp",
+      "answer": "en veps"
+    },
+    {
+      "id": "vocab_english2norwegian_b4e8cc55-932d-4616-9de5-53059d2ed72b",
+      "prompt": "a fly",
+      "answer": "en flue"
+    },
+    {
+      "id": "vocab_english2norwegian_7c45aed7-29d6-437d-a251-ce286dd981cc",
+      "prompt": "a pig",
+      "answer": "en gris"
+    },
+    {
+      "id": "vocab_english2norwegian_79502aaf-2362-4ea3-9940-8e95df260798",
+      "prompt": "a sheep",
+      "answer": "en sau"
+    },
+    {
+      "id": "vocab_english2norwegian_7111d571-9612-4ea9-8424-13a853e74359",
+      "prompt": "a head",
+      "answer": "et hode"
+    },
+    {
+      "id": "vocab_english2norwegian_88db8816-4d16-4337-baed-872b2b8a731f",
+      "prompt": "to refuse",
+      "answer": "å nekte"
+    },
+    {
+      "id": "vocab_english2norwegian_31d97fbc-636e-4a0f-ae80-358d4f83935d",
+      "prompt": "a world",
+      "answer": "en verden"
+    },
+    {
+      "id": "vocab_norwegian2english_2f65b289-9054-4ec6-b79e-a3831aa46725",
+      "prompt": "fresk",
+      "answer": "fresh"
+    },
+    {
+      "id": "vocab_norwegian2english_6bc9602c-72b0-4fe2-bb4b-1f814d744a27",
+      "prompt": "jern",
+      "answer": "iron"
+    },
+    {
+      "id": "vocab_norwegian2english_07e73506-ee09-4f78-83ff-b19425b61c55",
+      "prompt": "kopper",
+      "answer": "copper"
+    },
+    {
+      "id": "vocab_norwegian2english_4acdd66d-cd1a-4528-a0ae-c63a500be3ae",
+      "prompt": "gull",
+      "answer": "gold"
+    },
+    {
+      "id": "vocab_norwegian2english_db33d024-37f1-497f-abed-82f96b42ce1b",
+      "prompt": "en diamant",
+      "answer": "a diamond"
+    },
+    {
+      "id": "vocab_norwegian2english_c6cb5ab4-d1df-4c91-b8ab-e4e0365d9c5f",
+      "prompt": "en krabbe",
+      "answer": "a crab"
+    },
+    {
+      "id": "vocab_norwegian2english_51bb8d17-a01e-4393-ac83-68a37eef4a9d",
+      "prompt": "en hakke",
+      "answer": "a pick"
+    },
+    {
+      "id": "vocab_norwegian2english_1f582a49-bfc8-4cd8-a5b3-0210b4eec5c2",
+      "prompt": "en 3D-modell",
+      "answer": "a 3D model"
+    },
+    {
+      "id": "vocab_norwegian2english_23abce5b-b8b0-4797-9fc7-6904a764f827",
+      "prompt": "hell og lykke",
+      "answer": "good luck"
+    },
+    {
+      "id": "vocab_norwegian2english_fa0c8c20-34d3-4cf2-b42b-9b4ab763768c",
+      "prompt": "lagre og avslutt",
+      "answer": "save and exit"
+    },
+    {
+      "id": "vocab_norwegian2english_bc013268-80be-4d13-98e5-4fcd3ec05bcf",
+      "prompt": "å knuse",
+      "answer": "to crush"
+    },
+    {
+      "id": "vocab_norwegian2english_16ceb7fe-db44-4891-93c2-ecc162257b48",
+      "prompt": "kaos",
+      "answer": "chaos"
+    },
+    {
+      "id": "vocab_norwegian2english_a71105eb-f40e-4807-9ef9-d3d0bf790665",
+      "prompt": "bli",
+      "answer": "become"
+    },
+    {
+      "id": "vocab_norwegian2english_907ea15c-55f0-4f4a-9f5d-c03b1a275f4f",
+      "prompt": "gøy",
+      "answer": "fun"
+    },
+    {
+      "id": "vocab_norwegian2english_8cba017e-2192-4dca-9214-769d68bee3f4",
+      "prompt": "å savne",
+      "answer": "to miss"
+    },
+    {
+      "id": "vocab_norwegian2english_93c4809c-fd78-4d7a-ae07-a1528ba444ac",
+      "prompt": "en helg",
+      "answer": "a weekend"
+    },
+    {
+      "id": "vocab_norwegian2english_55f354b4-0b34-4d33-934a-82772eddd803",
+      "prompt": "å motta",
+      "answer": "to receive"
+    },
+    {
+      "id": "vocab_norwegian2english_71b5b82f-55c3-448a-a3a1-d7b6809d25f2",
+      "prompt": "å spille",
+      "answer": "to play"
+    },
+    {
+      "id": "vocab_norwegian2english_fa8bb7a4-4585-485c-9303-93f1b125386f",
+      "prompt": "lyd",
+      "answer": "sound"
+    },
+    {
+      "id": "vocab_norwegian2english_3bcbf5ce-ebb0-4b6f-b191-076fe92afd43",
+      "prompt": "utvikler",
+      "answer": "developer"
+    },
+    {
+      "id": "vocab_norwegian2english_dec6efd9-7072-4b02-b525-a6570b4fc3b1",
+      "prompt": "å skjule",
+      "answer": "to hide"
+    },
+    {
+      "id": "vocab_norwegian2english_25243f04-f9bd-4802-8454-88f960228768",
+      "prompt": "en forbannelse",
+      "answer": "a curse"
+    },
+    {
+      "id": "vocab_norwegian2english_3be774e3-acba-45e5-9b83-c55f066cfe26",
+      "prompt": "en troll",
+      "answer": "a troll"
+    },
+    {
+      "id": "vocab_norwegian2english_b833772d-e6ea-4ce2-bdbf-e7e8c1ee798b",
+      "prompt": "en edderkopp",
+      "answer": "a spider"
+    },
+    {
+      "id": "vocab_norwegian2english_36cfaafd-fbc8-4fb7-a794-507a2793ab26",
+      "prompt": "en veps",
+      "answer": "a wasp"
+    },
+    {
+      "id": "vocab_norwegian2english_b4e8cc55-932d-4616-9de5-53059d2ed72b",
+      "prompt": "en flue",
+      "answer": "a fly"
+    },
+    {
+      "id": "vocab_norwegian2english_7c45aed7-29d6-437d-a251-ce286dd981cc",
+      "prompt": "en gris",
+      "answer": "a pig"
+    },
+    {
+      "id": "vocab_norwegian2english_79502aaf-2362-4ea3-9940-8e95df260798",
+      "prompt": "en sau",
+      "answer": "a sheep"
+    },
+    {
+      "id": "vocab_norwegian2english_7111d571-9612-4ea9-8424-13a853e74359",
+      "prompt": "et hode",
+      "answer": "a head"
+    },
+    {
+      "id": "vocab_norwegian2english_88db8816-4d16-4337-baed-872b2b8a731f",
+      "prompt": "å nekte",
+      "answer": "to refuse"
+    },
+    {
+      "id": "vocab_norwegian2english_31d97fbc-636e-4a0f-ae80-358d4f83935d",
+      "prompt": "en verden",
+      "answer": "a world"
+    },
+    {
+      "id": "vocab_norwegian2english_cdb5aa75-c720-4e53-9458-8294d303f402",
+      "prompt": "ha det (bra)",
+      "answer": "good bye"
+    },
+    {
+      "id": "vocab_norwegian2english_53b76b86-9882-4199-9d03-91eae60651ce",
+      "prompt": "en landsby",
+      "answer": "a village"
+    },
+    {
+      "id": "vocab_norwegian2english_0bdc09a4-46a9-4301-92d5-7323ce415da5",
+      "prompt": "å bo",
+      "answer": "to live (in)"
+    },
+    {
+      "id": "vocab_norwegian2english_d7265912-087a-46ff-ac24-1e95282af04a",
+      "prompt": "en skole",
+      "answer": "a school"
+    },
+    {
+      "id": "vocab_norwegian2english_d9d75b03-e31b-4bfe-87bf-8acb1d5c6b7b",
+      "prompt": "en foss",
+      "answer": "a waterfall"
+    },
+    {
+      "id": "vocab_norwegian2english_77148c34-4d1d-4b16-89e1-3b8998520282",
+      "prompt": "om",
+      "answer": "if/about"
+    },
+    {
+      "id": "vocab_norwegian2english_9f1b055a-da59-4713-a248-a046fb183196",
+      "prompt": "ærlig",
+      "answer": "honest"
+    },
+    {
+      "id": "vocab_norwegian2english_5abb2783-616c-44f3-80d6-e9f9f0fc3ea9",
+      "prompt": "en øl",
+      "answer": "a beer"
+    },
+    {
+      "id": "vocab_norwegian2english_d56cbf02-8a7d-4ca5-9e5d-dd9414b3e806",
+      "prompt": "å åpne",
+      "answer": "to open"
+    },
+    {
+      "id": "vocab_norwegian2english_08d7a12c-0f3c-4d2c-8b8f-e5d187b88c58",
+      "prompt": "en røyk",
+      "answer": "smoke"
+    },
+    {
+      "id": "vocab_norwegian2english_d928b564-c441-45cc-9630-6905b8d06c4a",
+      "prompt": "glad",
+      "answer": "happy"
+    },
+    {
+      "id": "vocab_norwegian2english_9a2db8e9-eaf5-4cfb-b822-b3c1703c6ca5",
+      "prompt": "herlig",
+      "answer": "wonderful"
+    },
+    {
+      "id": "vocab_norwegian2english_d5cd9f73-e1a3-41d3-ab13-ec878539fc5c",
+      "prompt": "meg",
+      "answer": "my"
+    },
+    {
+      "id": "vocab_norwegian2english_e81460f5-84c7-4ba0-858c-e537cd096cd6",
+      "prompt": "deg",
+      "answer": "your"
+    },
+    {
+      "id": "vocab_norwegian2english_ebb6cfaa-5bbb-48ac-8f41-b695d7c75576",
+      "prompt": "seg",
+      "answer": "themselves"
+    },
+    {
+      "id": "vocab_norwegian2english_80dc5805-a55b-4cbe-bd16-c0e8d8ddc662",
+      "prompt": "kjemi",
+      "answer": "chemistry"
+    },
+    {
+      "id": "vocab_norwegian2english_9e076390-680c-4c68-bd8c-f978135f5f31",
+      "prompt": "tjue",
+      "answer": "twenty"
+    },
+    {
+      "id": "vocab_norwegian2english_20687450-4bf2-477f-9531-4edd06539d6c",
+      "prompt": "tj",
+      "answer": "(welp/well)"
+    },
+    {
+      "id": "vocab_norwegian2english_bd78757b-fe1c-4128-a8f6-b80686496c2a",
+      "prompt": "gjerne",
+      "answer": "gladly"
+    },
+    {
+      "id": "vocab_norwegian2english_c94bcbd5-6083-4bb3-9870-2bc63f016bdd",
+      "prompt": "å hjelpe",
+      "answer": "to help"
+    },
+    {
+      "id": "vocab_norwegian2english_4ebf37f1-fa20-4efb-8c2f-0e7da14958db",
+      "prompt": "en stasjon",
+      "answer": "a station"
+    },
+    {
+      "id": "vocab_norwegian2english_4604a285-13a3-441d-9e6b-ab7b05c668e9",
+      "prompt": "beskjeden",
+      "answer": "modest"
+    },
+    {
+      "id": "vocab_norwegian2english_f60db833-c516-4bec-a991-20a42ea05342",
+      "prompt": "å slippe",
+      "answer": "to let go(not need)"
+    },
+    {
+      "id": "vocab_norwegian2english_122567de-0d3d-46f7-9329-a66d040b7861",
+      "prompt": "en regning",
+      "answer": "a bill"
+    },
+    {
+      "id": "vocab_norwegian2english_8d6b90cd-c8d9-4e00-99b9-7d1ebd047e96",
+      "prompt": "et tegn",
+      "answer": "a sign"
+    },
+    {
+      "id": "vocab_norwegian2english_d65d7665-0476-4ab2-8c8d-2dd45ecf8494",
+      "prompt": "en nagl",
+      "answer": "a fingernail"
+    },
+    {
+      "id": "vocab_norwegian2english_25629753-b09b-4f5d-9ef3-0f9fa12d13f3",
+      "prompt": "en døgn",
+      "answer": "a 24 hour day"
+    },
+    {
+      "id": "vocab_norwegian2english_5164c713-1ef6-4c13-b548-3e78b50a5d28",
+      "prompt": "en dag",
+      "answer": "a day"
+    },
+    {
+      "id": "vocab_norwegian2english_fc615e69-630b-44dc-adb8-46c555cd2d05",
+      "prompt": "hva",
+      "answer": "what"
+    },
+    {
+      "id": "vocab_norwegian2english_6dac0fef-63cb-4459-aa52-86b48a434642",
+      "prompt": "en jord",
+      "answer": "an earth"
+    },
+    {
+      "id": "vocab_norwegian2english_0eb44f2c-fb8a-47d7-a58e-9427dd82bb84",
+      "prompt": "en hånd",
+      "answer": "a hand"
+    },
+    {
+      "id": "vocab_norwegian2english_23fea064-14b8-4d00-98c5-ccb7c1524ed1",
+      "prompt": "et skip",
+      "answer": "a ship"
+    },
+    {
+      "id": "vocab_norwegian2english_c0fbf35d-3fa3-4954-816d-856467d50a1c",
+      "prompt": "et romskip",
+      "answer": "a spaceship"
+    },
+    {
+      "id": "vocab_norwegian2english_fd2d20d8-323c-4dbf-a517-83796e1bd76a",
+      "prompt": "en geit",
+      "answer": "a goat"
+    },
+    {
+      "id": "vocab_english2norwegian_cdb5aa75-c720-4e53-9458-8294d303f402",
+      "prompt": "good bye",
+      "answer": "ha det (bra)"
+    },
+    {
+      "id": "vocab_english2norwegian_53b76b86-9882-4199-9d03-91eae60651ce",
+      "prompt": "a village",
+      "answer": "en landsby"
+    },
+    {
+      "id": "vocab_english2norwegian_0bdc09a4-46a9-4301-92d5-7323ce415da5",
+      "prompt": "to live (in)",
+      "answer": "å bo"
+    },
+    {
+      "id": "vocab_english2norwegian_d7265912-087a-46ff-ac24-1e95282af04a",
+      "prompt": "a school",
+      "answer": "en skole"
+    },
+    {
+      "id": "vocab_english2norwegian_d9d75b03-e31b-4bfe-87bf-8acb1d5c6b7b",
+      "prompt": "a waterfall",
+      "answer": "en foss"
+    },
+    {
+      "id": "vocab_english2norwegian_77148c34-4d1d-4b16-89e1-3b8998520282",
+      "prompt": "if/about",
+      "answer": "om"
+    },
+    {
+      "id": "vocab_english2norwegian_9f1b055a-da59-4713-a248-a046fb183196",
+      "prompt": "honest",
+      "answer": "ærlig"
+    },
+    {
+      "id": "vocab_english2norwegian_5abb2783-616c-44f3-80d6-e9f9f0fc3ea9",
+      "prompt": "a beer",
+      "answer": "en øl"
+    },
+    {
+      "id": "vocab_english2norwegian_d56cbf02-8a7d-4ca5-9e5d-dd9414b3e806",
+      "prompt": "to open",
+      "answer": "å åpne"
+    },
+    {
+      "id": "vocab_english2norwegian_08d7a12c-0f3c-4d2c-8b8f-e5d187b88c58",
+      "prompt": "smoke",
+      "answer": "en røyk"
+    },
+    {
+      "id": "vocab_english2norwegian_d928b564-c441-45cc-9630-6905b8d06c4a",
+      "prompt": "happy",
+      "answer": "glad"
+    },
+    {
+      "id": "vocab_english2norwegian_9a2db8e9-eaf5-4cfb-b822-b3c1703c6ca5",
+      "prompt": "wonderful",
+      "answer": "herlig"
+    },
+    {
+      "id": "vocab_english2norwegian_d5cd9f73-e1a3-41d3-ab13-ec878539fc5c",
+      "prompt": "my",
+      "answer": "meg"
+    },
+    {
+      "id": "vocab_english2norwegian_e81460f5-84c7-4ba0-858c-e537cd096cd6",
+      "prompt": "your",
+      "answer": "deg"
+    },
+    {
+      "id": "vocab_english2norwegian_ebb6cfaa-5bbb-48ac-8f41-b695d7c75576",
+      "prompt": "themselves",
+      "answer": "seg"
+    },
+    {
+      "id": "vocab_english2norwegian_80dc5805-a55b-4cbe-bd16-c0e8d8ddc662",
+      "prompt": "chemistry",
+      "answer": "kjemi"
+    },
+    {
+      "id": "vocab_english2norwegian_9e076390-680c-4c68-bd8c-f978135f5f31",
+      "prompt": "twenty",
+      "answer": "tjue"
+    },
+    {
+      "id": "vocab_english2norwegian_20687450-4bf2-477f-9531-4edd06539d6c",
+      "prompt": "(welp/well)",
+      "answer": "tj"
+    },
+    {
+      "id": "vocab_english2norwegian_bd78757b-fe1c-4128-a8f6-b80686496c2a",
+      "prompt": "gladly",
+      "answer": "gjerne"
+    },
+    {
+      "id": "vocab_english2norwegian_c94bcbd5-6083-4bb3-9870-2bc63f016bdd",
+      "prompt": "to help",
+      "answer": "å hjelpe"
+    },
+    {
+      "id": "vocab_english2norwegian_4ebf37f1-fa20-4efb-8c2f-0e7da14958db",
+      "prompt": "a station",
+      "answer": "en stasjon"
+    },
+    {
+      "id": "vocab_english2norwegian_4604a285-13a3-441d-9e6b-ab7b05c668e9",
+      "prompt": "modest",
+      "answer": "beskjeden"
+    },
+    {
+      "id": "vocab_english2norwegian_f60db833-c516-4bec-a991-20a42ea05342",
+      "prompt": "to let go(not need)",
+      "answer": "å slippe"
+    },
+    {
+      "id": "vocab_english2norwegian_122567de-0d3d-46f7-9329-a66d040b7861",
+      "prompt": "a bill",
+      "answer": "en regning"
+    },
+    {
+      "id": "vocab_english2norwegian_8d6b90cd-c8d9-4e00-99b9-7d1ebd047e96",
+      "prompt": "a sign",
+      "answer": "et tegn"
+    },
+    {
+      "id": "vocab_english2norwegian_d65d7665-0476-4ab2-8c8d-2dd45ecf8494",
+      "prompt": "a fingernail",
+      "answer": "en nagl"
+    },
+    {
+      "id": "vocab_english2norwegian_25629753-b09b-4f5d-9ef3-0f9fa12d13f3",
+      "prompt": "a 24 hour day",
+      "answer": "en døgn"
+    },
+    {
+      "id": "vocab_english2norwegian_5164c713-1ef6-4c13-b548-3e78b50a5d28",
+      "prompt": "a day",
+      "answer": "en dag"
+    },
+    {
+      "id": "vocab_english2norwegian_fc615e69-630b-44dc-adb8-46c555cd2d05",
+      "prompt": "what",
+      "answer": "hva"
+    },
+    {
+      "id": "vocab_english2norwegian_6dac0fef-63cb-4459-aa52-86b48a434642",
+      "prompt": "an earth",
+      "answer": "en jord"
+    },
+    {
+      "id": "vocab_english2norwegian_0eb44f2c-fb8a-47d7-a58e-9427dd82bb84",
+      "prompt": "a hand",
+      "answer": "en hånd"
+    },
+    {
+      "id": "vocab_english2norwegian_23fea064-14b8-4d00-98c5-ccb7c1524ed1",
+      "prompt": "a ship",
+      "answer": "et skip"
+    },
+    {
+      "id": "vocab_english2norwegian_c0fbf35d-3fa3-4954-816d-856467d50a1c",
+      "prompt": "a spaceship",
+      "answer": "et romskip"
+    },
+    {
+      "id": "vocab_english2norwegian_fd2d20d8-323c-4dbf-a517-83796e1bd76a",
+      "prompt": "a goat",
+      "answer": "en geit"
+    },
+    {
+      "id": "vocab_norwegian2english_26aa7702-2e8d-4c52-aa1b-87e998fb2a51",
+      "prompt": "en krok",
+      "answer": "a corner"
+    },
+    {
+      "id": "vocab_norwegian2english_805d1ccc-ee98-460d-9f1e-08c442d58ac4",
+      "prompt": "skarp",
+      "answer": "sharp"
+    },
+    {
+      "id": "vocab_norwegian2english_b8bc7e6a-c2de-45f2-badb-147bd1a33aec",
+      "prompt": "godt",
+      "answer": "good"
+    },
+    {
+      "id": "vocab_norwegian2english_f3304448-1c9f-4a01-b098-ff415633fafe",
+      "prompt": "en katt",
+      "answer": "a cat"
+    },
+    {
+      "id": "vocab_norwegian2english_61209f32-4be4-4a69-b590-562c2b4c0d84",
+      "prompt": "et glass",
+      "answer": "a glas"
+    },
+    {
+      "id": "vocab_norwegian2english_0e0170f7-7f69-48af-b3ca-8eca143b3358",
+      "prompt": "en fisk",
+      "answer": "a fish"
+    },
+    {
+      "id": "vocab_norwegian2english_8b15a076-e232-479e-975d-1ab52d6efbbb",
+      "prompt": "en klokke",
+      "answer": "a clock"
+    },
+    {
+      "id": "vocab_norwegian2english_0359f328-85c3-4e7b-8ae4-3a522f2f501f",
+      "prompt": "en flaske",
+      "answer": "a bottle"
+    },
+    {
+      "id": "vocab_norwegian2english_1978104f-406a-4e31-9255-88373f57b181",
+      "prompt": "et hus",
+      "answer": "a house"
+    },
+    {
+      "id": "vocab_norwegian2english_67458afb-62cd-46ef-970c-2d32295cd4c1",
+      "prompt": "en bil",
+      "answer": "a car"
+    },
+    {
+      "id": "vocab_norwegian2english_3982efaf-622f-4187-8d80-6c048d3d8bef",
+      "prompt": "et skap",
+      "answer": "a closet"
+    },
+    {
+      "id": "vocab_norwegian2english_30dd3d82-2987-4502-859d-cb0edeb9ba69",
+      "prompt": "å gå",
+      "answer": "to go"
+    },
+    {
+      "id": "vocab_norwegian2english_cd261250-0511-47d6-8444-33c047ace073",
+      "prompt": "å tro",
+      "answer": "to believe"
+    },
+    {
+      "id": "vocab_norwegian2english_1e7cf5cf-e4bc-4293-8aac-fc0823558cf8",
+      "prompt": "en skive",
+      "answer": "a plate"
+    },
+    {
+      "id": "vocab_norwegian2english_49c0eec7-6bc5-40e9-beea-287e72315b6c",
+      "prompt": "Har du ...?",
+      "answer": "Do you have (collocual) ...?"
+    },
+    {
+      "id": "vocab_norwegian2english_3fd7b5bb-ee40-4d3f-9857-a77b13a55f6d",
+      "prompt": "Har de ...?",
+      "answer": "Do you (formal) have ...?"
+    },
+    {
+      "id": "vocab_norwegian2english_9229c005-db7e-4bf3-8ca2-bf5ed0df1fd9",
+      "prompt": "en kaffe",
+      "answer": "a coffee"
+    },
+    {
+      "id": "vocab_norwegian2english_4f66d90d-c59a-4511-bd3c-623cac9c576d",
+      "prompt": "en te",
+      "answer": "a tea"
+    },
+    {
+      "id": "vocab_norwegian2english_45719f00-7882-41fa-b006-38f321442c06",
+      "prompt": "et skjort",
+      "answer": "a shirt"
+    },
+    {
+      "id": "vocab_norwegian2english_66b67a06-824d-461c-9400-afabbc4d2643",
+      "prompt": "et frimerke",
+      "answer": "a post stamp"
+    },
+    {
+      "id": "vocab_norwegian2english_bd257b1e-c0c1-49eb-ad97-01400cdc9758",
+      "prompt": "ja",
+      "answer": "yes"
+    },
+    {
+      "id": "vocab_norwegian2english_7194ddce-f44e-4ca2-a01b-64eb292595a2",
+      "prompt": "nei",
+      "answer": "no"
+    },
+    {
+      "id": "vocab_norwegian2english_5222e54c-26bf-473a-b169-b61fb473350e",
+      "prompt": "Jeg vil gjerne ha ...",
+      "answer": "I would like to have ..."
+    },
+    {
+      "id": "vocab_norwegian2english_43344cb8-2b54-4ef6-9ae9-5b09ae60d0c9",
+      "prompt": "Hvor er ...?",
+      "answer": "Where is ...?"
+    },
+    {
+      "id": "vocab_norwegian2english_c66a12af-6e67-4a5f-bb61-17add8471c7d",
+      "prompt": "et hotell",
+      "answer": "a hotel"
+    },
+    {
+      "id": "vocab_norwegian2english_0feb53fa-c475-4396-a663-401b757c9c4d",
+      "prompt": "til høyre",
+      "answer": "to the right"
+    },
+    {
+      "id": "vocab_norwegian2english_2e2b22d2-e7db-4ff7-97f0-dafc39cf93c9",
+      "prompt": "til venstre",
+      "answer": "to the left"
+    },
+    {
+      "id": "vocab_norwegian2english_e887666d-8439-48f9-b3a5-eb2d7b0e49b6",
+      "prompt": "rett fram",
+      "answer": "straight ahead"
+    },
+    {
+      "id": "vocab_norwegian2english_0dfcf345-8eb5-41b1-9d7b-e4d54d12139d",
+      "prompt": "en hund",
+      "answer": "a dog"
+    },
+    {
+      "id": "vocab_norwegian2english_b66e843d-0a1b-4e29-bfa1-4e64c7ab93d1",
+      "prompt": "en sol",
+      "answer": "a sun"
+    },
+    {
+      "id": "vocab_norwegian2english_8a72efa5-6a5b-4581-b503-3dcc17868ebe",
+      "prompt": "en kone/kona",
+      "answer": "a wife/the wife"
+    },
+    {
+      "id": "vocab_norwegian2english_f4c8a862-3f03-4d84-8478-9301814d89cb",
+      "prompt": "et barn",
+      "answer": "a child"
+    },
+    {
+      "id": "vocab_norwegian2english_3a9e6983-3674-4b3f-b875-3a414953e138",
+      "prompt": "en gate",
+      "answer": "a street"
+    },
+    {
+      "id": "vocab_english2norwegian_26aa7702-2e8d-4c52-aa1b-87e998fb2a51",
+      "prompt": "a corner",
+      "answer": "en krok"
+    },
+    {
+      "id": "vocab_english2norwegian_805d1ccc-ee98-460d-9f1e-08c442d58ac4",
+      "prompt": "sharp",
+      "answer": "skarp"
+    },
+    {
+      "id": "vocab_english2norwegian_b8bc7e6a-c2de-45f2-badb-147bd1a33aec",
+      "prompt": "good",
+      "answer": "godt"
+    },
+    {
+      "id": "vocab_english2norwegian_f3304448-1c9f-4a01-b098-ff415633fafe",
+      "prompt": "a cat",
+      "answer": "en katt"
+    },
+    {
+      "id": "vocab_english2norwegian_61209f32-4be4-4a69-b590-562c2b4c0d84",
+      "prompt": "a glas",
+      "answer": "et glass"
+    },
+    {
+      "id": "vocab_english2norwegian_0e0170f7-7f69-48af-b3ca-8eca143b3358",
+      "prompt": "a fish",
+      "answer": "en fisk"
+    },
+    {
+      "id": "vocab_english2norwegian_8b15a076-e232-479e-975d-1ab52d6efbbb",
+      "prompt": "a clock",
+      "answer": "en klokke"
+    },
+    {
+      "id": "vocab_english2norwegian_0359f328-85c3-4e7b-8ae4-3a522f2f501f",
+      "prompt": "a bottle",
+      "answer": "en flaske"
+    },
+    {
+      "id": "vocab_english2norwegian_1978104f-406a-4e31-9255-88373f57b181",
+      "prompt": "a house",
+      "answer": "et hus"
+    },
+    {
+      "id": "vocab_english2norwegian_67458afb-62cd-46ef-970c-2d32295cd4c1",
+      "prompt": "a car",
+      "answer": "en bil"
+    },
+    {
+      "id": "vocab_english2norwegian_3982efaf-622f-4187-8d80-6c048d3d8bef",
+      "prompt": "a closet",
+      "answer": "et skap"
+    },
+    {
+      "id": "vocab_english2norwegian_30dd3d82-2987-4502-859d-cb0edeb9ba69",
+      "prompt": "to go",
+      "answer": "å gå"
+    },
+    {
+      "id": "vocab_english2norwegian_cd261250-0511-47d6-8444-33c047ace073",
+      "prompt": "to believe",
+      "answer": "å tro"
+    },
+    {
+      "id": "vocab_english2norwegian_1e7cf5cf-e4bc-4293-8aac-fc0823558cf8",
+      "prompt": "a plate",
+      "answer": "en skive"
+    },
+    {
+      "id": "vocab_english2norwegian_49c0eec7-6bc5-40e9-beea-287e72315b6c",
+      "prompt": "Do you have (collocual) ...?",
+      "answer": "Har du ...?"
+    },
+    {
+      "id": "vocab_english2norwegian_3fd7b5bb-ee40-4d3f-9857-a77b13a55f6d",
+      "prompt": "Do you (formal) have ...?",
+      "answer": "Har de ...?"
+    },
+    {
+      "id": "vocab_english2norwegian_9229c005-db7e-4bf3-8ca2-bf5ed0df1fd9",
+      "prompt": "a coffee",
+      "answer": "en kaffe"
+    },
+    {
+      "id": "vocab_english2norwegian_4f66d90d-c59a-4511-bd3c-623cac9c576d",
+      "prompt": "a tea",
+      "answer": "en te"
+    },
+    {
+      "id": "vocab_english2norwegian_45719f00-7882-41fa-b006-38f321442c06",
+      "prompt": "a shirt",
+      "answer": "et skjort"
+    },
+    {
+      "id": "vocab_english2norwegian_66b67a06-824d-461c-9400-afabbc4d2643",
+      "prompt": "a post stamp",
+      "answer": "et frimerke"
+    },
+    {
+      "id": "vocab_english2norwegian_bd257b1e-c0c1-49eb-ad97-01400cdc9758",
+      "prompt": "yes",
+      "answer": "ja"
+    },
+    {
+      "id": "vocab_english2norwegian_7194ddce-f44e-4ca2-a01b-64eb292595a2",
+      "prompt": "no",
+      "answer": "nei"
+    },
+    {
+      "id": "vocab_english2norwegian_5222e54c-26bf-473a-b169-b61fb473350e",
+      "prompt": "I would like to have ...",
+      "answer": "Jeg vil gjerne ha ..."
+    },
+    {
+      "id": "vocab_english2norwegian_43344cb8-2b54-4ef6-9ae9-5b09ae60d0c9",
+      "prompt": "Where is ...?",
+      "answer": "Hvor er ...?"
+    },
+    {
+      "id": "vocab_english2norwegian_c66a12af-6e67-4a5f-bb61-17add8471c7d",
+      "prompt": "a hotel",
+      "answer": "et hotell"
+    },
+    {
+      "id": "vocab_english2norwegian_0feb53fa-c475-4396-a663-401b757c9c4d",
+      "prompt": "to the right",
+      "answer": "til høyre"
+    },
+    {
+      "id": "vocab_english2norwegian_2e2b22d2-e7db-4ff7-97f0-dafc39cf93c9",
+      "prompt": "to the left",
+      "answer": "til venstre"
+    },
+    {
+      "id": "vocab_english2norwegian_e887666d-8439-48f9-b3a5-eb2d7b0e49b6",
+      "prompt": "straight ahead",
+      "answer": "rett fram"
+    },
+    {
+      "id": "vocab_english2norwegian_0dfcf345-8eb5-41b1-9d7b-e4d54d12139d",
+      "prompt": "a dog",
+      "answer": "en hund"
+    },
+    {
+      "id": "vocab_english2norwegian_b66e843d-0a1b-4e29-bfa1-4e64c7ab93d1",
+      "prompt": "a sun",
+      "answer": "en sol"
+    },
+    {
+      "id": "vocab_english2norwegian_8a72efa5-6a5b-4581-b503-3dcc17868ebe",
+      "prompt": "a wife/the wife",
+      "answer": "en kone/kona"
+    },
+    {
+      "id": "vocab_english2norwegian_f4c8a862-3f03-4d84-8478-9301814d89cb",
+      "prompt": "a child",
+      "answer": "et barn"
+    },
+    {
+      "id": "vocab_english2norwegian_3a9e6983-3674-4b3f-b875-3a414953e138",
+      "prompt": "a street",
+      "answer": "en gate"
+    },
+    {
+      "id": "vocab_english2norwegian_469e78d2-a9ac-4ab5-b460-c21c2bb830b2",
+      "prompt": "to hear",
+      "answer": "å høre"
+    },
+    {
+      "id": "vocab_english2norwegian_833504cc-0fa3-47c6-8f4f-09487cfd747f",
+      "prompt": "to know (facts)",
+      "answer": "å vite"
+    },
+    {
+      "id": "vocab_english2norwegian_0b503118-2e55-4a2f-a4ab-0a65217b41b4",
+      "prompt": "to know (person/place)",
+      "answer": "å kjenne"
+    },
+    {
+      "id": "vocab_english2norwegian_4c66fd6c-cee7-41c4-8c8a-1abe06f4b281",
+      "prompt": "a bathroom/a toilet",
+      "answer": "et toalett"
+    },
+    {
+      "id": "vocab_english2norwegian_87aeebeb-66e5-465c-aba4-48b1ef5391c5",
+      "prompt": "to understand",
+      "answer": "å forstå"
+    },
+    {
+      "id": "vocab_english2norwegian_cc7bbcbb-91ed-47a5-ab03-1f09514d48a0",
+      "prompt": "a city/town",
+      "answer": "en by"
+    },
+    {
+      "id": "vocab_english2norwegian_da73b358-f1bb-4372-8f71-2a776208bb3f",
+      "prompt": "a building",
+      "answer": "en bygg"
+    },
+    {
+      "id": "vocab_english2norwegian_7de728eb-5818-47a6-8f17-d212a20134be",
+      "prompt": "many",
+      "answer": "mange"
+    },
+    {
+      "id": "vocab_english2norwegian_66d7d5c8-6bf8-419f-a931-39fe56fe9b73",
+      "prompt": "a lot/much",
+      "answer": "mye"
+    },
+    {
+      "id": "vocab_english2norwegian_5dcccbdc-5117-44c3-8080-3521ede51b86",
+      "prompt": "sometimes",
+      "answer": "noen ganger/av og til"
+    },
+    {
+      "id": "vocab_english2norwegian_1124ea0b-0565-44a0-adec-0be8d379e8c2",
+      "prompt": "because(ger. weil)",
+      "answer": "fordi"
+    },
+    {
+      "id": "vocab_english2norwegian_e75040df-0d81-4786-afff-fac3c3aaeb9e",
+      "prompt": "swedish",
+      "answer": "svensk"
+    },
+    {
+      "id": "vocab_english2norwegian_38b95e35-4bad-4e21-a9e9-6079a2053c0a",
+      "prompt": "in the morning",
+      "answer": "om morgenen"
+    },
+    {
+      "id": "vocab_english2norwegian_1d7579ce-d61b-4fd1-a9bc-2df0a6ab6d58",
+      "prompt": "a friend",
+      "answer": "en venn"
+    },
+    {
+      "id": "vocab_english2norwegian_db3080f3-76d5-40c5-b040-ae2c4987b65c",
+      "prompt": "with",
+      "answer": "med"
+    },
+    {
+      "id": "vocab_english2norwegian_fc23afe5-e4d3-4282-895b-bde407bc6ceb",
+      "prompt": "but",
+      "answer": "men"
+    },
+    {
+      "id": "vocab_english2norwegian_0f36e29d-c8cc-4013-b487-ea4b31a68f92",
+      "prompt": "a evening",
+      "answer": "en kveld"
+    },
+    {
+      "id": "vocab_english2norwegian_645ae33c-0454-45ad-80ed-7a3d7e5bd43c",
+      "prompt": "yesterday",
+      "answer": "i går"
+    },
+    {
+      "id": "vocab_english2norwegian_2823c069-b386-41a9-885f-4a994a0b2f60",
+      "prompt": "worked (past tense)",
+      "answer": "jobbet"
+    },
+    {
+      "id": "vocab_english2norwegian_df21300c-4999-42fc-836a-93a30d9a6556",
+      "prompt": "very",
+      "answer": "veldig"
+    },
+    {
+      "id": "vocab_norwegian2english_469e78d2-a9ac-4ab5-b460-c21c2bb830b2",
+      "prompt": "å høre",
+      "answer": "to hear"
+    },
+    {
+      "id": "vocab_norwegian2english_833504cc-0fa3-47c6-8f4f-09487cfd747f",
+      "prompt": "å vite",
+      "answer": "to know (facts)"
+    },
+    {
+      "id": "vocab_norwegian2english_0b503118-2e55-4a2f-a4ab-0a65217b41b4",
+      "prompt": "å kjenne",
+      "answer": "to know (person/place)"
+    },
+    {
+      "id": "vocab_norwegian2english_4c66fd6c-cee7-41c4-8c8a-1abe06f4b281",
+      "prompt": "et toalett",
+      "answer": "a bathroom/a toilet"
+    },
+    {
+      "id": "vocab_norwegian2english_87aeebeb-66e5-465c-aba4-48b1ef5391c5",
+      "prompt": "å forstå",
+      "answer": "to understand"
+    },
+    {
+      "id": "vocab_norwegian2english_cc7bbcbb-91ed-47a5-ab03-1f09514d48a0",
+      "prompt": "en by",
+      "answer": "a city/town"
+    },
+    {
+      "id": "vocab_norwegian2english_da73b358-f1bb-4372-8f71-2a776208bb3f",
+      "prompt": "en bygg",
+      "answer": "a building"
+    },
+    {
+      "id": "vocab_norwegian2english_7de728eb-5818-47a6-8f17-d212a20134be",
+      "prompt": "mange",
+      "answer": "many"
+    },
+    {
+      "id": "vocab_norwegian2english_66d7d5c8-6bf8-419f-a931-39fe56fe9b73",
+      "prompt": "mye",
+      "answer": "a lot/much"
+    },
+    {
+      "id": "vocab_norwegian2english_5dcccbdc-5117-44c3-8080-3521ede51b86",
+      "prompt": "noen ganger/av og til",
+      "answer": "sometimes"
+    },
+    {
+      "id": "vocab_norwegian2english_1124ea0b-0565-44a0-adec-0be8d379e8c2",
+      "prompt": "fordi",
+      "answer": "because(ger. weil)"
+    },
+    {
+      "id": "vocab_norwegian2english_e75040df-0d81-4786-afff-fac3c3aaeb9e",
+      "prompt": "svensk",
+      "answer": "swedish"
+    },
+    {
+      "id": "vocab_norwegian2english_38b95e35-4bad-4e21-a9e9-6079a2053c0a",
+      "prompt": "om morgenen",
+      "answer": "in the morning"
+    },
+    {
+      "id": "vocab_norwegian2english_1d7579ce-d61b-4fd1-a9bc-2df0a6ab6d58",
+      "prompt": "en venn",
+      "answer": "a friend"
+    },
+    {
+      "id": "vocab_norwegian2english_db3080f3-76d5-40c5-b040-ae2c4987b65c",
+      "prompt": "med",
+      "answer": "with"
+    },
+    {
+      "id": "vocab_norwegian2english_fc23afe5-e4d3-4282-895b-bde407bc6ceb",
+      "prompt": "men",
+      "answer": "but"
+    },
+    {
+      "id": "vocab_norwegian2english_0f36e29d-c8cc-4013-b487-ea4b31a68f92",
+      "prompt": "en kveld",
+      "answer": "a evening"
+    },
+    {
+      "id": "vocab_norwegian2english_645ae33c-0454-45ad-80ed-7a3d7e5bd43c",
+      "prompt": "i går",
+      "answer": "yesterday"
+    },
+    {
+      "id": "vocab_norwegian2english_2823c069-b386-41a9-885f-4a994a0b2f60",
+      "prompt": "jobbet",
+      "answer": "worked (past tense)"
+    },
+    {
+      "id": "vocab_norwegian2english_df21300c-4999-42fc-836a-93a30d9a6556",
+      "prompt": "veldig",
+      "answer": "very"
+    },
+    {
+      "id": "vocab_english2norsk_9ebc6fe1-c012-4f2c-b514-918620d04e34",
+      "prompt": "happy",
+      "answer": "glad"
+    },
+    {
+      "id": "vocab_english2norsk_a95809de-9e69-4d72-bd6d-265ff6fd54f7",
+      "prompt": "sad",
+      "answer": "trist"
+    },
+    {
+      "id": "vocab_english2norsk_d9d5122d-535c-4996-b39c-7fa9941548da",
+      "prompt": "angry",
+      "answer": "sint"
+    },
+    {
+      "id": "vocab_english2norsk_a93fc29c-f0e2-4d4a-a131-f53d1513d020",
+      "prompt": "nervous",
+      "answer": "nervøs"
+    },
+    {
+      "id": "vocab_english2norsk_db6f55ba-d653-4641-a769-80edff05111a",
+      "prompt": "surprised",
+      "answer": "overrasket"
+    },
+    {
+      "id": "vocab_english2norsk_a7bd05e5-6d35-419f-8948-1396f689f95a",
+      "prompt": "proud",
+      "answer": "stolt"
+    },
+    {
+      "id": "vocab_english2norsk_8af45299-c816-4165-96f1-2317289a0e31",
+      "prompt": "disappointed",
+      "answer": "skuffet"
+    },
+    {
+      "id": "vocab_english2norsk_0b455d7d-a10e-43d2-8070-324e862dfb75",
+      "prompt": "to think (opinion)",
+      "answer": "å mene"
+    },
+    {
+      "id": "vocab_english2norsk_860c249c-c862-4f8e-85ee-a60c7f356ed1",
+      "prompt": "to think/find",
+      "answer": "å synes"
+    },
+    {
+      "id": "vocab_english2norsk_400cdcc9-1de4-47fb-aea3-82f26696be69",
+      "prompt": "interesting",
+      "answer": "interessant"
+    },
+    {
+      "id": "vocab_english2norsk_b1e6b7f5-4827-4faa-81ae-2ccfbaeec51b",
+      "prompt": "boring",
+      "answer": "kjedelig"
+    },
+    {
+      "id": "vocab_english2norsk_b219d424-f22b-4752-b202-3928b2f8c24e",
+      "prompt": "important",
+      "answer": "viktig"
+    },
+    {
+      "id": "vocab_english2norsk_8cde1515-c333-4b04-9d10-e7e00d8ecc99",
+      "prompt": "recently",
+      "answer": "nylig"
+    },
+    {
+      "id": "vocab_english2norsk_2619d64f-9965-4706-a660-8b11b365899a",
+      "prompt": "soon",
+      "answer": "snart"
+    },
+    {
+      "id": "vocab_english2norsk_796bf1a8-5628-4bfc-8fba-51a8f6cc7e7d",
+      "prompt": "still",
+      "answer": "fortsatt"
+    },
+    {
+      "id": "vocab_english2norsk_a38934aa-8dd0-4064-8e97-9d9b6b2e6270",
+      "prompt": "suddenly",
+      "answer": "plutselig"
+    },
+    {
+      "id": "vocab_english2norsk_91b1d7b6-b5fe-470f-b506-ccd39f5a9ce6",
+      "prompt": "a forest",
+      "answer": "en skog"
+    },
+    {
+      "id": "vocab_english2norsk_a2f31c05-d421-4b2b-80d0-9282a43249da",
+      "prompt": "a mountain",
+      "answer": "et fjell"
+    },
+    {
+      "id": "vocab_english2norsk_2b331fcb-f347-4d11-a43a-d5264903804f",
+      "prompt": "a lake",
+      "answer": "en innsjø"
+    },
+    {
+      "id": "vocab_english2norsk_99f99a3f-d6c1-4046-b1a5-cd3aa124152c",
+      "prompt": "a river",
+      "answer": "en elv"
+    },
+    {
+      "id": "vocab_english2norsk_5f2353be-8089-43f9-b21c-e103df988bf6",
+      "prompt": "a sea/ocean",
+      "answer": "et hav"
+    },
+    {
+      "id": "vocab_english2norsk_d805f8f3-8b92-4f13-88ed-ae358793785a",
+      "prompt": "a lake/water",
+      "answer": "et vann"
+    },
+    {
+      "id": "vocab_english2norsk_e5e03407-eced-4ca3-b3eb-e9cd23438615",
+      "prompt": "a fjord",
+      "answer": "en fjord"
+    },
+    {
+      "id": "vocab_english2norsk_11989224-818f-4b94-8e44-af47b33caff7",
+      "prompt": "a stream/brook",
+      "answer": "en bekk"
+    },
+    {
+      "id": "vocab_english2norsk_c9d000c5-08a7-4f98-b2b3-50b681f21a9f",
+      "prompt": "an island",
+      "answer": "en øy"
+    },
+    {
+      "id": "vocab_english2norsk_c683c61d-97ee-4d24-92c4-53865d7dcc26",
+      "prompt": "a valley",
+      "answer": "en dal"
+    },
+    {
+      "id": "vocab_english2norsk_ebf02747-e089-4bc1-a6ea-66f46d076268",
+      "prompt": "a native language",
+      "answer": "et morsmål"
+    },
+    {
+      "id": "vocab_english2norsk_7804ff2a-1cb9-4d2c-993c-c3553f825c21",
+      "prompt": "a dialect",
+      "answer": "en dialekt"
+    },
+    {
+      "id": "vocab_english2norsk_33686570-ce96-4198-8bcb-97214d30f72a",
+      "prompt": "a pronunctiaton",
+      "answer": "en uttale"
+    },
+    {
+      "id": "vocab_english2norsk_f87b6588-ffe5-4b9d-b438-93369aa4659d",
+      "prompt": "a vocabulary",
+      "answer": "et ordforråd"
+    },
+    {
+      "id": "vocab_english2norsk_b26ba0f6-9a69-4001-8433-f5042303b19d",
+      "prompt": "a grammar",
+      "answer": "en grammatikk"
+    },
+    {
+      "id": "vocab_english2norsk_d8d97954-fb22-490c-bbe7-6290bae99fec",
+      "prompt": "a method",
+      "answer": "en metode"
+    },
+    {
+      "id": "vocab_english2norsk_96c7b0cd-a295-4820-b075-b7146dc88872",
+      "prompt": "a theory",
+      "answer": "en teori"
+    },
+    {
+      "id": "vocab_english2norsk_362dee4f-8a44-4c5f-bdbc-6674605c7e92",
+      "prompt": "an analysis",
+      "answer": "en analyse"
+    },
+    {
+      "id": "vocab_english2norsk_5b99fa61-e508-4461-9f02-1ea1fac98f0b",
+      "prompt": "to expand",
+      "answer": "å utvide"
+    },
+    {
+      "id": "vocab_norsk2english_9ebc6fe1-c012-4f2c-b514-918620d04e34",
+      "prompt": "glad",
+      "answer": "happy"
+    },
+    {
+      "id": "vocab_norsk2english_a95809de-9e69-4d72-bd6d-265ff6fd54f7",
+      "prompt": "trist",
+      "answer": "sad"
+    },
+    {
+      "id": "vocab_norsk2english_d9d5122d-535c-4996-b39c-7fa9941548da",
+      "prompt": "sint",
+      "answer": "angry"
+    },
+    {
+      "id": "vocab_norsk2english_a93fc29c-f0e2-4d4a-a131-f53d1513d020",
+      "prompt": "nervøs",
+      "answer": "nervous"
+    },
+    {
+      "id": "vocab_norsk2english_db6f55ba-d653-4641-a769-80edff05111a",
+      "prompt": "overrasket",
+      "answer": "surprised"
+    },
+    {
+      "id": "vocab_norsk2english_a7bd05e5-6d35-419f-8948-1396f689f95a",
+      "prompt": "stolt",
+      "answer": "proud"
+    },
+    {
+      "id": "vocab_norsk2english_8af45299-c816-4165-96f1-2317289a0e31",
+      "prompt": "skuffet",
+      "answer": "disappointed"
+    },
+    {
+      "id": "vocab_norsk2english_0b455d7d-a10e-43d2-8070-324e862dfb75",
+      "prompt": "å mene",
+      "answer": "to think (opinion)"
+    },
+    {
+      "id": "vocab_norsk2english_860c249c-c862-4f8e-85ee-a60c7f356ed1",
+      "prompt": "å synes",
+      "answer": "to think/find"
+    },
+    {
+      "id": "vocab_norsk2english_400cdcc9-1de4-47fb-aea3-82f26696be69",
+      "prompt": "interessant",
+      "answer": "interesting"
+    },
+    {
+      "id": "vocab_norsk2english_b1e6b7f5-4827-4faa-81ae-2ccfbaeec51b",
+      "prompt": "kjedelig",
+      "answer": "boring"
+    },
+    {
+      "id": "vocab_norsk2english_b219d424-f22b-4752-b202-3928b2f8c24e",
+      "prompt": "viktig",
+      "answer": "important"
+    },
+    {
+      "id": "vocab_norsk2english_8cde1515-c333-4b04-9d10-e7e00d8ecc99",
+      "prompt": "nylig",
+      "answer": "recently"
+    },
+    {
+      "id": "vocab_norsk2english_2619d64f-9965-4706-a660-8b11b365899a",
+      "prompt": "snart",
+      "answer": "soon"
+    },
+    {
+      "id": "vocab_norsk2english_796bf1a8-5628-4bfc-8fba-51a8f6cc7e7d",
+      "prompt": "fortsatt",
+      "answer": "still"
+    },
+    {
+      "id": "vocab_norsk2english_a38934aa-8dd0-4064-8e97-9d9b6b2e6270",
+      "prompt": "plutselig",
+      "answer": "suddenly"
+    },
+    {
+      "id": "vocab_norsk2english_91b1d7b6-b5fe-470f-b506-ccd39f5a9ce6",
+      "prompt": "en skog",
+      "answer": "a forest"
+    },
+    {
+      "id": "vocab_norsk2english_a2f31c05-d421-4b2b-80d0-9282a43249da",
+      "prompt": "et fjell",
+      "answer": "a mountain"
+    },
+    {
+      "id": "vocab_norsk2english_2b331fcb-f347-4d11-a43a-d5264903804f",
+      "prompt": "en innsjø",
+      "answer": "a lake"
+    },
+    {
+      "id": "vocab_norsk2english_99f99a3f-d6c1-4046-b1a5-cd3aa124152c",
+      "prompt": "en elv",
+      "answer": "a river"
+    },
+    {
+      "id": "vocab_norsk2english_5f2353be-8089-43f9-b21c-e103df988bf6",
+      "prompt": "et hav",
+      "answer": "a sea/ocean"
+    },
+    {
+      "id": "vocab_norsk2english_d805f8f3-8b92-4f13-88ed-ae358793785a",
+      "prompt": "et vann",
+      "answer": "a lake/water"
+    },
+    {
+      "id": "vocab_norsk2english_e5e03407-eced-4ca3-b3eb-e9cd23438615",
+      "prompt": "en fjord",
+      "answer": "a fjord"
+    },
+    {
+      "id": "vocab_norsk2english_11989224-818f-4b94-8e44-af47b33caff7",
+      "prompt": "en bekk",
+      "answer": "a stream/brook"
+    },
+    {
+      "id": "vocab_norsk2english_c9d000c5-08a7-4f98-b2b3-50b681f21a9f",
+      "prompt": "en øy",
+      "answer": "an island"
+    },
+    {
+      "id": "vocab_norsk2english_c683c61d-97ee-4d24-92c4-53865d7dcc26",
+      "prompt": "en dal",
+      "answer": "a valley"
+    },
+    {
+      "id": "vocab_norsk2english_ebf02747-e089-4bc1-a6ea-66f46d076268",
+      "prompt": "et morsmål",
+      "answer": "a native language"
+    },
+    {
+      "id": "vocab_norsk2english_7804ff2a-1cb9-4d2c-993c-c3553f825c21",
+      "prompt": "en dialekt",
+      "answer": "a dialect"
+    },
+    {
+      "id": "vocab_norsk2english_33686570-ce96-4198-8bcb-97214d30f72a",
+      "prompt": "en uttale",
+      "answer": "a pronunctiaton"
+    },
+    {
+      "id": "vocab_norsk2english_f87b6588-ffe5-4b9d-b438-93369aa4659d",
+      "prompt": "et ordforråd",
+      "answer": "a vocabulary"
+    },
+    {
+      "id": "vocab_norsk2english_b26ba0f6-9a69-4001-8433-f5042303b19d",
+      "prompt": "en grammatikk",
+      "answer": "a grammar"
+    },
+    {
+      "id": "vocab_norsk2english_d8d97954-fb22-490c-bbe7-6290bae99fec",
+      "prompt": "en metode",
+      "answer": "a method"
+    },
+    {
+      "id": "vocab_norsk2english_96c7b0cd-a295-4820-b075-b7146dc88872",
+      "prompt": "en teori",
+      "answer": "a theory"
+    },
+    {
+      "id": "vocab_norsk2english_362dee4f-8a44-4c5f-bdbc-6674605c7e92",
+      "prompt": "en analyse",
+      "answer": "an analysis"
+    },
+    {
+      "id": "vocab_norsk2english_5b99fa61-e508-4461-9f02-1ea1fac98f0b",
+      "prompt": "å utvide",
+      "answer": "to expand"
+    },
+    {
+      "id": "vocab_english2norwegian_5f47f956-23e0-470d-b1b1-6ba189ef1724",
+      "prompt": "an axe",
+      "answer": "en øks"
+    },
+    {
+      "id": "vocab_english2norwegian_393d0dea-bcc5-417d-9f80-ff6966445325",
+      "prompt": "every single person",
+      "answer": "hvert enkelt manneskin"
+    },
+    {
+      "id": "vocab_english2norwegian_a47bb8ba-14b4-47ca-a8ad-7488ee2d2745",
+      "prompt": "single",
+      "answer": "enkelt"
+    },
+    {
+      "id": "vocab_english2norwegian_cadacae9-f7fa-41eb-b982-dee4f4017f28",
+      "prompt": "a rib/lamelle, ribs/lamellen",
+      "answer": "en ribbe, ripper"
+    },
+    {
+      "id": "vocab_english2norwegian_9f146eb8-288b-4e62-91cb-26ae915de84d",
+      "prompt": "safe/certain",
+      "answer": "sikre"
+    },
+    {
+      "id": "vocab_english2norwegian_b0c4e7b0-c56d-4988-b242-5755cdf96c19",
+      "prompt": "edible",
+      "answer": "spiselig"
+    },
+    {
+      "id": "vocab_english2norwegian_a350b988-98a9-4790-98bc-e130493b5fda",
+      "prompt": "a mushroom",
+      "answer": "en sopp"
+    },
+    {
+      "id": "vocab_english2norwegian_de296f65-67f6-400b-bda9-d769c00aa945",
+      "prompt": "to wilt",
+      "answer": "å visne"
+    },
+    {
+      "id": "vocab_english2norwegian_6932391b-3c70-47bc-b0d7-6e8aadf32fdc",
+      "prompt": "repeated",
+      "answer": "gjentatt"
+    },
+    {
+      "id": "vocab_english2norwegian_025d0f1c-5893-4900-b350-3341cbf9834a",
+      "prompt": "an hour",
+      "answer": "en time"
+    },
+    {
+      "id": "vocab_english2norwegian_b855615e-b311-4468-9e3a-55d373572c58",
+      "prompt": "to rub in",
+      "answer": "å gni ... inn"
+    },
+    {
+      "id": "vocab_english2norwegian_83490653-47cb-45f6-a3e8-aa9fbc28f2d6",
+      "prompt": "application of (makeup/cream/medication)",
+      "answer": "påføring av"
+    },
+    {
+      "id": "vocab_english2norwegian_40f443d4-4585-4eed-a047-f7f50dd71b10",
+      "prompt": "a porridge",
+      "answer": "en grøt"
+    },
+    {
+      "id": "vocab_english2norwegian_2bc92eba-6be8-4e4e-befd-5341aa096555",
+      "prompt": "thick",
+      "answer": "tykk/tykt/tykke"
+    },
+    {
+      "id": "vocab_english2norwegian_4af9d865-f49b-4864-9d39-875c959b7ade",
+      "prompt": "to dry",
+      "answer": "å tørke"
+    },
+    {
+      "id": "vocab_english2norwegian_04e2937f-26c8-46cb-8386-80f8acff0575",
+      "prompt": "actually/really",
+      "answer": "egentlig"
+    },
+    {
+      "id": "vocab_english2norwegian_a8eb2b70-631e-4804-ace8-97af84435b10",
+      "prompt": "unfortunately",
+      "answer": "dessverre"
+    },
+    {
+      "id": "vocab_english2norwegian_707c6b24-3ee3-4f5a-a6f4-f2bd1117c2b4",
+      "prompt": "fortunately",
+      "answer": "heldigvis"
+    },
+    {
+      "id": "vocab_english2norwegian_61168b67-29eb-4963-bf96-4f8cd35b5981",
+      "prompt": "maybe",
+      "answer": "kanskje"
+    },
+    {
+      "id": "vocab_english2norwegian_9a8d5eeb-eca4-4d7b-91c1-390fd4826e1d",
+      "prompt": "of course",
+      "answer": "selvfølgelig"
+    },
+    {
+      "id": "vocab_english2norwegian_ea265978-0874-45ec-ac7f-5aa4d4c5ac02",
+      "prompt": "a basket",
+      "answer": "et kurv"
+    },
+    {
+      "id": "vocab_english2norwegian_d6624ab4-43ec-4443-84c3-e6e51df0b94f",
+      "prompt": "a leaf",
+      "answer": "et blad"
+    },
+    {
+      "id": "vocab_english2norwegian_062e9ca9-7534-42e6-993c-b95bd94478a9",
+      "prompt": "a branch",
+      "answer": "en gren"
+    },
+    {
+      "id": "vocab_english2norwegian_c32c70a3-3b62-4bf6-95d5-e6ae74524ff5",
+      "prompt": "a root, roots",
+      "answer": "en rot/røtter"
+    },
+    {
+      "id": "vocab_english2norwegian_c595a6c9-f82d-4c12-97fa-499ca3d22c0d",
+      "prompt": "a rock",
+      "answer": "en stein"
+    },
+    {
+      "id": "vocab_english2norwegian_44286feb-df48-461d-be87-987708c7551e",
+      "prompt": "a bog/marsh",
+      "answer": "en myr"
+    },
+    {
+      "id": "vocab_english2norwegian_f99405d0-85a7-46ff-a324-4b7090e3622b",
+      "prompt": "a hunter",
+      "answer": "en jeger"
+    },
+    {
+      "id": "vocab_english2norwegian_d60480b8-64d7-4d00-9165-4ef79e511e7d",
+      "prompt": "a hat/cap",
+      "answer": "en hatt"
+    },
+    {
+      "id": "vocab_english2norwegian_93d16689-29e5-433f-a1e2-a151a113134f",
+      "prompt": "a stemp",
+      "answer": "en stilk"
+    },
+    {
+      "id": "vocab_english2norwegian_6739d696-b2d5-4986-8c5a-f51aa4c206d4",
+      "prompt": "to grow",
+      "answer": "å vokse"
+    },
+    {
+      "id": "vocab_english2norwegian_4bdfcbad-3594-44d3-975f-4828b81c17f5",
+      "prompt": "to find",
+      "answer": "å finne"
+    },
+    {
+      "id": "vocab_english2norwegian_dd095dec-847a-4359-a1c1-9b838e250ecf",
+      "prompt": "to exist",
+      "answer": "å finnes"
+    },
+    {
+      "id": "vocab_english2norwegian_051cb98e-f63e-472b-b8b0-e03a030ccbcb",
+      "prompt": "to pick/gather",
+      "answer": "å plukke"
+    },
+    {
+      "id": "vocab_english2norwegian_bb6043ff-2c98-49a6-a1f9-17b71d63f904",
+      "prompt": "rare",
+      "answer": "sjelden"
+    },
+    {
+      "id": "vocab_english2norwegian_5e6db48c-3d9a-4f91-9729-d75603aea985",
+      "prompt": "common",
+      "answer": "vanlig"
+    },
+    {
+      "id": "vocab_english2norwegian_26fb1bab-4994-4839-aad1-cf061a800530",
+      "prompt": "rain",
+      "answer": "regn"
+    },
+    {
+      "id": "vocab_english2norwegian_bd636825-f9b1-4be6-9c40-8458fc4b768b",
+      "prompt": "fog",
+      "answer": "tåke"
+    },
+    {
+      "id": "vocab_english2norwegian_a81e4094-a26b-4e7d-913d-fb1ada203e61",
+      "prompt": "wind",
+      "answer": "vind"
+    },
+    {
+      "id": "vocab_english2norwegian_84cbb6c5-69a9-40c0-98a6-5e26e2f13ac3",
+      "prompt": "sunshine",
+      "answer": "solskin"
+    },
+    {
+      "id": "vocab_english2norwegian_615d46ec-a890-400f-a4ac-ae05ea9ff3ea",
+      "prompt": "today",
+      "answer": "i dag"
+    },
+    {
+      "id": "vocab_english2norwegian_54b59f5f-0895-413d-bfb3-faf317e63ef8",
+      "prompt": "tomorrow",
+      "answer": "i morgen"
+    },
+    {
+      "id": "vocab_norwegian2english_5f47f956-23e0-470d-b1b1-6ba189ef1724",
+      "prompt": "en øks",
+      "answer": "an axe"
+    },
+    {
+      "id": "vocab_norwegian2english_393d0dea-bcc5-417d-9f80-ff6966445325",
+      "prompt": "hvert enkelt manneskin",
+      "answer": "every single person"
+    },
+    {
+      "id": "vocab_norwegian2english_a47bb8ba-14b4-47ca-a8ad-7488ee2d2745",
+      "prompt": "enkelt",
+      "answer": "single"
+    },
+    {
+      "id": "vocab_norwegian2english_cadacae9-f7fa-41eb-b982-dee4f4017f28",
+      "prompt": "en ribbe, ripper",
+      "answer": "a rib/lamelle, ribs/lamellen"
+    },
+    {
+      "id": "vocab_norwegian2english_9f146eb8-288b-4e62-91cb-26ae915de84d",
+      "prompt": "sikre",
+      "answer": "safe/certain"
+    },
+    {
+      "id": "vocab_norwegian2english_b0c4e7b0-c56d-4988-b242-5755cdf96c19",
+      "prompt": "spiselig",
+      "answer": "edible"
+    },
+    {
+      "id": "vocab_norwegian2english_a350b988-98a9-4790-98bc-e130493b5fda",
+      "prompt": "en sopp",
+      "answer": "a mushroom"
+    },
+    {
+      "id": "vocab_norwegian2english_de296f65-67f6-400b-bda9-d769c00aa945",
+      "prompt": "å visne",
+      "answer": "to wilt"
+    },
+    {
+      "id": "vocab_norwegian2english_6932391b-3c70-47bc-b0d7-6e8aadf32fdc",
+      "prompt": "gjentatt",
+      "answer": "repeated"
+    },
+    {
+      "id": "vocab_norwegian2english_025d0f1c-5893-4900-b350-3341cbf9834a",
+      "prompt": "en time",
+      "answer": "an hour"
+    },
+    {
+      "id": "vocab_norwegian2english_b855615e-b311-4468-9e3a-55d373572c58",
+      "prompt": "å gni ... inn",
+      "answer": "to rub in"
+    },
+    {
+      "id": "vocab_norwegian2english_83490653-47cb-45f6-a3e8-aa9fbc28f2d6",
+      "prompt": "påføring av",
+      "answer": "application of (makeup/cream/medication)"
+    },
+    {
+      "id": "vocab_norwegian2english_40f443d4-4585-4eed-a047-f7f50dd71b10",
+      "prompt": "en grøt",
+      "answer": "a porridge"
+    },
+    {
+      "id": "vocab_norwegian2english_2bc92eba-6be8-4e4e-befd-5341aa096555",
+      "prompt": "tykk/tykt/tykke",
+      "answer": "thick"
+    },
+    {
+      "id": "vocab_norwegian2english_4af9d865-f49b-4864-9d39-875c959b7ade",
+      "prompt": "å tørke",
+      "answer": "to dry"
+    },
+    {
+      "id": "vocab_norwegian2english_04e2937f-26c8-46cb-8386-80f8acff0575",
+      "prompt": "egentlig",
+      "answer": "actually/really"
+    },
+    {
+      "id": "vocab_norwegian2english_a8eb2b70-631e-4804-ace8-97af84435b10",
+      "prompt": "dessverre",
+      "answer": "unfortunately"
+    },
+    {
+      "id": "vocab_norwegian2english_707c6b24-3ee3-4f5a-a6f4-f2bd1117c2b4",
+      "prompt": "heldigvis",
+      "answer": "fortunately"
+    },
+    {
+      "id": "vocab_norwegian2english_61168b67-29eb-4963-bf96-4f8cd35b5981",
+      "prompt": "kanskje",
+      "answer": "maybe"
+    },
+    {
+      "id": "vocab_norwegian2english_9a8d5eeb-eca4-4d7b-91c1-390fd4826e1d",
+      "prompt": "selvfølgelig",
+      "answer": "of course"
+    },
+    {
+      "id": "vocab_norwegian2english_ea265978-0874-45ec-ac7f-5aa4d4c5ac02",
+      "prompt": "et kurv",
+      "answer": "a basket"
+    },
+    {
+      "id": "vocab_norwegian2english_d6624ab4-43ec-4443-84c3-e6e51df0b94f",
+      "prompt": "et blad",
+      "answer": "a leaf"
+    },
+    {
+      "id": "vocab_norwegian2english_062e9ca9-7534-42e6-993c-b95bd94478a9",
+      "prompt": "en gren",
+      "answer": "a branch"
+    },
+    {
+      "id": "vocab_norwegian2english_c32c70a3-3b62-4bf6-95d5-e6ae74524ff5",
+      "prompt": "en rot/røtter",
+      "answer": "a root, roots"
+    },
+    {
+      "id": "vocab_norwegian2english_c595a6c9-f82d-4c12-97fa-499ca3d22c0d",
+      "prompt": "en stein",
+      "answer": "a rock"
+    },
+    {
+      "id": "vocab_norwegian2english_44286feb-df48-461d-be87-987708c7551e",
+      "prompt": "en myr",
+      "answer": "a bog/marsh"
+    },
+    {
+      "id": "vocab_norwegian2english_f99405d0-85a7-46ff-a324-4b7090e3622b",
+      "prompt": "en jeger",
+      "answer": "a hunter"
+    },
+    {
+      "id": "vocab_norwegian2english_d60480b8-64d7-4d00-9165-4ef79e511e7d",
+      "prompt": "en hatt",
+      "answer": "a hat/cap"
+    },
+    {
+      "id": "vocab_norwegian2english_93d16689-29e5-433f-a1e2-a151a113134f",
+      "prompt": "en stilk",
+      "answer": "a stemp"
+    },
+    {
+      "id": "vocab_norwegian2english_6739d696-b2d5-4986-8c5a-f51aa4c206d4",
+      "prompt": "å vokse",
+      "answer": "to grow"
+    },
+    {
+      "id": "vocab_norwegian2english_4bdfcbad-3594-44d3-975f-4828b81c17f5",
+      "prompt": "å finne",
+      "answer": "to find"
+    },
+    {
+      "id": "vocab_norwegian2english_dd095dec-847a-4359-a1c1-9b838e250ecf",
+      "prompt": "å finnes",
+      "answer": "to exist"
+    },
+    {
+      "id": "vocab_norwegian2english_051cb98e-f63e-472b-b8b0-e03a030ccbcb",
+      "prompt": "å plukke",
+      "answer": "to pick/gather"
+    },
+    {
+      "id": "vocab_norwegian2english_bb6043ff-2c98-49a6-a1f9-17b71d63f904",
+      "prompt": "sjelden",
+      "answer": "rare"
+    },
+    {
+      "id": "vocab_norwegian2english_5e6db48c-3d9a-4f91-9729-d75603aea985",
+      "prompt": "vanlig",
+      "answer": "common"
+    },
+    {
+      "id": "vocab_norwegian2english_26fb1bab-4994-4839-aad1-cf061a800530",
+      "prompt": "regn",
+      "answer": "rain"
+    },
+    {
+      "id": "vocab_norwegian2english_bd636825-f9b1-4be6-9c40-8458fc4b768b",
+      "prompt": "tåke",
+      "answer": "fog"
+    },
+    {
+      "id": "vocab_norwegian2english_a81e4094-a26b-4e7d-913d-fb1ada203e61",
+      "prompt": "vind",
+      "answer": "wind"
+    },
+    {
+      "id": "vocab_norwegian2english_84cbb6c5-69a9-40c0-98a6-5e26e2f13ac3",
+      "prompt": "solskin",
+      "answer": "sunshine"
+    },
+    {
+      "id": "vocab_norwegian2english_615d46ec-a890-400f-a4ac-ae05ea9ff3ea",
+      "prompt": "i dag",
+      "answer": "today"
+    },
+    {
+      "id": "vocab_norwegian2english_54b59f5f-0895-413d-bfb3-faf317e63ef8",
+      "prompt": "i morgen",
+      "answer": "tomorrow"
+    }
+  ],
+  "tamil": [
+    {
+      "id": "tamil_vocal_a",
+      "prompt": "a - short, a - long, a - short comb, a - long comb",
+      "answer": "அ ஆ - ா"
+    },
+    {
+      "id": "tamil_vocal_e",
+      "prompt": "e - short, e - long, e - short comb, e - long comb",
+      "answer": "எ ஏ ெ ே"
+    },
+    {
+      "id": "tamil_vocal_i",
+      "prompt": "i - short, i - long, i - short comb, i - long comb",
+      "answer": "இ ஈ ி ீ"
+    },
+    {
+      "id": "tamil_vocal_o",
+      "prompt": "o - short, o - long, o - short comb, o - long comb",
+      "answer": "ஒ ஓ ொ ோ"
+    },
+    {
+      "id": "tamil_vocal_u",
+      "prompt": "u - short, u - long, u - short comb, u - long comb",
+      "answer": "உ ஊ ு ூ"
+    },
+    {
+      "id": "tamil_word_shrimp",
+      "prompt": "shrimp",
+      "answer": "இறால்"
+    },
+    {
+      "id": "tamil_letter_a",
+      "prompt": "Which Tamil vowel represents “a”?",
+      "answer": "அ"
+    },
+    {
+      "id": "tamil_letter_aa",
+      "prompt": "Which Tamil vowel represents “aa”?",
+      "answer": "ஆ"
+    },
+    {
+      "id": "tamil_letter_i",
+      "prompt": "Which Tamil vowel represents “i”?",
+      "answer": "இ"
+    },
+    {
+      "id": "tamil_letter_ii",
+      "prompt": "Which Tamil vowel represents “ii”?",
+      "answer": "ஈ"
+    },
+    {
+      "id": "tamil_letter_u",
+      "prompt": "Which Tamil vowel represents “u”?",
+      "answer": "உ"
+    },
+    {
+      "id": "tamil_letter_uu",
+      "prompt": "Which Tamil vowel represents “uu”?",
+      "answer": "ஊ"
+    },
+    {
+      "id": "tamil_letter_e",
+      "prompt": "Which Tamil vowel represents “e”?",
+      "answer": "எ"
+    },
+    {
+      "id": "tamil_letter_ee",
+      "prompt": "Which Tamil vowel represents “ee”?",
+      "answer": "ஏ"
+    },
+    {
+      "id": "tamil_letter_ai",
+      "prompt": "Which Tamil vowel represents “ai”?",
+      "answer": "ஐ"
+    },
+    {
+      "id": "tamil_letter_o",
+      "prompt": "Which Tamil vowel represents “o”?",
+      "answer": "ஒ"
+    },
+    {
+      "id": "tamil_letter_oo",
+      "prompt": "Which Tamil vowel represents “oo”?",
+      "answer": "ஓ"
+    },
+    {
+      "id": "tamil_letter_au",
+      "prompt": "Which Tamil vowel represents “au”?",
+      "answer": "ஔ"
+    }
+  ]
+}

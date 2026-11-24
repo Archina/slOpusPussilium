@@ -1,46 +1,9 @@
 import { useRef, useState } from "react";
-
-type StudyCard = { prompt: string; answer: string };
-type Deck = { name: string; glyph: string; progress: number; hue: string; description: string; questions: StudyCard[] };
-
-const decks: Deck[] = [
-  { name: "Latin", glyph: "Ⅲ", progress: 72, hue: "gold", description: "First declension, common verbs, and sacred phrases.", questions: [
-    { prompt: "What does per aspera ad astra mean?", answer: "Through hardships to the stars." },
-    { prompt: "Translate: carpe diem.", answer: "Seize the day." },
-    { prompt: "What is the Latin word for water?", answer: "Aqua." },
-    { prompt: "What does memento mori mean?", answer: "Remember that you must die." },
-    { prompt: "Translate: lux in tenebris.", answer: "Light in darkness." },
-    { prompt: "What case commonly marks the direct object?", answer: "The accusative case." },
-    { prompt: "What is the plural of rosa?", answer: "Rosae." },
-    { prompt: "Translate: ars longa, vita brevis.", answer: "Art is long, life is short." },
-    { prompt: "What does veritas mean?", answer: "Truth." },
-    { prompt: "Translate: nosce te ipsum.", answer: "Know thyself." },
-  ] },
-  { name: "Biology", glyph: "✦", progress: 41, hue: "violet", description: "The architecture and rituals of the living cell.", questions: [
-    { prompt: "Which structure holds a cell's genetic material?", answer: "The nucleus." },
-    { prompt: "What molecule carries genetic instructions?", answer: "DNA." },
-    { prompt: "Where does cellular respiration mainly occur?", answer: "In the mitochondria." },
-    { prompt: "What boundary controls passage into a cell?", answer: "The cell membrane." },
-    { prompt: "What organelle performs photosynthesis?", answer: "The chloroplast." },
-    { prompt: "What is the basic unit of life?", answer: "The cell." },
-    { prompt: "Which molecule is the cell's immediate energy currency?", answer: "ATP." },
-    { prompt: "What do ribosomes produce?", answer: "Proteins." },
-    { prompt: "What process divides one cell into two identical cells?", answer: "Mitosis." },
-    { prompt: "What pigment absorbs light in plants?", answer: "Chlorophyll." },
-  ] },
-  { name: "Alchemy", glyph: "☽", progress: 18, hue: "rose", description: "Elements, symbols, and the history of transmutation.", questions: [
-    { prompt: "What does the alchemical symbol ☽ represent?", answer: "Silver and the Moon." },
-    { prompt: "What was the philosopher's stone believed to do?", answer: "Transmute base metals and grant an elixir of life." },
-    { prompt: "Which metal is associated with the Sun?", answer: "Gold." },
-    { prompt: "What does solve et coagula mean?", answer: "Dissolve and recombine." },
-    { prompt: "What is the prima materia?", answer: "The formless first matter of the work." },
-    { prompt: "Which element is represented by an upward triangle?", answer: "Fire." },
-    { prompt: "What is calcination?", answer: "Purification through intense heat." },
-    { prompt: "Which metal was traditionally linked to Saturn?", answer: "Lead." },
-    { prompt: "What is an alembic used for?", answer: "Distillation." },
-    { prompt: "What does the ouroboros symbolize?", answer: "Cycles, renewal, and unity." },
-  ] },
-];
+import { decks } from "./data/decks";
+import { Sigil, symbolCatalog } from "./Sigil";
+import { buildSession, cardKey, dueCount, experienceForReview, mastery, MOMENTUM_COST, rankForFailures, reviewCard } from "./scheduler";
+import { todayKey, useLearnerState } from "./storage";
+import type { Deck, DeckEdit, DifficultyMode, LearnerState, Rating, SessionCard, StudyCard } from "./types";
 
 function playChalkSound() {
   type AudioWindow = Window & typeof globalThis & { webkitAudioContext?: typeof AudioContext };
@@ -73,27 +36,55 @@ function Nav({ page, setPage }: { page: string; setPage: (page: string) => void 
     <button className={page === id ? "active" : ""} onClick={() => setPage(id)} key={id}><b>{icon}</b><span>{label}</span></button>)}</nav>;
 }
 
-function Sigil({ glyph, large = false }: { glyph: string; large?: boolean }) {
-  return <div className={`sigil ${large ? "large" : ""}`}><i>{glyph}</i></div>;
+function deckSettings(state: LearnerState, deck: Deck) {
+  const stored = state.decks[deck.id];
+  const active = stored?.active ?? deck.id === "latin";
+  return { active, sessionsCompleted: stored?.sessionDate === todayKey() ? stored.sessionsCompleted : 0 };
 }
 
-function Home({ start }: { start: () => void }) {
-  return <main className="home"><header><div className="brand"><Sigil glyph="☽" /><div><strong>OPUS PUSILLIUM</strong><small>Initiate · Level 7</small></div></div><button className="icon-button" aria-label="Settings">✦</button></header>
+const maximumHealth = (mode: DifficultyMode) => mode === "scholar" ? 5 : mode === "adept" ? 3 : null;
+
+function Home({ state, deckList, start }: { state: LearnerState; deckList: Deck[]; start: () => void }) {
+  const activeDecks = deckList.filter((deck) => deckSettings(state, deck).active);
+  const sessionsDone = activeDecks.reduce((sum, deck) => sum + deckSettings(state, deck).sessionsCompleted, 0);
+  const sessionsTarget = Math.max(2, activeDecks.length * 2);
+  return <main className="home"><header><div className="brand"><Sigil symbol="astronomy" /><div><strong>OPUS PUSILLIUM</strong><small>{state.experience} XP · {state.streak} day streak</small></div></div><button className="icon-button" aria-label="Settings">✦</button></header>
     <section className="hero"><div className="orb"><span>◉</span></div><p className="eyebrow">YOUR JOURNEY</p><h1>Knowledge remembers<br />those who persist.</h1></section>
-    <section className="daily panel"><div><p className="eyebrow">DAILY SESSION</p><span>12 cards <em>~ 10 min</em></span></div><button className="primary" onClick={start}>Begin</button></section>
-    <section className="reminder panel"><span className="spark">✦</span><div><p className="eyebrow">THE HOUR RETURNS</p><p>3 reviews await your attention.</p></div><button className="text-button">View</button></section>
-    <section className="panel mastery"><div className="ring"><b>68%</b><small>Overall</small></div><div><p className="eyebrow">MASTERY PROGRESS</p><div className="constellation">✦ — ◇ — ✦<br />　　╲　╱<br />　　　✧</div></div></section>
+    <section className="daily panel"><div><p className="eyebrow">DAILY PRACTICE</p><span>10 cards <em>~ 10 min</em></span><small>{sessionsDone} / {sessionsTarget} sessions complete</small></div><button className="primary" onClick={start} disabled={activeDecks.length === 0}>Begin</button></section>
+    <section className="reminder panel"><span className="spark">✦</span><div><p className="eyebrow">THE HOUR RETURNS</p><p>{activeDecks.reduce((sum, deck) => sum + dueCount(deck, state), 0)} cards ready across active decks.</p></div><button className="text-button">View</button></section>
+    <section className="panel mastery"><div className="ring"><b>{activeDecks.length || 1}</b><small>Active</small></div><div><p className="eyebrow">LEARNING PATH</p><div className="constellation">✦ — ◇ — ✦<br />　　╲　╱<br />　　　✧</div></div></section>
   </main>;
 }
 
-function Decks({ open }: { open: (deck: Deck) => void }) {
+function DeckEditor({ deck, save, close }: { deck: Deck; save: (edit: DeckEdit) => void; close: () => void }) {
+  const [draft, setDraft] = useState<DeckEdit>({ name: deck.name, domain: deck.domain, symbol: deck.symbol, description: deck.description, questions: deck.questions.map((card) => ({ ...card })) });
+  const [query, setQuery] = useState("");
+  const visibleCards = (draft.questions ?? []).filter((card) => `${card.prompt} ${card.answer}`.toLowerCase().includes(query.toLowerCase())).slice(0, 50);
+  const updateCard = (id: string, field: "prompt" | "answer", value: string) => setDraft((current) => ({ ...current, questions: (current.questions ?? []).map((card) => card.id === id ? { ...card, [field]: value } : card) }));
+  const removeCard = (id: string) => setDraft((current) => ({ ...current, questions: (current.questions ?? []).filter((card) => card.id !== id) }));
+  const addCard = () => setDraft((current) => ({ ...current, questions: [{ id: `custom-${crypto.randomUUID()}`, prompt: "New question", answer: "New answer" }, ...(current.questions ?? [])] }));
+  return <div className="editor-overlay" role="presentation"><section className="deck-editor" role="dialog" aria-modal="true" aria-label={`Edit ${deck.name} deck`}><header><div><p className="eyebrow">DECK WORKSHOP</p><h2>Edit deck</h2></div><button className="icon-button" onClick={close} aria-label="Close editor">×</button></header>
+    <div className="identity-fields"><label>Name<input value={draft.name} onChange={(event) => setDraft({ ...draft, name: event.target.value })} /></label><label>Domain<input value={draft.domain} onChange={(event) => setDraft({ ...draft, domain: event.target.value })} /></label><label className="wide-field">Description<textarea rows={2} value={draft.description} onChange={(event) => setDraft({ ...draft, description: event.target.value })} /></label></div>
+    <div><p className="eyebrow">DOMAIN SIGIL</p><div className="symbol-picker">{symbolCatalog.map((entry) => <button className={draft.symbol === entry.id ? "selected" : ""} onClick={() => setDraft({ ...draft, symbol: entry.id, domain: entry.name })} key={entry.id} title={entry.name}><Sigil symbol={entry.id} /><small>{entry.name}</small></button>)}</div></div>
+    <div className="card-editor-heading"><div><p className="eyebrow">LEARNING CARDS</p><h3>{draft.questions?.length ?? 0} cards</h3></div><button className="text-button" onClick={addCard}>+ Add card</button></div>
+    <input className="card-search" type="search" placeholder="Search prompts and answers" value={query} onChange={(event) => setQuery(event.target.value)} />
+    <div className="editable-cards">{visibleCards.map((card) => <article className="editable-card" key={card.id}><label>Front<textarea rows={2} value={card.prompt} onChange={(event) => updateCard(card.id, "prompt", event.target.value)} /></label><label>Back<textarea rows={2} value={card.answer} onChange={(event) => updateCard(card.id, "answer", event.target.value)} /></label><button className="remove-card" onClick={() => removeCard(card.id)} aria-label={`Remove ${card.prompt}`}>×</button></article>)}</div>
+    {(draft.questions?.length ?? 0) > visibleCards.length && <p className="muted editor-limit">Showing the first 50 matches. Search to find another card.</p>}
+    <footer><button className="text-button" onClick={close}>Cancel</button><button className="primary" onClick={() => save(draft)}>Save deck</button></footer>
+  </section></div>;
+}
+
+function Decks({ state, deckList, open, saveEdit, toggleActive }: { state: LearnerState; deckList: Deck[]; open: (deck: Deck) => void; saveEdit: (deck: Deck, edit: DeckEdit) => void; toggleActive: (deck: Deck) => void }) {
+  const [editing, setEditing] = useState<Deck | null>(null);
   return <main className="screen"><header><button className="icon-button">←</button><div className="title"><p className="eyebrow">THE LIBRARY</p><h2>Your decks</h2></div><button className="icon-button">⋮</button></header>
-    <div className="deck-list">{decks.map((deck) => <button className="deck-card" onClick={() => open(deck)} key={deck.name}><Sigil glyph={deck.glyph} /><div><h3>{deck.name}</h3><p>{deck.description}</p><div className="progress"><span style={{ width: `${deck.progress}%` }} /></div><small>{deck.progress}% mastered · {deck.questions.length} cards</small></div><b className="chevron">›</b></button>)}</div>
+    <div className="deck-list">{deckList.map((deck) => { const progress = mastery(deck, state); const settings = deckSettings(state, deck); return <article className={`deck-card ${settings.active ? "is-active" : ""}`} key={deck.id}><button className="deck-open" onClick={() => open(deck)} aria-label={`Study ${deck.name} deck`}><Sigil symbol={deck.symbol} /><div><p className="deck-domain">{deck.domain}</p><h3>{deck.name}</h3><p>{deck.description}</p><div className="progress"><span style={{ width: `${progress}%` }} /></div><small>{progress}% encountered · {dueCount(deck, state)} ready · {deck.questions.length} cards</small>{settings.active && <span className="active-mark">Active · {settings.sessionsCompleted}/2 today</span>}</div></button><div className="deck-actions"><button className="deck-active-button" onClick={() => toggleActive(deck)} aria-label={`${settings.active ? "Deactivate" : "Activate"} ${deck.name} deck`} aria-pressed={settings.active}>{settings.active ? "★" : "☆"}</button><button className="deck-edit-button" onClick={() => setEditing(deck)} aria-label={`Edit ${deck.name} deck`}>✎</button></div></article>; })}</div>
+    {editing && <DeckEditor deck={editing} close={() => setEditing(null)} save={(edit) => { saveEdit(editing, edit); setEditing(null); }} />}
   </main>;
 }
 
-function Study({ deck, close }: { deck: Deck; close: () => void }) {
-  const [queue, setQueue] = useState(() => deck.questions.map((_, index) => index));
+function Study({ deck, sessionCards, bonusCards, difficulty, close, onReview, onSessionComplete }: { deck: Deck; sessionCards: SessionCard[]; bonusCards: SessionCard[]; difficulty: DifficultyMode; close: () => void; onReview: (card: SessionCard, rating: Rating, reducedXp: boolean) => void; onSessionComplete: () => void }) {
+  const [cards, setCards] = useState(() => [...sessionCards, ...bonusCards]);
+  const [queue, setQueue] = useState(() => sessionCards.map((_, index) => index));
   const [drawn, setDrawn] = useState(false);
   const [revealed, setRevealed] = useState(false);
   const [writing, setWriting] = useState(false);
@@ -102,57 +93,130 @@ function Study({ deck, close }: { deck: Deck; close: () => void }) {
   const [returning, setReturning] = useState<"deck" | "discard" | null>(null);
   const [dealNumber, setDealNumber] = useState(0);
   const [complete, setComplete] = useState(false);
+  const [awaitingBonus, setAwaitingBonus] = useState(false);
+  const [bonusIndex, setBonusIndex] = useState(0);
+  const [bonusAdded, setBonusAdded] = useState(0);
+  const [momentum, setMomentum] = useState(0);
+  const [bonusDrawCount, setBonusDrawCount] = useState(2);
+  const maxHealth = maximumHealth(difficulty);
+  const [health, setHealth] = useState(maxHealth);
   const writingTimer = useRef<number | undefined>(undefined);
   const soundTimer = useRef<number | undefined>(undefined);
-  const revealedCards = useRef(new Set<number>());
-  if (complete) return <main className="screen centered"><Sigil glyph="✦" large /><p className="eyebrow">DECK COMPLETE</p><h2>The pattern is remembered.</h2><p className="muted">Ten cards mastered · + 100 points</p><button className="primary wide" onClick={close}>Continue</button></main>;
-  const currentCard = deck.questions[queue[0]];
-  const completedCount = deck.questions.length - queue.length;
+  const revealedCards = useRef(new Set<string>());
+  const totalCards = sessionCards.length + bonusAdded;
+  const completedCount = totalCards - queue.length;
+  const finishSession = () => { onSessionComplete(); setComplete(true); setAwaitingBonus(false); };
+  if (complete) return <main className="screen centered"><Sigil symbol={deck.symbol} large /><p className="eyebrow">SESSION COMPLETE</p><h2>The pattern is remembered.</h2><p className="muted">{totalCards} cards studied · progress and XP saved locally</p><button className="primary wide" onClick={close}>Continue</button></main>;
+  if (awaitingBonus) {
+    const maximumBonusCards = Math.min(Math.floor(momentum / MOMENTUM_COST), bonusCards.length - bonusIndex);
+    const drawCount = Math.max(1, Math.min(bonusDrawCount, maximumBonusCards));
+    const momentumCost = drawCount * MOMENTUM_COST;
+    return <main className="screen centered bonus-offer"><Sigil symbol="astronomy" large /><p className="eyebrow">MOMENTUM GATHERED</p><h2>Your insight can carry you further.</h2><p className="muted">Choose a batch of bonus cards. Each card costs {MOMENTUM_COST} Momentum.</p><div className="momentum-orb">◆ {momentum}</div><label className="bonus-slider"><span>Bonus cards <strong>{drawCount}</strong></span><input aria-label="Bonus cards to draw" type="range" min="1" max={maximumBonusCards} value={drawCount} onChange={(event) => setBonusDrawCount(Number(event.target.value))} /><small>Cost: ◆ {momentumCost} · {maximumBonusCards} available</small></label><button className="primary wide" disabled={maximumBonusCards < 1} onClick={() => { const indices = Array.from({ length: drawCount }, (_, offset) => sessionCards.length + bonusIndex + offset); setMomentum((value) => value - momentumCost); setQueue(indices); setBonusIndex((value) => value + drawCount); setBonusAdded((value) => value + drawCount); setAwaitingBonus(false); setDrawn(true); setDealNumber((value) => value + 1); }}>Spend {momentumCost} · Draw {drawCount} bonus {drawCount === 1 ? "card" : "cards"}</button><button className="text-button" onClick={finishSession}>Finish session</button></main>;
+  }
+  const currentCard = cards[queue[0]];
+  const rankMultiplier = [1, 1.5, 2, 3][currentCard.rank];
+  const reward = (rating: Rating) => experienceForReview(rating, currentCard.rank);
   const flipCard = () => {
     if (writingTimer.current) window.clearTimeout(writingTimer.current);
     if (soundTimer.current) window.clearTimeout(soundTimer.current);
     if (revealed) { setRevealed(false); setWriting(false); setAnswerWritten(true); setAnswerFinished(false); return; }
     setRevealed(true);
-    if (revealedCards.current.has(queue[0])) {
+    if (revealedCards.current.has(currentCard.id)) {
       setWriting(false);
       setAnswerWritten(true);
       setAnswerFinished(true);
       return;
     }
-    revealedCards.current.add(queue[0]);
+    revealedCards.current.add(currentCard.id);
     setWriting(true);
     setAnswerWritten(false);
     setAnswerFinished(false);
     soundTimer.current = window.setTimeout(playChalkSound, 1150);
     writingTimer.current = window.setTimeout(() => { setAnswerWritten(true); setAnswerFinished(true); }, 2350);
   };
-  const gradeCard = (rating: "again" | "hard" | "easy") => {
+  const gradeCard = (rating: Rating) => {
     if (writingTimer.current) window.clearTimeout(writingTimer.current);
     if (soundTimer.current) window.clearTimeout(soundTimer.current);
     setAnswerFinished(false);
-    setReturning(rating === "easy" ? "discard" : "deck");
+    onReview(currentCard, rating, health !== null && health <= 0);
+    if (rating === "again" && health !== null) setHealth(Math.max(0, health - 1));
+    const nextMomentum = rating === "easy" ? momentum + 1 : momentum;
+    if (rating === "easy") setMomentum(nextMomentum);
+    if (rating === "again") setCards((current) => current.map((card, index) => index === queue[0] ? { ...card, failures: card.failures + 1, rank: rankForFailures(card.failures + 1) } : card));
+    setReturning(rating === "good" || rating === "easy" ? "discard" : "deck");
     window.setTimeout(() => {
+      if (rating === "again") setQueue(([first, ...rest]) => { const retryAt = Math.min(2, rest.length); return [...rest.slice(0, retryAt), first, ...rest.slice(retryAt)]; });
       if (rating === "hard") setQueue(([first, ...rest]) => [...rest, first]);
-      if (rating === "easy") {
-        if (queue.length === 1) { setComplete(true); return; }
+      if (rating === "good" || rating === "easy") {
+        if (queue.length === 1) {
+          if (nextMomentum >= MOMENTUM_COST && bonusIndex < bonusCards.length) setAwaitingBonus(true);
+          else finishSession();
+          setReturning(null);
+          return;
+        }
         setQueue((cards) => cards.slice(1));
       }
       setReturning(null); setRevealed(false); setWriting(false); setAnswerWritten(false); setDealNumber((number) => number + 1);
     }, 760);
   };
-  return <main className="screen study"><header><button className="icon-button" onClick={close}>×</button><div className="study-progress"><span style={{ width: `${completedCount / deck.questions.length * 100}%` }} /></div><small>{completedCount} / {deck.questions.length}</small></header>
-    {!drawn ? <section className="draw-stage"><p className="eyebrow">THE DECK AWAITS</p><div className="deck-stack" aria-hidden="true"><div /><div /><div className="deck-back"><Sigil glyph={deck.glyph} /><span className="stack-count">{queue.length}</span></div></div><p className="muted">{queue.length} cards remain in this session.</p><button className="primary" onClick={() => setDrawn(true)}>Draw a card</button></section> : <>
-      <section className="card-area"><button key={dealNumber} className={`card-scene ${revealed ? "is-flipped" : ""} ${returning ? `is-returning is-${returning}` : ""}`} onClick={flipCard} aria-label="Flip study card" aria-pressed={revealed} disabled={Boolean(returning)}><div className="physical-card"><div className="card-face card-front"><span className="corner-mark">✦</span><Sigil glyph={deck.glyph} /><p className="eyebrow">ARCANE {deck.name.toUpperCase()}</p><h2>{currentCard.prompt}</h2><small>Tap the card to turn it over</small></div><div className="card-face card-back"><span className="corner-mark">✦</span><Sigil glyph={deck.glyph} /><div className={`answer-ink ${writing ? "is-writing" : answerWritten ? "is-written" : ""}`} aria-live="polite"><p className="eyebrow">THE ANSWER</p><p className="answer">{currentCard.answer}</p><small>Tap to return to the question</small></div></div></div></button></section>
-      {answerFinished && <section className="grading"><p>How well did you know this?</p><button onClick={() => gradeCard("again")}>Again</button><button onClick={() => gradeCard("hard")}>Hard</button><button className="primary" onClick={() => gradeCard("easy")}>Easy ✓</button></section>}
+  return <main className="screen study"><header><button className="icon-button" onClick={close}>×</button><div className="study-progress"><span style={{ width: `${completedCount / totalCards * 100}%` }} /></div><small>{completedCount} / {totalCards}</small><span className="momentum" aria-label={`${momentum} momentum`}>◆ {momentum}</span>{health !== null && <span className="health" aria-label={`${health} hearts remaining`}>{Array.from({ length: maxHealth ?? 0 }, (_, index) => index < health ? "♥" : "♡").join("")}</span>}</header>
+    {health === 0 && <div className="practice-banner">Practice mode · keep learning with reduced XP</div>}
+    {!drawn ? <section className="draw-stage"><p className="eyebrow">THE DECK AWAITS</p><div className="deck-stack" aria-hidden="true"><div /><div /><div className="deck-back"><Sigil symbol={deck.symbol} /><span className="stack-count">{queue.length}</span></div></div><p className="muted">{queue.length} cards remain in this session.</p><button className="primary" onClick={() => setDrawn(true)}>Draw a card</button></section> : <>
+      <section className="card-area"><button key={dealNumber} className={`card-scene status-${currentCard.status} rank-${currentCard.rank} ${revealed ? "is-flipped" : ""} ${returning ? `is-returning is-${returning}` : ""}`} onClick={flipCard} aria-label="Flip study card" aria-pressed={revealed} disabled={Boolean(returning)}><div className="physical-card"><div className="card-face card-front"><span className="corner-mark">✦</span><span className="card-status">{currentCard.status === "unseen" ? "Unseen" : currentCard.status === "due" ? "Due review" : "Scheduled"}{currentCard.rank > 0 ? ` · Rank ${currentCard.rank + 1}` : ""}</span><Sigil symbol={deck.symbol} /><p className="eyebrow">ARCANE {deck.name.toUpperCase()}</p><h2>{currentCard.prompt}</h2><small>Tap the card to turn it over</small></div><div className="card-face card-back"><span className="corner-mark">✦</span><span className="card-status">Worth ×{rankMultiplier} XP</span><Sigil symbol={deck.symbol} /><div className={`answer-ink ${writing ? "is-writing" : answerWritten ? "is-written" : ""}`} aria-live="polite"><p className="eyebrow">THE ANSWER</p><p className="answer">{currentCard.answer}</p><small>Tap to return to the question</small></div></div></div></button></section>
+      {answerFinished && <section className="grading"><p>How well did you know this?</p><button aria-label="Again" onClick={() => gradeCard("again")}>Again <small>+{reward("again")} XP</small></button><button aria-label="Hard" onClick={() => gradeCard("hard")}>Hard <small>+{reward("hard")} XP</small></button><button aria-label="Good" onClick={() => gradeCard("good")}>Good <small>+{reward("good")} XP</small></button><button className="primary" aria-label="Easy ✓" onClick={() => gradeCard("easy")}>Easy ✓ <small>+{reward("easy")} XP · ◆</small></button></section>}
     </>}</main>;
 }
 
-function Quests() { return <main className="screen"><header><div className="title"><p className="eyebrow">THE PATH</p><h2>Quests</h2></div></header><div className="quest-path">{[["✦", "Apprentice", "Collect 100 points", true], ["Ⅱ", "Adept", "310 / 500 points", true], ["♜", "Magus", "Collect 1000 points", false], ["✧", "Master", "Collect 2000 points", false]].map(([glyph, title, detail, done]) => <div className={`quest ${done ? "done" : "locked"}`} key={String(title)}><Sigil glyph={String(glyph)} /><div><h3>{title}</h3><p>{detail}</p></div></div>)}</div></main>; }
+function Quests({ experience }: { experience: number }) { return <main className="screen"><header><div className="title"><p className="eyebrow">THE PATH</p><h2>Quests</h2></div></header><div className="quest-path">{[["language", "Apprentice", 100], ["philosophy", "Adept", 500], ["astronomy", "Magus", 1000], ["arts", "Master", 2000]].map(([symbol, title, target]) => { const needed = Number(target); return <div className={`quest ${experience >= needed ? "done" : "locked"}`} key={String(title)}><Sigil symbol={symbol as Deck["symbol"]} /><div><h3>{title}</h3><p>{Math.min(experience, needed)} / {needed} XP</p></div></div>; })}</div></main>; }
 
-function Profile() { const [times, setTimes] = useState(2); return <main className="screen profile"><header><button className="icon-button">⚙</button></header><Sigil glyph="☾" large /><h2>Initiate</h2><p>Level 7</p><div className="progress"><span style={{ width: "62%" }} /></div><small>310 / 500 XP</small><section className="stats">{[["✦", "1,230", "Total Points"], ["▣", "87", "Cards Mastered"], ["♨", "21", "Day Streak"], ["⌛", "4h 36m", "Study Time"]].map(([icon, value, label]) => <div key={label}><b>{icon} {value}</b><small>{label}</small></div>)}</section><section className="panel reminder-settings"><p className="eyebrow">REMINDER RITUAL</p><h3>Return for repetition</h3><p className="muted">In-app reminders are active. Scheduled push can be connected in a future release.</p><div className="stepper"><button onClick={() => setTimes(Math.max(1, times - 1))}>−</button><b>{times} times daily</b><button onClick={() => setTimes(times + 1)}>+</button></div></section></main>; }
+function Profile({ state, deckList, setDifficulty, toggleDeck }: { state: LearnerState; deckList: Deck[]; setDifficulty: (mode: DifficultyMode) => void; toggleDeck: (deck: Deck) => void }) {
+  const learned = Object.values(state.cards).filter((card) => card.successes > 0).length;
+  const level = Math.floor(state.experience / 100) + 1;
+  const levelProgress = state.experience % 100;
+  return <main className="screen profile"><header><button className="icon-button">⚙</button></header><Sigil symbol="astronomy" large /><h2>Initiate · Level {level}</h2><p>{state.difficulty === "adventurer" ? "Adventurer" : state.difficulty === "scholar" ? "Scholar" : "Adept"}</p><div className="progress xp-meter"><span style={{ width: `${levelProgress}%` }} /></div><small>{levelProgress} / 100 XP to level {level + 1}</small><section className="stats">{[["✦", String(state.experience), "Total Experience"], ["▣", String(learned), "Cards Encountered"], ["♨", String(state.streak), "Day Streak"], ["⌛", "2 × 10m", "Daily Goal"]].map(([icon, value, label]) => <div key={label}><b>{icon} {value}</b><small>{label}</small></div>)}</section>
+    <section className="panel settings-panel"><p className="eyebrow">CHALLENGE PATH</p><h3>Choose what helps you learn</h3><div className="mode-grid">{([ ["adventurer", "Adventurer", "No hearts · full freedom"], ["scholar", "Scholar", "5 hearts · soft practice"], ["adept", "Adept", "3 hearts · greater challenge"] ] as const).map(([id, name, detail]) => <button className={state.difficulty === id ? "selected" : ""} onClick={() => setDifficulty(id)} key={id}><b>{name}</b><small>{detail}</small></button>)}</div><p className="muted">At zero hearts you can always continue; only XP rewards are reduced.</p></section>
+    <section className="panel settings-panel"><p className="eyebrow">ACTIVE DECKS</p><h3>Two short sessions per active deck</h3><div className="deck-toggles">{deckList.map((deck) => <label key={deck.id}><input type="checkbox" checked={deckSettings(state, deck).active} onChange={() => toggleDeck(deck)} /><span className="deck-toggle-name"><Sigil symbol={deck.symbol} />{deck.name}</span><small>{deck.questions.length} cards</small></label>)}</div></section>
+    <section className="panel reminder-settings"><p className="eyebrow">REMINDER RITUAL</p><h3>Return for repetition</h3><p className="muted">Two ten-minute sessions are planned for each active deck. Progress and settings remain on this device.</p></section></main>;
+}
 
 export default function App() {
-  const [page, setPage] = useState("home"); const [deck, setDeck] = useState<Deck | null>(null);
-  const body = deck ? <Study deck={deck} close={() => { setDeck(null); setPage("decks"); }} /> : page === "home" ? <Home start={() => setDeck(decks[0])} /> : page === "decks" ? <Decks open={setDeck} /> : page === "quests" ? <Quests /> : <Profile />;
-  return <div className="app-shell">{body}{!deck && <Nav page={page} setPage={setPage} />}</div>;
+  const [page, setPage] = useState("home");
+  const [state, setState] = useLearnerState();
+  const deckList = decks.map((deck) => {
+    const edit = state.deckEdits[deck.id];
+    return edit ? { ...deck, ...edit, questions: edit.questions ?? deck.questions } : deck;
+  });
+  const [study, setStudy] = useState<{ deck: Deck; cards: SessionCard[]; bonusCards: SessionCard[] } | null>(null);
+  const startDeck = (deck: Deck) => {
+    const cards = buildSession(deck, state);
+    const selectedIds = new Set(cards.map((card) => card.id));
+    const bonusCards = buildSession(deck, state, deck.questions.length).filter((card) => !selectedIds.has(card.id));
+    setStudy({ deck, cards, bonusCards });
+  };
+  const startNext = () => {
+    const active = deckList.filter((deck) => deckSettings(state, deck).active);
+    const next = active.find((deck) => deckSettings(state, deck).sessionsCompleted < 2) ?? active[0];
+    if (next) startDeck(next);
+  };
+  const recordReview = (deck: Deck, card: SessionCard, rating: Rating, reducedXp: boolean) => setState((current) => {
+    const key = cardKey(deck.id, card.id);
+    const earned = experienceForReview(rating, card.rank, reducedXp);
+    return { ...current, experience: current.experience + earned, cards: { ...current.cards, [key]: reviewCard(current.cards[key], rating) } };
+  });
+  const completeSession = (deck: Deck) => setState((current) => {
+    const today = todayKey();
+    const yesterday = todayKey(new Date(Date.now() - 86_400_000));
+    const previous = current.decks[deck.id];
+    const sessionsCompleted = previous?.sessionDate === today ? Math.min(2, previous.sessionsCompleted + 1) : 1;
+    const streak = current.lastStudyDate === today ? current.streak : current.lastStudyDate === yesterday ? current.streak + 1 : 1;
+    return { ...current, streak, lastStudyDate: today, decks: { ...current.decks, [deck.id]: { active: previous?.active ?? deck.id === "latin", sessionDate: today, sessionsCompleted } } };
+  });
+  const setDifficulty = (difficulty: DifficultyMode) => setState((current) => ({ ...current, difficulty }));
+  const toggleDeck = (deck: Deck) => setState((current) => {
+    const settings = deckSettings(current, deck);
+    return { ...current, decks: { ...current.decks, [deck.id]: { active: !settings.active, sessionDate: todayKey(), sessionsCompleted: settings.sessionsCompleted } } };
+  });
+  const saveDeckEdit = (deck: Deck, edit: DeckEdit) => setState((current) => ({ ...current, deckEdits: { ...current.deckEdits, [deck.id]: edit } }));
+  const body = study ? <Study deck={study.deck} sessionCards={study.cards} bonusCards={study.bonusCards} difficulty={state.difficulty} close={() => { setStudy(null); setPage("decks"); }} onReview={(card, rating, reduced) => recordReview(study.deck, card, rating, reduced)} onSessionComplete={() => completeSession(study.deck)} /> : page === "home" ? <Home state={state} deckList={deckList} start={startNext} /> : page === "decks" ? <Decks state={state} deckList={deckList} open={startDeck} saveEdit={saveDeckEdit} toggleActive={toggleDeck} /> : page === "quests" ? <Quests experience={state.experience} /> : <Profile state={state} deckList={deckList} setDifficulty={setDifficulty} toggleDeck={toggleDeck} />;
+  return <div className="app-shell">{body}{!study && <Nav page={page} setPage={setPage} />}</div>;
 }
