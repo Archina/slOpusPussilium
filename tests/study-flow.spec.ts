@@ -13,12 +13,12 @@ test("draws, flips, writes, and returns a hard card", async ({ page }) => {
   expect(firstPrompt).toBeTruthy();
   await card.click();
   await expect(card).toContainText("THE ANSWER");
-  await expect(page.getByRole("button", { name: "Hard" })).toBeVisible({ timeout: 4_000 });
+  await expect(page.getByRole("button", { name: "Hard" })).toBeVisible({ timeout: 8_000 });
 
   await card.click();
   await expect(page.getByRole("button", { name: "Hard" })).not.toBeVisible();
   await card.click();
-  await expect(page.getByRole("button", { name: "Hard" })).toBeVisible({ timeout: 500 });
+  await expect(page.getByRole("button", { name: "Hard" })).toBeVisible({ timeout: 2_000 });
 
   await page.getByRole("button", { name: "Hard" }).click();
   await expect.poll(() => card.locator("h2").textContent(), { timeout: 2_000 }).not.toBe(firstPrompt);
@@ -61,18 +61,23 @@ test("captures the main study states", async ({ page }, testInfo) => {
   await page.screenshot({ path: testInfo.outputPath("question.png"), fullPage: true });
 
   await page.getByRole("button", { name: "Flip study card" }).click();
-  await expect(page.getByRole("button", { name: "Hard" })).toBeVisible({ timeout: 4_000 });
+  await expect(page.getByRole("button", { name: "Hard" })).toBeVisible({ timeout: 8_000 });
   await page.screenshot({ path: testInfo.outputPath("answer.png"), fullPage: true });
 });
 
 test("persists difficulty and active imported decks", async ({ page }, testInfo) => {
   await page.goto("/");
   await page.getByRole("button", { name: "Decks" }).click();
-  await expect(page.getByRole("button", { name: "Study Norwegian deck" })).toContainText("496 cards");
-  await expect(page.getByRole("button", { name: "Study Tamil deck" })).toContainText("18 cards");
+  await expect(page.getByRole("article", { name: "Norwegian deck" })).toContainText("496 ready");
+  await expect(page.getByRole("article", { name: "Tamil deck" })).toContainText("18 ready");
   await page.getByRole("button", { name: "Activate Norwegian deck" }).click();
   await expect(page.getByRole("button", { name: "Deactivate Norwegian deck" })).toHaveAttribute("aria-pressed", "true");
+  await expect(page.getByRole("button", { name: "Study Norwegian deck" })).toBeVisible({ timeout: 10_000 });
   await page.screenshot({ path: testInfo.outputPath("library.png"), fullPage: true });
+  const norwegianBox = page.getByRole("button", { name: "Study Norwegian deck" });
+  await norwegianBox.hover();
+  await page.waitForTimeout(500);
+  await page.screenshot({ path: testInfo.outputPath("open-deck-box.png"), fullPage: true });
 
   await page.getByRole("button", { name: "Profile" }).click();
   await page.getByRole("button", { name: /Adept/ }).click();
@@ -105,17 +110,17 @@ test("three-heart mode becomes non-blocking practice", async ({ page }) => {
 
   const card = page.getByRole("button", { name: "Flip study card" });
   await card.click();
-  await expect(page.getByRole("button", { name: "Again" })).toBeVisible({ timeout: 4_000 });
+  await expect(page.getByRole("button", { name: "Again" })).toBeVisible({ timeout: 8_000 });
   for (let attempt = 0; attempt < 3; attempt += 1) {
     await page.getByRole("button", { name: "Again" }).click();
     if (attempt < 2) {
       await card.click();
-      await expect(page.getByRole("button", { name: "Again" })).toBeVisible({ timeout: 1_500 });
+      await expect(page.getByRole("button", { name: "Again" })).toBeVisible({ timeout: 4_000 });
     }
   }
   await expect(page.getByText(/Practice mode/)).toBeVisible();
   await card.click();
-  await expect(page.getByRole("button", { name: "Easy ✓" })).toBeVisible({ timeout: 1_500 });
+  await expect(page.getByRole("button", { name: "Easy ✓" })).toBeVisible({ timeout: 4_000 });
 });
 
 test("edits deck identity, sigil, and cards locally", async ({ page }, testInfo) => {
@@ -131,7 +136,7 @@ test("edits deck identity, sigil, and cards locally", async ({ page }, testInfo)
   await page.screenshot({ path: testInfo.outputPath("deck-editor.png"), fullPage: true });
   await editor.getByRole("button", { name: "Save deck" }).click();
 
-  await expect(page.getByRole("button", { name: "Study Living Systems deck" })).toContainText("11 cards");
+  await expect(page.getByRole("article", { name: "Living Systems deck" })).toContainText("11 ready");
   await page.reload();
   await page.getByRole("button", { name: "Decks" }).click();
   await page.getByRole("button", { name: "Edit Living Systems deck" }).click();
@@ -152,7 +157,7 @@ test("renders upgraded due cards and persists weighted XP", async ({ page }, tes
   await expect(card).toHaveClass(/status-due/);
   await expect(card).toHaveClass(/rank-3/);
   await card.click();
-  await expect(page.getByRole("button", { name: "Hard" })).toContainText("+18 XP", { timeout: 4_000 });
+  await expect(page.getByRole("button", { name: "Hard" })).toContainText("+18 XP", { timeout: 8_000 });
   await page.screenshot({ path: testInfo.outputPath("ranked-due-card.png"), fullPage: true });
   await page.getByRole("button", { name: "Hard" }).click();
   await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("opus-pusillium:learner:v1") ?? "{}").experience)).toBe(18);

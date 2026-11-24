@@ -13,15 +13,17 @@
   },
   "dependencies": {
     "@vitejs/plugin-react": "latest",
-    "vite": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "typescript": "latest"
+    "three": "^0.187.0",
+    "typescript": "latest",
+    "vite": "latest"
   },
   "devDependencies": {
     "@playwright/test": "1.58.2",
     "@types/node": "latest",
     "@types/react": "latest",
-    "@types/react-dom": "latest"
+    "@types/react-dom": "latest",
+    "@types/three": "^0.187.0"
   }
 }

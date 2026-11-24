@@ -32,6 +32,7 @@ Chromium is supplied by `devenv`, so no separate browser download is needed on N
 - Tamil and Norwegian learning material imported from the supplied Quizard prototype data.
 - A coherent editable SVG sigil library for language, Nordic language, life science, chemistry, physics, mathematics, astronomy, medicine, computing, engineering, history, philosophy, and arts.
 - A local Library workshop for changing a deck’s name, domain, description, sigil, and individual cards.
+- Reusable domain-tinted Three.js deck boxes with sharp geometry, real depth, lighting, texture-mapped esoteric linework, hinged lids, and visible card stacks. Hover/focus opens the lid; clicking the mesh starts study. The sigil medallion is part of the lid assembly and rotates with it.
 - Anki-inspired Again, Hard, Good, and Easy review ratings with day-scale intervals.
 - Distinct unseen and due-card frames, plus three earned card-rank upgrades at 2, 5, and 9 failures.
 - Rank-weighted experience, a 100-XP level meter, and session-local Momentum earned from Easy answers.
