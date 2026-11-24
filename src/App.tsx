@@ -1,9 +1,11 @@
-import { useRef, useState } from "react";
+import { lazy, Suspense, useRef, useState } from "react";
 import { decks } from "./data/decks";
 import { Sigil, symbolCatalog } from "./Sigil";
 import { buildSession, cardKey, dueCount, experienceForReview, mastery, MOMENTUM_COST, rankForFailures, reviewCard } from "./scheduler";
 import { todayKey, useLearnerState } from "./storage";
-import type { Deck, DeckEdit, DifficultyMode, LearnerState, Rating, SessionCard, StudyCard } from "./types";
+import type { Deck, DeckEdit, DifficultyMode, LearnerState, LibrarySort, Rating, SessionCard, StudyCard } from "./types";
+
+const DeckBox3D = lazy(() => import("./DeckBox3D").then((module) => ({ default: module.DeckBox3D })));
 
 function playChalkSound() {
   type AudioWindow = Window & typeof globalThis & { webkitAudioContext?: typeof AudioContext };
@@ -74,10 +76,17 @@ function DeckEditor({ deck, save, close }: { deck: Deck; save: (edit: DeckEdit) 
   </section></div>;
 }
 
-function Decks({ state, deckList, open, saveEdit, toggleActive }: { state: LearnerState; deckList: Deck[]; open: (deck: Deck) => void; saveEdit: (deck: Deck, edit: DeckEdit) => void; toggleActive: (deck: Deck) => void }) {
+function Decks({ state, deckList, open, saveEdit, toggleActive, setSort }: { state: LearnerState; deckList: Deck[]; open: (deck: Deck) => void; saveEdit: (deck: Deck, edit: DeckEdit) => void; toggleActive: (deck: Deck) => void; setSort: (sort: LibrarySort) => void }) {
   const [editing, setEditing] = useState<Deck | null>(null);
-  return <main className="screen"><header><button className="icon-button">←</button><div className="title"><p className="eyebrow">THE LIBRARY</p><h2>Your decks</h2></div><button className="icon-button">⋮</button></header>
-    <div className="deck-list">{deckList.map((deck) => { const progress = mastery(deck, state); const settings = deckSettings(state, deck); return <article className={`deck-card ${settings.active ? "is-active" : ""}`} key={deck.id}><button className="deck-open" onClick={() => open(deck)} aria-label={`Study ${deck.name} deck`}><Sigil symbol={deck.symbol} /><div><p className="deck-domain">{deck.domain}</p><h3>{deck.name}</h3><p>{deck.description}</p><div className="progress"><span style={{ width: `${progress}%` }} /></div><small>{progress}% encountered · {dueCount(deck, state)} ready · {deck.questions.length} cards</small>{settings.active && <span className="active-mark">Active · {settings.sessionsCompleted}/2 today</span>}</div></button><div className="deck-actions"><button className="deck-active-button" onClick={() => toggleActive(deck)} aria-label={`${settings.active ? "Deactivate" : "Activate"} ${deck.name} deck`} aria-pressed={settings.active}>{settings.active ? "★" : "☆"}</button><button className="deck-edit-button" onClick={() => setEditing(deck)} aria-label={`Edit ${deck.name} deck`}>✎</button></div></article>; })}</div>
+  const sortedDecks = [...deckList].sort((left, right) => {
+    const activeOrder = Number(deckSettings(state, right).active) - Number(deckSettings(state, left).active);
+    if (activeOrder) return activeOrder;
+    const comparison = state.librarySort.field === "name" ? left.name.localeCompare(right.name, undefined, { sensitivity: "base" }) : left.questions.length - right.questions.length || left.name.localeCompare(right.name, undefined, { sensitivity: "base" });
+    return state.librarySort.direction === "asc" ? comparison : -comparison;
+  });
+  return <main className="screen"><header><div className="title"><p className="eyebrow">THE LIBRARY</p><h2>Your decks</h2></div></header>
+    <div className="library-sort"><span>Active first</span><label>Sort by<select aria-label="Sort decks by" value={state.librarySort.field} onChange={(event) => setSort({ ...state.librarySort, field: event.target.value as LibrarySort["field"] })}><option value="name">Name</option><option value="size">Deck size</option></select></label><button onClick={() => setSort({ ...state.librarySort, direction: state.librarySort.direction === "asc" ? "desc" : "asc" })} aria-label="Reverse deck sorting">{state.librarySort.field === "name" ? state.librarySort.direction === "asc" ? "A → Z" : "Z → A" : state.librarySort.direction === "asc" ? "Small → Large" : "Large → Small"}</button></div>
+    <div className="deck-list deck-box-grid">{sortedDecks.map((deck) => { const progress = mastery(deck, state); const settings = deckSettings(state, deck); return <article className={`deck-card deck-box-tile ${settings.active ? "is-active" : ""}`} aria-label={`${deck.name} deck`} key={deck.id}><Suspense fallback={<div className="deck-box-fallback"><Sigil symbol={deck.symbol} /></div>}><DeckBox3D deck={deck} active={settings.active} onStudy={() => open(deck)} /></Suspense>{settings.active && <span className="deck-active-status">Active · {settings.sessionsCompleted}/2</span>}<div className="deck-actions"><button className="deck-active-button" onClick={() => toggleActive(deck)} aria-label={`${settings.active ? "Deactivate" : "Activate"} ${deck.name} deck`} aria-pressed={settings.active}>{settings.active ? "★" : "☆"}</button><button className="deck-edit-button" onClick={() => setEditing(deck)} aria-label={`Edit ${deck.name} deck`}>✎</button></div><div className="deck-progress-overlay"><div><small>{progress}% mastered · {dueCount(deck, state)} ready</small><div className="progress"><span style={{ width: `${progress}%` }} /></div></div></div></article>; })}</div>
     {editing && <DeckEditor deck={editing} close={() => setEditing(null)} save={(edit) => { saveEdit(editing, edit); setEditing(null); }} />}
   </main>;
 }
@@ -217,6 +226,7 @@ export default function App() {
     return { ...current, decks: { ...current.decks, [deck.id]: { active: !settings.active, sessionDate: todayKey(), sessionsCompleted: settings.sessionsCompleted } } };
   });
   const saveDeckEdit = (deck: Deck, edit: DeckEdit) => setState((current) => ({ ...current, deckEdits: { ...current.deckEdits, [deck.id]: edit } }));
-  const body = study ? <Study deck={study.deck} sessionCards={study.cards} bonusCards={study.bonusCards} difficulty={state.difficulty} close={() => { setStudy(null); setPage("decks"); }} onReview={(card, rating, reduced) => recordReview(study.deck, card, rating, reduced)} onSessionComplete={() => completeSession(study.deck)} /> : page === "home" ? <Home state={state} deckList={deckList} start={startNext} /> : page === "decks" ? <Decks state={state} deckList={deckList} open={startDeck} saveEdit={saveDeckEdit} toggleActive={toggleDeck} /> : page === "quests" ? <Quests experience={state.experience} /> : <Profile state={state} deckList={deckList} setDifficulty={setDifficulty} toggleDeck={toggleDeck} />;
+  const setLibrarySort = (librarySort: LibrarySort) => setState((current) => ({ ...current, librarySort }));
+  const body = study ? <Study deck={study.deck} sessionCards={study.cards} bonusCards={study.bonusCards} difficulty={state.difficulty} close={() => { setStudy(null); setPage("decks"); }} onReview={(card, rating, reduced) => recordReview(study.deck, card, rating, reduced)} onSessionComplete={() => completeSession(study.deck)} /> : page === "home" ? <Home state={state} deckList={deckList} start={startNext} /> : page === "decks" ? <Decks state={state} deckList={deckList} open={startDeck} saveEdit={saveDeckEdit} toggleActive={toggleDeck} setSort={setLibrarySort} /> : page === "quests" ? <Quests experience={state.experience} /> : <Profile state={state} deckList={deckList} setDifficulty={setDifficulty} toggleDeck={toggleDeck} />;
   return <div className="app-shell">{body}{!study && <Nav page={page} setPage={setPage} />}</div>;
 }
