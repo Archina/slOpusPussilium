@@ -21,6 +21,12 @@ export type IncomingPeer = {
 
 const CHANNEL = "opus-sync";
 const CHUNK_SIZE = 12_000;
+const ICE_SERVERS: RTCIceServer[] = [{ urls: "stun:stun.cloudflare.com:3478" }];
+
+function connectionFailure(connection: RTCPeerConnection, stage: string) {
+  const candidates = connection.remoteDescription?.sdp.match(/a=candidate/g)?.length ?? 0;
+  return new Error(`${stage} failed (network ${connection.connectionState}, ICE ${connection.iceConnectionState}, ${candidates} remote candidates). Keep both devices on the same Wi-Fi, disable VPN or client isolation, allow local-network access, and keep both screens awake.`);
+}
 
 function bytesToBase64Url(bytes: Uint8Array) {
   let binary = "";
@@ -85,7 +91,7 @@ function waitForIceGathering(connection: RTCPeerConnection, timeout = 10_000) {
 
 export async function createOutgoingPeer(): Promise<OutgoingPeer> {
   const sessionId = crypto.randomUUID();
-  const connection = new RTCPeerConnection({ iceServers: [] });
+  const connection = new RTCPeerConnection({ iceServers: ICE_SERVERS, iceCandidatePoolSize: 4 });
   const channel = connection.createDataChannel(CHANNEL, { ordered: true });
   await connection.setLocalDescription(await connection.createOffer());
   await waitForIceGathering(connection);
@@ -95,9 +101,12 @@ export async function createOutgoingPeer(): Promise<OutgoingPeer> {
 
 export async function acceptPairingOffer(offer: PairingSignal): Promise<IncomingPeer> {
   validatePairingSignal(offer, "offer");
-  const connection = new RTCPeerConnection({ iceServers: [] });
+  const connection = new RTCPeerConnection({ iceServers: ICE_SERVERS, iceCandidatePoolSize: 4 });
   const channel = new Promise<RTCDataChannel>((resolve, reject) => {
-    const timeout = window.setTimeout(() => reject(new Error("Timed out waiting for sync data channel")), 30_000);
+    const timeout = window.setTimeout(() => reject(connectionFailure(connection, "Direct connection")), 45_000);
+    connection.addEventListener("connectionstatechange", () => {
+      if (connection.connectionState === "failed") { window.clearTimeout(timeout); reject(connectionFailure(connection, "Direct connection")); }
+    });
     connection.addEventListener("datachannel", (event) => {
       if (event.channel.label !== CHANNEL) return;
       window.clearTimeout(timeout);
@@ -125,10 +134,10 @@ export function validatePairingSignal(signal: PairingSignal, expectedType?: RTCS
   return signal;
 }
 
-export function waitForDataChannel(channel: RTCDataChannel, timeout = 30_000) {
+export function waitForDataChannel(channel: RTCDataChannel, timeout = 30_000, connection?: RTCPeerConnection) {
   if (channel.readyState === "open") return Promise.resolve(channel);
   return new Promise<RTCDataChannel>((resolve, reject) => {
-    const timer = window.setTimeout(() => reject(new Error("Timed out opening sync data channel")), timeout);
+    const timer = window.setTimeout(() => reject(connection ? connectionFailure(connection, "Data channel connection") : new Error("Timed out opening sync data channel")), timeout);
     channel.addEventListener("open", () => { window.clearTimeout(timer); resolve(channel); }, { once: true });
     channel.addEventListener("error", () => { window.clearTimeout(timer); reject(new Error("Sync data channel failed")); }, { once: true });
   });

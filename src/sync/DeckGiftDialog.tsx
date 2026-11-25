@@ -33,11 +33,11 @@ export function DeckGiftDialog({ deck, customDecks, onImport, onClose }: { deck?
       const peer = await createOutgoingPeer();
       setQr(await encodePairingSignal(peer.offer));
       setStep("offer");
-      setStatus("Have the recipient scan this offer. Then continue to scan their answer.");
+      setStatus("Step 1 of 2 — have the recipient scan this offer.");
       await new Promise<void>((resolve) => { answerReady.current = resolve; setAwaitingAnswer(true); });
       await applyPairingAnswer(peer, await decodePairingSignal(await askScan("answer")));
       setQr(""); setStatus("Connecting directly…");
-      const channel = await waitForDataChannel(peer.channel);
+      const channel = await waitForDataChannel(peer.channel, 45_000, peer.connection);
       const peerReady = waitForControl(channel, "ready");
       await sendControl(channel, "ready");
       await peerReady;
@@ -54,8 +54,8 @@ export function DeckGiftDialog({ deck, customDecks, onImport, onClose }: { deck?
       const peer = await acceptPairingOffer(await decodePairingSignal(await askScan("offer")));
       setQr(await encodePairingSignal(peer.answer));
       setStep("answer");
-      setStatus("Show this answer to the sender, then keep this screen open.");
-      const channel = await waitForDataChannel(await peer.channel);
+      setStatus("Step 2 of 2 — show this answer to the sender.");
+      const channel = await waitForDataChannel(await peer.channel, 45_000, peer.connection);
       const peerReady = waitForControl(channel, "ready");
       await sendControl(channel, "ready");
       await peerReady;
@@ -76,7 +76,7 @@ export function DeckGiftDialog({ deck, customDecks, onImport, onClose }: { deck?
 
   return <div className="editor-overlay" role="presentation"><section className="deck-editor gift-dialog" role="dialog" aria-modal="true" aria-label="Share deck over local network"><header><div><p className="eyebrow">LAN DECK GIFT</p><h2>{mode === "send" ? `Share ${deck?.name ?? "deck"}` : "Receive a deck"}</h2></div><button className="icon-button" onClick={onClose} aria-label="Close deck sharing">×</button></header>
     {mode === "send" && step === "idle" && <div className="gift-copy"><p>Send this deck’s current content. Progress, scheduling, XP, and review history stay on this device.</p><button className="primary" onClick={() => void startSend()}>Create pairing QR</button></div>}
-    {qr && <div className="gift-pairing"><PairingQr value={qr} label={step === "offer" ? "Deck Gift pairing offer" : "Deck Gift pairing answer"} /><p className="gift-copy">{status}</p>{awaitingAnswer && <button className="primary" onClick={() => { setAwaitingAnswer(false); answerReady.current?.(); answerReady.current = null; }}>Scan recipient’s answer</button>}</div>}
+    {qr && <div className="gift-pairing"><PairingQr value={qr} label={step === "offer" ? "Deck Gift pairing offer" : "Deck Gift pairing answer"} /><p className="gift-copy">{status}</p>{awaitingAnswer && <button className="primary" onClick={() => { setAwaitingAnswer(false); answerReady.current?.(); answerReady.current = null; }}>Step 2 of 2 — Scan their answer</button>}</div>}
     {mode === "receive" && step === "idle" && !scanTarget && <div className="gift-copy"><p>Scan the sender’s offer QR. This creates a direct encrypted connection over the local network.</p><button className="primary" onClick={() => void startReceive()}>Scan sender’s QR</button></div>}
     {scanTarget && <QrScanner onResult={(value) => scanResolver.current?.(value)} onCancel={() => scanCancel.current?.()} />}
     {status && !qr && step !== "preview" && <p className="gift-copy" role="status">{status}</p>}
