@@ -74,6 +74,7 @@ test("Library opens the camera-first Deck Gift workflow", async ({ page }, testI
   await page.getByRole("button", { name: "Decks" }).click();
   await page.getByRole("button", { name: "Receive deck" }).click();
   const dialog = page.getByRole("dialog", { name: "Share deck over local network" });
+  await expect(dialog).toBeVisible({ timeout: 10_000 });
   await expect(dialog).toContainText("Receive a deck");
   await expect(dialog.getByRole("button", { name: "Scan sender’s QR" })).toBeVisible();
   await page.screenshot({ path: testInfo.outputPath("receive-gift.png"), fullPage: true });
@@ -185,6 +186,26 @@ test("Profile exposes passphrase-protected trusted-device sync", async ({ page }
   await expect(dialog.getByRole("button", { name: "Create offer" })).toBeDisabled();
   await dialog.getByLabel("Sync passphrase").fill("correct horse battery");
   await expect(dialog.getByRole("button", { name: "Create offer" })).toBeEnabled();
+  await dialog.getByRole("button", { name: "Create offer" }).click();
+  const qr = dialog.locator(".qr-image canvas");
+  await expect(qr).toBeVisible({ timeout: 15_000 });
+  await page.screenshot({ path: testInfo.outputPath("trusted-qr.png"), fullPage: true });
+  const qrCheck = await qr.evaluate((canvas: HTMLCanvasElement) => {
+    const context = canvas.getContext("2d")!;
+    const { data } = context.getImageData(0, 0, canvas.width, canvas.height);
+    let black = 0;
+    let white = 0;
+    for (let index = 0; index < data.length; index += 4) {
+      const value = data[index];
+      if (value < 10) black += 1;
+      if (value > 245) white += 1;
+    }
+    return { width: canvas.width, black, white, text: canvas.parentElement?.parentElement?.textContent ?? "" };
+  });
+  expect(qrCheck.width).toBeGreaterThanOrEqual(600);
+  expect(qrCheck.black).toBeGreaterThan(1_000);
+  expect(qrCheck.white).toBeGreaterThan(qrCheck.black);
+  expect(qrCheck.text).toContain("Copy pairing code");
 });
 
 test("a known trusted device requires its saved passphrase", async ({ page }) => {
